@@ -9,11 +9,18 @@ public class GameManager : MonoBehaviour
 
     public TalkManager talkManager;
     public GameObject talkPanel;
+    public QuestManager questManager;
     public Text talkText;
     public int talkIndex;
     public GameObject scanObject;
     public bool isAction;
     public Image portraitImg;
+
+
+    private void Start()
+    {
+        Debug.Log(questManager.CheckQuest());
+    }
     public void Action(GameObject scanObj)
     {
         scanObject = scanObj;
@@ -26,11 +33,15 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void talk(int id,bool isNpc)
     {
-        string talkData = talkManager.GetTalk(id, talkIndex);
-        if(talkData == null)//얘기가 더이상 없을 때
+        int questTalkIndex = questManager.GetQuestTalkIndex(id);
+
+        string talkData = talkManager.GetTalk(id + questTalkIndex, talkIndex);
+
+        if(talkData == null)//얘기가 더이상 없을 때 (대화가 끝났을 때)
         {
             isAction = false;
             talkIndex = 0;
+            Debug.Log(questManager.CheckQuest(id));
             return;
         }
 
