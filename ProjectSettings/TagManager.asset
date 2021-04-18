@@ -16,7 +16,7 @@ TagManager:
   - tileMap
   - player
   - InspectObject
-  - 
+  - decoObject
   - 
   - 
   - 
@@ -40,13 +40,4 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
-    locked: 0
-  - name: floor
-    uniqueID: 4229705467
-    locked: 0
-  - name: npc
-    uniqueID: 2943971147
-    locked: 0
-  - name: player
-    uniqueID: 13052189
     locked: 0

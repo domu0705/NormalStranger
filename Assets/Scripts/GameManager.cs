@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     public int talkIndex;
     public GameObject scanObject;
     public bool isAction;
-
+    public Image portraitImg;
     public void Action(GameObject scanObj)
     {
         scanObject = scanObj;
@@ -36,11 +36,14 @@ public class GameManager : MonoBehaviour
 
         if (isNpc)
         {
-            talkText.text = talkData;
+            talkText.text = talkData.Split(':')[0];
+            portraitImg.color = new Color(1, 1, 1, 1);
+            portraitImg.sprite = talkManager.GetPortrait(id , int.Parse(talkData.Split(':')[1])); // int.Parse 는 문자열을 해당 타입으로 변환해주는 함수임
         }
         else
         {
             talkText.text = talkData;
+            portraitImg.color = new Color(1, 1, 1, 0);
         }
         isAction = true;
         talkIndex++;
