@@ -26,29 +26,56 @@ public class TalkManager : MonoBehaviour
         talkData.Add(100, new string[] { "...잠겨있다." });
         talkData.Add(200, new string[] { "에너지 부스터가 들어있다... 챙겨보자." });
 
-        talkData.Add(1000, new string[] { "....?:0", "아...네넵!:0" });
-        talkData.Add(2000,new string[] { "...네?:0", "제가 좀 바빠서..:0"});
-        talkData.Add(3000, new string[] { "아! 안녕하세요.:0", "뭐 재밌는 일 있나요? :0" });
+        talkData.Add(2000,new string[] { "...네?:5", "제가 좀 바빠서..:6"});
+        talkData.Add(3000, new string[] { "아! 안녕하세요.:8", "뭐 재밌는 일 있나요? :7" });
 
         /*
          * quest talk 
          * quest는 10번부터 시작.
          */
-        talkData.Add(10 + 2000, new string[] { "피트라씨?:0", "그러니까 Sindy 씨에게 문서 좀 받아서 빨리 B동으로 넘겨줘요. :0", " B동이 아딘지는 알죠?:0" });
-        talkData.Add(11 + 3000, new string[] { "네~ 아 문서요?:0", "여기요~B동 Marin 씨에게 전달해주면 돼요.:0", "가는 길에 누구든 부딪히지 않게 조심해요!...다들 바빠서 신경질이 잔뜩 나있으니까요!:0" });
+        talkData.Add(10 + 2000, new string[] { "......씨?:5", "피트라씨?:6", 
+                                                ".....:2",
+                                                "피.트.라.씨?:5",
+                                                "....네??:2",
+                                                "그러니까 Sindy 씨에게 맡겨놓은 문서 처리 좀 부탁해요. :5", 
+                                                ".....예....? :3",
+                                                "부탁해요. 최대한 빨리.:4",
+                                                ".....아?.. 네네. 알겠습니다.:2",
+                                                "(...방금 전까지 내가 뭐하고 있었더라):0" ,
+                                                "(신디씨...? 빨간 머리였던 것 같은데..):0",
+                                              });
+        talkData.Add(11 + 2000, new string[] { "문서는 Sindy 씨에게 맡겨뒀어요. 부탁해요.:5" });
+        talkData.Add(11 + 3000, new string[] { "안녕하세요~?:7", "아 문서요? 여기요~:8", "옆 사무실 B동 의 그린씨에게 전달 부탁해요~:7",
+                                               "(그린씨… 밝은 갈색머리..):3", "(정신은 없어도 기억력은 좋군):2",
+                                               "아! 사람들과 부딪히지 않게 조심하세요~:8", "다들 늘 화가 잔뜩 나있으니까요~!:7",
+                                               "(문서를 얻었다.):0",
+                                             });
 
-        talkData.Add(20 + 3000, new string[] { "B동 Marin 씨에게 전달하면 돼요!:0", "서두르는게 좋을거예요~:0" });
-        talkData.Add(21 + 2000, new string[] { "문서는 잘 전달했어요?:0", "좋아. 이거 받아요:0", "(그가 에너지 부스터를 건넸다):0","서랍 속에 가끔 이게 굴러다니더라고. 감사인사는 이걸로.:0" });
+        talkData.Add(20 + 3000, new string[] { "B동 그린씨에게 전달하면 돼요!:8", "서두르는게 좋을거예요~:7" });
+        talkData.Add(21 + 2000, new string[] { "문서는 잘 전달했어요?:5", "좋아. 이거 받아요:4", "(그가 에너지 부스터를 건넸다):5","서랍 속에 가끔 이게 굴러다니더라고. 감사인사는 이걸로.:4" });
 
 
-        /*portrait data 생성*/
-        portraitData.Add(1000+0, portraitArr[0]);
-        portraitData.Add(2000+0, portraitArr[1]);
-        portraitData.Add(3000+0, portraitArr[2]);
+        /*portrait data 생성
+         * Fitra : 1000
+         * Johnny : 2000
+         * Sindy : 3000
+         
+         */
+        portraitData.Add(0, portraitArr[0]);
+        portraitData.Add(1, portraitArr[1]);
+        portraitData.Add(2, portraitArr[2]);
+        portraitData.Add(3, portraitArr[3]);
+        portraitData.Add(4, portraitArr[4]);
+        portraitData.Add(5, portraitArr[5]);
+        portraitData.Add(6, portraitArr[6]);
+        portraitData.Add(7, portraitArr[7]);
+        portraitData.Add(8, portraitArr[8]);
+        portraitData.Add(9, portraitArr[9]);
     }
 
     public string GetTalk (int id, int talkIndex) // .GetTalk(id + questTalkIndex, talkIndex) 이렇게 Game Manager에서쓰임
     {
+        Debug.Log("id:" + id + "talkINdex: " + talkIndex);
         if (!talkData.ContainsKey(id))// 특정퀘스트의 대사를 만들어놓지 않은 npc에게 말을 건다면?
         {
             //해당 퀘스트 진행 순서 중 대사가 없을 때
@@ -77,18 +104,20 @@ public class TalkManager : MonoBehaviour
                     return talkData[id - id % 10][talkIndex];
                 */
             }
-            
-
-            
         }
 
-        if (talkIndex == talkData[id].Length) // 얘기가 모두 끝났을 때
+        if (talkIndex == talkData[id].Length)
+        {// 얘기가 모두 끝났을 때
+            Debug.Log("한사람과 얘기 끝");
             return null;
-        else 
+        }
+        else
             return talkData[id][talkIndex];
     }
+
     public Sprite GetPortrait(int id, int portraitIndex)
     {
-        return portraitData[id + portraitIndex];
+        return portraitData[portraitIndex];
     }
+
 }
