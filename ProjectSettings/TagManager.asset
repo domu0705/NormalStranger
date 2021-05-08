@@ -3,7 +3,9 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Door
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -17,9 +19,9 @@ TagManager:
   - player
   - InspectObject
   - decoObject
-  - 
-  - 
-  - 
+  - Boundary
+  - Enemy
+  - playerDead
   - 
   - 
   - 
