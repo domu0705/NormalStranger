@@ -19,6 +19,8 @@ public class PlayerMove : MonoBehaviour
     GameObject scanObject;
 
     public GameManager manager;
+    public EnergyBooster energyBooster;
+
     public bool isHorizonMove;
     public bool isInvincible;//한번 체력 줄면 2초동안 무적
     public bool isDead; // 플레이어가 죽었다면 플레이어의 동작 멈추기 위한 변수
@@ -26,6 +28,14 @@ public class PlayerMove : MonoBehaviour
     public float h;
     public float v;
     public int heart;
+
+
+    /* item 선택 버튼*/
+    public bool press1;
+    bool press2;
+    bool press3;
+    bool press4;
+
     void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
@@ -39,6 +49,10 @@ public class PlayerMove : MonoBehaviour
     {
         if (!isDead)
         {
+            getInput();
+
+            useItem();
+
             //플레이어의 이동 밎 ray 쏘기
             playerMoveAndRay();
             
@@ -60,7 +74,7 @@ public class PlayerMove : MonoBehaviour
             rigid.velocity = moveVec * speed;
 
             //캐릭터 ray
-            //(플레이어도 collider가 있기 때문에 조사 가능한 것들을 모두 다 다른 layer(inspectObject)로 설정해주기)
+            //(플레이어도 collider가 있기 때문에(플레이어가 스스로의 collider을 감지하지 않게하기위해) 조사 가능한 것들을 모두 다 다른 layer(inspectObject)로 설정해주기)
             Debug.DrawRay(rigid.position, dirRayVec * 0.7f, new Color(0, 1, 0)); // 진짜 ray쏘는 것이 아닌 확인을 위해 그려주는 것
             RaycastHit2D rayHit = Physics2D.Raycast(rigid.position, dirRayVec, 0.7f,LayerMask.GetMask("InspectObject"));
 
@@ -76,6 +90,29 @@ public class PlayerMove : MonoBehaviour
 
 
 
+    /*item 사용하려는 버튼 입력을 받음*/
+    void getInput()
+    {
+        press1 = Input.GetButtonDown("Press1");
+        press2 = Input.GetButtonDown("Press2");
+        press3 = Input.GetButtonDown("Press3");
+        press4 = Input.GetButtonDown("Press4");
+    }
+
+
+    /*받은 입력에 따라 item 을 사용*/
+
+    void useItem()
+    {
+        if (press1 && (heart < 3) )
+        {
+            heart++;
+            manager.heartChanged();
+            energyBooster.useBooster();
+        }
+
+
+    }
     void playerMoveAndRay()
     {
         h = manager.isAction ? 0 : Input.GetAxisRaw("Horizontal");
@@ -159,7 +196,6 @@ public class PlayerMove : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)// OnCollisionEnter은 collider/rigidbody에 다른 collider/rigidbody가 닿을 때 호출됨.
     {
-        Debug.Log("플레이어가 oncollision에 들어감");
         if(other.gameObject.tag == "Enemy")
         {
             damaged(other.transform.position);
@@ -192,7 +228,7 @@ public class PlayerMove : MonoBehaviour
             rigid.AddForce(new Vector2(direction, 1) * 100000, ForceMode2D.Impulse);
 
             //heart UI개수 변경, 무적 해제
-            manager.heartDecrease();
+            manager.heartChanged();
             Invoke("offInvincible", 1.5f);
         }
         else // player 사망
@@ -201,7 +237,7 @@ public class PlayerMove : MonoBehaviour
             rigid.velocity = new Vector2(0,0);
             anim.SetTrigger("doDie");
             isDead = true;
-            manager.heartDecrease();
+            manager.heartChanged();
             manager.gameOver();
 
         }

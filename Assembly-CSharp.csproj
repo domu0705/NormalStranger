@@ -65,7 +65,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\DoorData.cs" />
+    <Compile Include="Assets\Scripts\ElevatorManager.cs" />
     <Compile Include="Assets\Scripts\EnemyA.cs" />
+    <Compile Include="Assets\Scripts\EnemyAI.cs" />
+    <Compile Include="Assets\Scripts\EnergyBooster.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\ObjectData.cs" />
     <Compile Include="Assets\Scripts\PlayerMove.cs" />

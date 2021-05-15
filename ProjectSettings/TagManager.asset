@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Door
   - Enemy
+  - Fitra Desk
+  - Elevator
   layers:
   - Default
   - TransparentFX
