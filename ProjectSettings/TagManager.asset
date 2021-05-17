@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - Fitra Desk
   - Elevator
+  - Anim Trigger Line
   layers:
   - Default
   - TransparentFX

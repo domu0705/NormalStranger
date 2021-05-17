@@ -22,6 +22,12 @@ public class TalkManager : MonoBehaviour
         100 : johnny's big locker
         200 : 에너지 부스터가 들어있는 locker
         300 : fitra desk
+        400 : 
+        500 : 
+        600 : 
+        700 : Anim Trigger Line(1st floor)
+        800 : Human Door (1st floor)
+        900 : AI Door (1st floor)
         9999: 아무것도 없는 물건.
         
     
@@ -69,7 +75,10 @@ public class TalkManager : MonoBehaviour
         /*locker talk data 생성*/
         talkData.Add(100, new string[] { "\n" + "\n" + "...잠겨있다.:9999" });
         talkData.Add(200, new string[] { "\n" + "\n" + "에너지 부스터가 들어있다... 챙겨보자." + "\n" + "(에너지 부스터를 얻었다.):200" });
-
+        talkData.Add(300, new string[] { "\n" + "\n" + "내 자리. 좀 더럽다...:0" });
+        talkData.Add(700, new string[] { "\n" + "\n" + "선이다!.:0" });
+        talkData.Add(800, new string[] { "\n" + "\n" + "사용할 수  없습니다.:0" });
+        talkData.Add(900, new string[] { "\n" + "\n" + "사용가능한 시간이 아닙니다.:0" });
 
 
 
@@ -150,6 +159,12 @@ public class TalkManager : MonoBehaviour
                                            "[피트라]" + "\n" + "\n" + "(혹시, 요즘 같은 힘든 세상에 벌써 해고..?):4",
                                            "[피트라]" + "\n" + "\n" + "무슨 일인지 알아봐야겠어." + "\n" +"일단 오늘은 집으로 돌아가자.:3"
                                          });
+
+        /* quest 40 - 1층으로 나가 퇴근하자 */
+        talkData.Add(40 + 800, new string[] { "[문]" +"\n" + "\n" + "권한이 없습니다.:0" });
+        talkData.Add(40 + 4000, new string[] { "[그린]" + "\n" + "\n" + "저기..나가시는 문은 왼쪽이에요...:0",
+                                               "[피트라]" + "\n" + "\n" + "아! 그린씨, 감사합니다. 제가 오늘 정신이 없어서..:0",
+                                             });
 
     }
 

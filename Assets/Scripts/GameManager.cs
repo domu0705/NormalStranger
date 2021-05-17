@@ -17,9 +17,10 @@ public class GameManager : MonoBehaviour
     public int talkIndex;
     
     public bool isAction;
+    public bool isAutoMoving;
     public Image portraitLeftImg;
     public Image portraitRightImg;
-    public GameObject scanObject;
+    public GameObject scanObject;//현재 space바 눌러서 만난 object
     public GameObject[] places;
     public PlayerMove player;
     public EnergyBooster energyBooster;
@@ -39,6 +40,7 @@ public class GameManager : MonoBehaviour
     public void Action(GameObject scanObj) 
     {
         scanObject = scanObj;
+        Debug.Log("scan obj는 : " + scanObject);
         objData = scanObj.GetComponent<ObjectData>();
 
         if(scanObj.tag == "Door")
