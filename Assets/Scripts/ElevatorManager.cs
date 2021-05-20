@@ -8,6 +8,7 @@ public class ElevatorManager : MonoBehaviour
     public GameObject elevatorPanel;
     public GameObject[] floors;
 
+    public int currentFloor;
     void Update()
     {
         
@@ -31,6 +32,7 @@ public class ElevatorManager : MonoBehaviour
     {
         elevatorOff();
 
+        currentFloor = 1;
         floors[0].SetActive(true);
         floors[1].SetActive(false);
         floors[2].SetActive(false);
@@ -40,6 +42,7 @@ public class ElevatorManager : MonoBehaviour
     {
         elevatorOff();
 
+        currentFloor = 2;
         floors[0].SetActive(false);
         floors[1].SetActive(true);
         floors[2].SetActive(false);
@@ -48,7 +51,8 @@ public class ElevatorManager : MonoBehaviour
     public void thirdFloorButton()
     {
         elevatorOff();
-        Debug.Log("3층 버튼 누름");
+
+        currentFloor = 3;
         floors[0].SetActive(false);
         floors[1].SetActive(false);
         floors[2].SetActive(true);

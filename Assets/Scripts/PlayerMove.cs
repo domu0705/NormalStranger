@@ -32,7 +32,7 @@ public class PlayerMove : MonoBehaviour
     public float v;
     public int heart;
 
-
+    public bool isFitraMonologing;//혼잣말을 할 떄는 scanobj에 무조건 fitra자신을 넣어주는 변수
     /* item 선택 버튼*/
     public bool press1;
     bool press2;
@@ -50,17 +50,20 @@ public class PlayerMove : MonoBehaviour
     
     void Update()
     {
-        if (!isDead && !manager.isPlayerPause)
+        if (!isDead )
         {
-            getInput();
+            if (!manager.isPlayerPause)
+            {
+                getInput();
 
-            useItem();
+                useItem();
 
-            //플레이어의 이동 밎 ray 쏘기
-            playerMoveAndRay();
+                //플레이어의 이동 밎 ray 쏘기
+                playerMoveAndRay();
             
-            //플레이어의 animation을 변경
-            changeAnim();
+                //플레이어의 animation을 변경
+                changeAnim();
+            }
 
             //물체 검사 (스페이스바를 누를 시 함수 내부가 실행됨)
             scanObj();
@@ -117,9 +120,9 @@ public class PlayerMove : MonoBehaviour
             manager.heartChanged();
             energyBooster.useBooster();
         }
-
-
     }
+
+
     void playerMoveAndRay()
     {
         h = manager.isAction ? 0 : Input.GetAxisRaw("Horizontal");
@@ -204,9 +207,17 @@ public class PlayerMove : MonoBehaviour
     /* 스페이스바 누른다면*/
     public void scanObj()
     {
-        if (Input.GetButtonDown("Jump") && scanObject != null)
+        if (Input.GetButtonDown("Jump") && scanObject != null && manager.canPressSpace)
         {
-            manager.Action(scanObject);
+            if (isFitraMonologing)//혼잣말
+            {
+                manager.Action(this.gameObject);
+            }
+            else
+            {
+                Debug.Log("조사해");
+                manager.Action(scanObject);
+            }
         }
     }
 

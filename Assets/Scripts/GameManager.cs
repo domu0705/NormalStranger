@@ -8,12 +8,16 @@ public class GameManager : MonoBehaviour
 {
 
     public TalkManager talkManager;
-    public GameObject talkPanel;
     public QuestManager questManager;
-    public GameObject gameOverPanel;
     public ElevatorManager elevatorManager;
+    public CameraManager cameraManager;
+
+    public GameObject gameOverPanel;
+    public GameObject talkPanel;
     public GameObject screenLightPanel; // Day가 바뀔때 켜지는 panel
     public GameObject blackoutPanel; // 정전일 때 켜지는 panel
+    public GameObject scanObject;//현재 space바 눌러서 만난 object
+    public GameObject[] places;
 
     public Text talkText;
     public Text heartText;
@@ -22,8 +26,10 @@ public class GameManager : MonoBehaviour
 
 
     public bool isBlackOut; // 정전이 실행되는 동안 true인 변수
-    public bool isAction;
-    public bool isPlayerPause; //talkPanel이 보이지 않는 상황에서 player을 멈춰야 할 때. (isAction을 사용하면 isAction = true일떄는 무조건 talkpanel이 보이게 돼서 안됨)
+
+    public bool isAction; // player움직일 수 없음. talk panel 보임. space바 누를 수 있음.
+    public bool isPlayerPause; //player움직일 수 없음. talk panel 안보임. space바 누를 수 있음. talkPanel이 보이지 않는 상황에서 player을 멈춰야 할 때. (isAction을 사용하면 isAction = true일떄는 무조건 talkpanel이 보이게 돼서 안됨)
+    public bool canPressSpace;  //player가 space바를 누를 수 있는지 없는지를 결정하는 변수.
     public bool isAutoMoving;
     public bool checkControlState;//Controlstate함수를 강제로 불러야 하는 상황에서 사용하는 변수임.
 
@@ -31,8 +37,8 @@ public class GameManager : MonoBehaviour
     public Image portraitRightImg;
     public Image screenLightImg;
     public Image blackoutImg;
-    public GameObject scanObject;//현재 space바 눌러서 만난 object
-    public GameObject[] places;
+
+    
     public PlayerMove player;
     public EnergyBooster energyBooster;
     public ObjectData objData;//현재 조사중인 물건 or 사람
@@ -42,6 +48,7 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log(questManager.CheckQuest());
         heartChanged();
+        cameraManager.UseFirstCamera();
     }
 
 
@@ -66,7 +73,6 @@ public class GameManager : MonoBehaviour
         {
             /*말풍선이 있다면 띄워주기*/
             talk(objData.id, objData.isNpc);
-            Debug.Log("talk panel 검사");
             talkPanel.SetActive(isAction);
         }
     }
@@ -80,17 +86,17 @@ public class GameManager : MonoBehaviour
  
     void talk(int id,bool isNpc)//playerMove에서 isAction이 false면 안움직임. 그래서 계속 이야기 할 수 있는 것임.
     {
-        //Debug.Log("id는 " + id);
+        
         int questTalkIndex = questManager.GetQuestTalkIndex(id);
-
+        Debug.Log("id는 " + id+ "questTalkIndex은 : "+ questTalkIndex + "talkIndex 는 : "+ talkIndex);
         string talkData = talkManager.GetTalk(id + questTalkIndex, talkIndex); //조니 id : 2000, +10 
 
         if(talkData == null)//얘기가 더이상 없을 때 (대화가 끝났을 때, 물건 조사가 끝났을 때)
         {
             Debug.Log("id" + id+"과의 대화가 끝났어");
             isAction = false;
-            Debug.Log(questManager.CheckQuest(id));
             talkIndex = 0;
+            Debug.Log(questManager.CheckQuest(id));
             return;
         }
 
@@ -158,7 +164,6 @@ public class GameManager : MonoBehaviour
         isAction = true;
         talkIndex++;
         questManager.ControlObject();
-        Debug.Log("talk 끝");
     }
 
 
@@ -285,13 +290,11 @@ public class GameManager : MonoBehaviour
             /*전전의 깜박거리는 효과 만들기*/
             if (switching)
             {
-                Debug.Log("밝아짐"+ Time.deltaTime*100+ "a는 : "+ a);
                 switching = false;
                  a-= 0.35f;
             }
             else
             {
-                Debug.Log("어두워짐" + Time.deltaTime * 100 + "a는 : " + a);
                 switching = true;
                 a += 0.35f;
             }

@@ -6,17 +6,21 @@ public class QuestManager : MonoBehaviour
 {
     public int questId; // 지금 진행중인 quest id
     public int questActionIndex; // 현재 quest 중에서 이야기의 순서에 맞게 진행되게 하기 위한 변수
-    public GameObject[] questObject;
+    public int count;
+
+    public GameObject[] questObject; // 정전 수리 부품.
     public GameManager manager;
     public PlayerMove player;
-    public GameObject playerObject;
+    public ElevatorManager elevatorManager;
     public autoMove autoMoving;
-    public int count;
+
+    public GameObject playerObject;
     public GameObject marin;
     public GameObject green; // 1층 로비에 있는 green
     public GameObject green2; //2층에 있는 green 
     public GameObject fitraDesk;
     public GameObject talkTriggerLine;
+
     public Vector3 MarinPos;
 
 
@@ -30,7 +34,10 @@ public class QuestManager : MonoBehaviour
     bool isFitraMovingToHumanDoorY;
     bool isFitraMovingToHumanDoorX;
 
-    bool startQuest;//control object에서 quest가 시작하자마자 바뀌는 상황들을 나타내주기 위한 변수
+    /*quest control 용 변수들.   (if (questActionIndex == 1) 이면, questActionIndex가 1일때 controlobject함수가 불리면 몇번이고 계속 if문안으로 들어감. 그래서 if문에 한번만 들어가게 하기 위한 변수임. if의 조건문에 이 변수를 넣고 한번 if안에 들어가면 변수를 false로 바꿔줌  )*/
+    public bool startQuest;//control object에서 quest가 시작하자마자 바뀌는 상황들을 나타내주기 위한 변수
+    bool state1;
+    bool state2;
     Dictionary <int, QuestData> questList;
     
     void Awake()
@@ -58,12 +65,12 @@ public class QuestManager : MonoBehaviour
     }
     void GenerateData()
     {
-        questList.Add(10, new QuestData("Sindy에게 서류를 받자", new int[] { 2000, 3000 }));
+        questList.Add(10, new QuestData("신디씨에게 서류를 받자", new int[] { 2000, 3000 }));
         questList.Add(20, new QuestData("서류를 그린씨에게 전달하자.", new int[] { 4000,2000 }));
         questList.Add(30, new QuestData("피트라의 자리로 가자.", new int[] { 300 }));
         questList.Add(40, new QuestData("1층으로 나가 퇴근하자.", new int[] { 800,4000, 900 })); //800, 4000은 TALK 함수 강제 호출하면 될듯
-        questList.Add(50, new QuestData("출근 - 피트라의 자리로 가자.", new int[] { 300 }));
-        questList.Add(60, new QuestData("정전", new int[] { 300 ,1000, }));
+        questList.Add(50, new QuestData("출근 - 피트라의 자리로 가자.", new int[] { 300}));
+        questList.Add(60, new QuestData("정전 -  부품들을 모아 수리센터로 가자", new int[] { 1000, 1000,400,400,400,6000}));
         questList.Add(70, new QuestData("Game Clear.", new int[] { 0 }));
         questList.Add(80, new QuestData("Game Clear.", new int[] { 0 }));
     }
@@ -75,9 +82,11 @@ public class QuestManager : MonoBehaviour
 
     public string CheckQuest(int id)
     {
+        Debug.Log("Check quest id 시작 id는 :" + id);
         if (id == questList[questId].npcId[questActionIndex])
         {
             questActionIndex++;
+            Debug.Log("questActionIndex ++함. questActionIndex 는  :" + questActionIndex + "questId는 : " + questId);
         }
 
         ControlObject(); 
@@ -204,7 +213,7 @@ public class QuestManager : MonoBehaviour
                 }
 
                 /*AI door 로 나감*/
-                if (questActionIndex == 3 && manager.talkIndex == 1)
+                if (questActionIndex == 3 && manager.talkIndex == 0)
                 {
                     Debug.Log("어두워져라 얍");
                     manager.ScreenLightDarken("Day 2");
@@ -217,7 +226,7 @@ public class QuestManager : MonoBehaviour
                 green.SetActive(false);
                 green2.SetActive(true);
 
-                /*피트라의 자리로 가자는 talkbubble 띄우기*/
+                /*1층의 Talk Trigger Line을 지나면 피트라의 자리로 가자는 talkbubble 띄우기*/
                 if (player.scanObject && player.scanObject.gameObject.tag == "Talk Trigger Line")
                 {
                     manager.checkControlState = false;//playerMove의 fixedupdate에서 계속 controlObject를 부르지 않도록 다시 변수를 false로 바꿈
@@ -237,24 +246,73 @@ public class QuestManager : MonoBehaviour
                     Debug.Log("정전 시작");
                     manager.isBlackOut = true;
                     manager.blackout();
-                    StartCoroutine(wait(3)); // 여기서 startQuest 를 true로 바꿔줌
-                    
+                    manager.isPlayerPause = true; // player가 못움직이게 함
+                    manager.canPressSpace = false; // 정전 시 fitra가 다음 대사를 미리 보지 않도록 space바도 못누르게 함.
+                    StartCoroutine(wait(3)); // 여기서 startQuest 를 true로 바꿔줌 
                 }
+
                 break;
-            case 60:
-                if (startQuest)
+
+
+            case 60: /*정전을 고칠 부품들을 모아 수리센터로 가자*/
+
+                if (startQuest && questActionIndex == 0)
                 {
                     startQuest = false; // 50이 끝나고 3초뒤 true가 됐던 변수를 다시 false로 바꿔줌
-                    
-                    manager.Action(playerObject);
+                    Debug.Log("자 60이니까 PLAYER말하자");
+                    player.isFitraMonologing = true;// 피트라가 혼자말하게 함. 무조건 scanobj가 fitra로 바뀜.
+                    manager.Action(playerObject); // 앗, 출근 하자마자 정전..?
+                    manager.canPressSpace = true; //대사 넘겨야 하기떄문에 space바누를수 있게 함.
+                    state1 = true;
                 }
 
+                /*피트라에게 수리도우라는 문자 보내기*/
+                if(questActionIndex == 1 && state1)
+                {
+                    state1 = false;
+                    Debug.Log("수리 문자 와야대");
+                    manager.Action(playerObject); // 수리 문자 받기. 
+                    
+                    //2층에 갔을 때만 수리 부품들 보이게 하기
+                    if (elevatorManager.currentFloor == 2)
+                    {
+                        questObject[3].SetActive(true);
+                        questObject[4].SetActive(true);
+                        questObject[5].SetActive(true);
+                    }
+                    else
+                    {
+                        questObject[3].SetActive(false);
+                        questObject[4].SetActive(false);
+                        questObject[5].SetActive(false);
+                    }
+                }
 
+                if (questActionIndex == 2)
+                {
+                    player.isFitraMonologing = false;// 피트라가 혼자말하게 하는것 취소하기.
+                }
+                    break;
+
+            case 70:
+                if (startQuest && questActionIndex == 0)
+                {
+                    startQuest = false;
+                    player.isFitraMonologing = true;
+                    manager.isPlayerPause = true;
+                }
+                break;
+            case 80:
                 break;
 
         }
     } 
 
+
+    void fitraTalk()//혼잣말 할 때는 
+    {
+
+    }
     /*player을 'time' 초동안 멈추게 함*/
     IEnumerator wait(float time)
     {
