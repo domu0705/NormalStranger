@@ -61,6 +61,8 @@ public class TalkManager : MonoBehaviour
         portraitData.Add(16, portraitArr[16]);
         portraitData.Add(17, portraitArr[17]);
     }
+
+
     void GenerateTalkData()
     {
         /*디폴트 talk data 생성*/
@@ -185,8 +187,7 @@ public class TalkManager : MonoBehaviour
                                             });
 
         /* quest 60 - 정전. */
-        talkData.Add(51 + 300, new string[] {"[피트라]" +"\n" + "\n" + "앗...! :4",
-                                              "[피트라]" +"\n" + "\n" + "출근 하자마자 정전? \n 이래선 아무것도 할 수가 없는데 :3",
+        talkData.Add(60 + 1000, new string[] {"[피트라]" +"\n" + "\n" + "앗, 출근 하자마자 정전..? "+"\n"+"이래선 아무것도 할 수가 없는데 :4",
                                             });
 
     }

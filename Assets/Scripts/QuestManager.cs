@@ -30,6 +30,7 @@ public class QuestManager : MonoBehaviour
     bool isFitraMovingToHumanDoorY;
     bool isFitraMovingToHumanDoorX;
 
+    bool startQuest;//control object에서 quest가 시작하자마자 바뀌는 상황들을 나타내주기 위한 변수
     Dictionary <int, QuestData> questList;
     
     void Awake()
@@ -59,10 +60,10 @@ public class QuestManager : MonoBehaviour
     {
         questList.Add(10, new QuestData("Sindy에게 서류를 받자", new int[] { 2000, 3000 }));
         questList.Add(20, new QuestData("서류를 그린씨에게 전달하자.", new int[] { 4000,2000 }));
-        questList.Add(30, new QuestData("피트라의 자리로 가자.", new int[] { 300,300 }));
+        questList.Add(30, new QuestData("피트라의 자리로 가자.", new int[] { 300 }));
         questList.Add(40, new QuestData("1층으로 나가 퇴근하자.", new int[] { 800,4000, 900 })); //800, 4000은 TALK 함수 강제 호출하면 될듯
         questList.Add(50, new QuestData("출근 - 피트라의 자리로 가자.", new int[] { 300 }));
-        questList.Add(60, new QuestData("정전", new int[] { 300 }));
+        questList.Add(60, new QuestData("정전", new int[] { 300 ,1000, }));
         questList.Add(70, new QuestData("Game Clear.", new int[] { 0 }));
         questList.Add(80, new QuestData("Game Clear.", new int[] { 0 }));
     }
@@ -236,15 +237,33 @@ public class QuestManager : MonoBehaviour
                     Debug.Log("정전 시작");
                     manager.isBlackOut = true;
                     manager.blackout();
-                    manager.Action(fitraDesk);
+                    StartCoroutine(wait(3)); // 여기서 startQuest 를 true로 바꿔줌
+                    
                 }
                 break;
             case 60:
+                if (startQuest)
+                {
+                    startQuest = false; // 50이 끝나고 3초뒤 true가 됐던 변수를 다시 false로 바꿔줌
+                    
+                    manager.Action(playerObject);
+                }
+
 
                 break;
 
         }
     } 
+
+    /*player을 'time' 초동안 멈추게 함*/
+    IEnumerator wait(float time)
+    {
+        manager.isPlayerPause = true;
+        yield return new WaitForSeconds(time);
+        manager.isPlayerPause = false;
+
+        startQuest = true;
+    }
 
 
     /*마린을 피트라 옆으로 이동시키는 함수*/
@@ -257,7 +276,6 @@ public class QuestManager : MonoBehaviour
         if (marin.transform.position == targetPos)
             isMarinMovingToFitra = false;
     }
-
 
 
     /*마린을 원위치로 되돌려놓는 함수*/

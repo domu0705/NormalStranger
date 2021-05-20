@@ -50,7 +50,7 @@ public class PlayerMove : MonoBehaviour
     
     void Update()
     {
-        if (!isDead && !manager.isDayChanging)
+        if (!isDead && !manager.isPlayerPause)
         {
             getInput();
 

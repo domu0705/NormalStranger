@@ -12,7 +12,8 @@ public class GameManager : MonoBehaviour
     public QuestManager questManager;
     public GameObject gameOverPanel;
     public ElevatorManager elevatorManager;
-    public GameObject screenLightPanel;
+    public GameObject screenLightPanel; // Day가 바뀔때 켜지는 panel
+    public GameObject blackoutPanel; // 정전일 때 켜지는 panel
 
     public Text talkText;
     public Text heartText;
@@ -22,9 +23,10 @@ public class GameManager : MonoBehaviour
 
     public bool isBlackOut; // 정전이 실행되는 동안 true인 변수
     public bool isAction;
-    public bool isDayChanging;
+    public bool isPlayerPause; //talkPanel이 보이지 않는 상황에서 player을 멈춰야 할 때. (isAction을 사용하면 isAction = true일떄는 무조건 talkpanel이 보이게 돼서 안됨)
     public bool isAutoMoving;
     public bool checkControlState;//Controlstate함수를 강제로 불러야 하는 상황에서 사용하는 변수임.
+
     public Image portraitLeftImg;
     public Image portraitRightImg;
     public Image screenLightImg;
@@ -94,7 +96,7 @@ public class GameManager : MonoBehaviour
 
         int portraitNum = int.Parse(talkData.Split(':')[1]);
 
-        if (isNpc)
+        if (isNpc)//npc와 말할 때
         {
             
             talkText.text = talkData.Split(':')[0];
@@ -103,18 +105,19 @@ public class GameManager : MonoBehaviour
              * 혼잣말을 할 때는 아무 캐릭터도 보이지 않게 하기 위해서 투명도를 올림.
              */
 
-            if (portraitNum >= 1 && portraitNum <= 4 )
+            if (portraitNum >= 1 && portraitNum <= 4 ) // 피트라가 말할 때라면 
             {
                 portraitRightImg.sprite = talkManager.GetPortrait(id, portraitNum);
                 portraitLeftImg.color = new Color(1, 1, 1, 0);
                 portraitRightImg.color = new Color(1, 1, 1, 1);
             }
 
-            else if (portraitNum == 0)
+            else if (portraitNum == 0) // portrait가 안보여야 할 떄라면
             {
                 portraitLeftImg.color = new Color(1, 1, 1, 0);
                 portraitRightImg.color = new Color(1, 1, 1, 0);
             }
+
             else if (portraitNum == 200)//대화도중 npc에게 booster을 받았다면 (jhonny만 booster을 주기때문에 portrait는 조니로 고정해둠)
             {
                 portraitLeftImg.sprite = talkManager.GetPortrait(id, 5); // jhonny의 웃는얼굴임.
@@ -122,14 +125,14 @@ public class GameManager : MonoBehaviour
                 portraitRightImg.color = new Color(1, 1, 1, 0);
                 energyBooster.getBooster();
             }
+
             else
             {
                 portraitLeftImg.sprite = talkManager.GetPortrait(id, portraitNum);
                 portraitLeftImg.color = new Color(1, 1, 1, 1);
                 portraitRightImg.color = new Color(1, 1, 1, 0);
             }
-
-            
+    
         }
         else // 물건을 조사할 때
         {
@@ -215,7 +218,7 @@ public class GameManager : MonoBehaviour
 
     public void ScreenLightDarken(string dayText)
     {
-        isDayChanging = true;
+        isPlayerPause = true;
         screenLightPanel.SetActive(true);
         StartCoroutine(ScreenDarken(dayText));  
     }
@@ -260,7 +263,7 @@ public class GameManager : MonoBehaviour
             if (a <= 0)
             {
                 isBrightning = false;
-                isDayChanging = false;
+                isPlayerPause = false;
                 screenLightPanel.SetActive(false);
             }
         }
@@ -269,32 +272,39 @@ public class GameManager : MonoBehaviour
 
     public void blackout()
     {
-
+        blackoutPanel.SetActive(true);
         StartCoroutine(doBlackout());
     }
 
     IEnumerator doBlackout()
     {
         bool switching = true;
-        float a = screenLightImg.color.a;
+        float a = blackoutImg.color.a;
         while (isBlackOut)
         {
             /*전전의 깜박거리는 효과 만들기*/
             if (switching)
             {
+                Debug.Log("밝아짐"+ Time.deltaTime*100+ "a는 : "+ a);
                 switching = false;
-                 a-= Time.deltaTime * 1;
+                 a-= 0.35f;
             }
             else
             {
+                Debug.Log("어두워짐" + Time.deltaTime * 100 + "a는 : " + a);
                 switching = true;
-                a += Time.deltaTime * 1;
+                a += 0.35f;
             }
                 
             blackoutImg.color = new Color(blackoutImg.color.r, blackoutImg.color.g, blackoutImg.color.b, a);
             yield return new WaitForSeconds(3);
         
         }
+    }
+
+    public void stopBlackout()
+    {
+        blackoutPanel.SetActive(false);
     }
 
 
