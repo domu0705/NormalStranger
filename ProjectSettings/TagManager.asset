@@ -9,6 +9,7 @@ TagManager:
   - Fitra Desk
   - Elevator
   - Anim Trigger Line
+  - Talk Trigger Line
   layers:
   - Default
   - TransparentFX

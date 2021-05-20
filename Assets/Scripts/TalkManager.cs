@@ -24,8 +24,8 @@ public class TalkManager : MonoBehaviour
         300 : fitra desk
         400 : 
         500 : 
-        600 : 
-        700 : Anim Trigger Line(1st floor)
+        600 : quest50 출근하자에 쓰이는 talk trigger Line
+        700 : quest 40 에 쓰이는 Anim Trigger Line(1st floor)
         800 : Human Door (1st floor)
         900 : AI Door (1st floor)
         9999: 아무것도 없는 물건.
@@ -68,8 +68,8 @@ public class TalkManager : MonoBehaviour
                                           "[조니]" + "\n" + "\n" +"제가 좀 바빠서.. 미안해요~:7" });
         talkData.Add(3000, new string[] { "[신디]" + "\n" + "\n" +"아! 안녕하세요.:8",
                                           "[신디]" + "\n" + "\n" +"뭐 재밌는 일 있나요? :9" });
-        talkData.Add(4000, new string[] { "[그린]" + "\n" + "\n" +"아. 피트라씨 안녕하세요.:10",
-                                          "[그린]" + "\n" + "\n" +"좋은 하루 보내요 :11" });
+        talkData.Add(4000, new string[] { "[그린]" + "\n" + "\n" +"아. 피트라씨 안녕하세요.:12",
+                                          "[그린]" + "\n" + "\n" +"좋은 하루 보내요 :13" });
         talkData.Add(5000, new string[] { "[마린]" + "\n" + "\n" +"나 바빠요.:15"  });
 
         /*locker talk data 생성*/
@@ -77,8 +77,8 @@ public class TalkManager : MonoBehaviour
         talkData.Add(200, new string[] { "\n" + "\n" + "에너지 부스터가 들어있다... 챙겨보자." + "\n" + "(에너지 부스터를 얻었다.):200" });
         talkData.Add(300, new string[] { "\n" + "\n" + "내 자리. 좀 더럽다...:0" });
         talkData.Add(700, new string[] { "\n" + "\n" + "선이다!.:0" });
-        talkData.Add(800, new string[] { "\n" + "\n" + "사용할 수  없습니다.:0" });
-        talkData.Add(900, new string[] { "\n" + "\n" + "사용가능한 시간이 아닙니다.:0" });
+        talkData.Add(800, new string[] { "[문]" + "\n" + "\n" + "사용 권한이 없습니다.:0" });
+        talkData.Add(900, new string[] { "[문]" + "\n" + "\n" + "사용가능한 시간이 아닙니다.:0" });
 
 
 
@@ -110,7 +110,7 @@ public class TalkManager : MonoBehaviour
 
 
         /*quest 20 - 서류를 B동으로 가져가자. */
-        /*주요 대사들*/
+        /*20 - 주요 대사들*/
         talkData.Add(20 + 4000, new string[] { "[그린]" + "\n" + "\n" + "피트라씨!!!:11",
                                                "[피트라]" + "\n" + "\n" + "예…?:4 ",
                                                "[피트라]" + "\n" + "\n" + "안녕하세요 그린씨:2",
@@ -134,7 +134,7 @@ public class TalkManager : MonoBehaviour
                                                "[피트라]" + "\n" + "\n" + "(얼른 짐싸서 집에 가자.):1",
                                                "[피트라]" + "\n" + "\n" + "(내 자리... 왼쪽 첫번째 책상이지.):2",
                                                });
-        /*기타 대사들*/
+        /*20 - 기타 대사들*/
         talkData.Add(20 + 2000, new string[] { "[조니]" + "\n" + "\n" + "전달하고나면 나한테 상황 좀 알려줘요."+"\n"+"고마워요:5" });
         talkData.Add(20 + 3000, new string[] { "[신디]" + "\n" + "\n" + "B동 그린씨에게 전달하면 돼요!:9",
                                                "[신디]"+"\n"+"\n"+"서두르는게 좋을거예요~:8" });
@@ -161,16 +161,39 @@ public class TalkManager : MonoBehaviour
                                          });
 
         /* quest 40 - 1층으로 나가 퇴근하자 */
-        talkData.Add(40 + 800, new string[] { "[문]" +"\n" + "\n" + "권한이 없습니다.:0" });
-        talkData.Add(40 + 4000, new string[] { "[그린]" + "\n" + "\n" + "저기..나가시는 문은 왼쪽이에요...:0",
-                                               "[피트라]" + "\n" + "\n" + "아! 그린씨, 감사합니다. 제가 오늘 정신이 없어서..:0",
+        talkData.Add(40 + 800, new string[] { "[문]" +"\n" + "\n" + "사용 권한이 없습니다.:0" ,
+                                              "[피트라]" +"\n" + "\n" + "음, 이게 왜 안되지? :4" ,
+                                              "[문]" +"\n" + "\n" + "권한이 없습니다.:0" ,
+                                            });
+        talkData.Add(41 + 4000, new string[] { "[그린]" + "\n" + "\n" + "저기..나가시는 문은 왼쪽이에요...:12",
+                                               "[피트라]" + "\n" + "\n" + "아! 그린씨, 감사합니다. 제가 오늘 정신이 없어서..:2",
+                                               "[그린]" + "\n" + "\n" + "이해해요. 안녕히가세요:12",
+                                               "[피트라]" + "\n" + "\n" + "그린씨도 조심히가세요.:2",
                                              });
+        talkData.Add(42 + 900, new string[] { "[문]" + "\n" + "\n" + "문이 열립니다.:0"});
+
+        /*40 - 기타 대사들*/
+        talkData.Add(42 + 800, new string[] { "[문]" + "\n" + "\n" + "사용 권한이 없습니다.:0" });
+        talkData.Add(42 + 4000, new string[] { "[그린]" + "\n" + "\n" + "아, 왼쪽에 저 문으로 나가시면 돼요!:12" });
+
+
+        /* quest 50 - 출근 - 피트라의 자리로 가자. */
+        talkData.Add(50 + 600, new string[] { "[피트라]" +"\n" + "\n" + "...출근이다.  :3" ,
+                                              "[피트라]" +"\n" + "\n" + "늦지 않게 얼른 내 자리로 가자.  :3" 
+                                            });
+        talkData.Add(50 + 300, new string[] { "[피트라]" +"\n" + "\n" + "업무를 시작해볼까.:3" ,
+                                            });
+
+        /* quest 60 - 정전. */
+        talkData.Add(51 + 300, new string[] {"[피트라]" +"\n" + "\n" + "앗...! :4",
+                                              "[피트라]" +"\n" + "\n" + "출근 하자마자 정전? \n 이래선 아무것도 할 수가 없는데 :3",
+                                            });
 
     }
 
     public string GetTalk (int id, int talkIndex) // .GetTalk(id + questTalkIndex, talkIndex) 이렇게 Game Manager에서쓰임
     {
-        Debug.Log("id:" + id + "talkINdex: " + talkIndex);
+        //Debug.Log("id:" + id + "talkINdex: " + talkIndex);
         if (!talkData.ContainsKey(id))// 특정퀘스트의 대사를 만들어놓지 않은 npc에게 말을 건다면?
         {
             //해당 퀘스트 진행 순서 중 대사가 없을 때
@@ -185,7 +208,7 @@ public class TalkManager : MonoBehaviour
                 else
                     return talkData[id - id % 100][talkIndex];
                 */
-    }
+            }
             else
             {
                 //해당 퀘스트 진행 순서 중 대사가 없을 때
@@ -201,7 +224,7 @@ public class TalkManager : MonoBehaviour
             }
         }
 
-        if (talkIndex == talkData[id].Length)
+        if (talkIndex >= talkData[id].Length)
         {// 얘기가 모두 끝났을 때
             Debug.Log("한사람과 얘기 끝");
             return null;

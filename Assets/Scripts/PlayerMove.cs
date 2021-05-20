@@ -50,7 +50,7 @@ public class PlayerMove : MonoBehaviour
     
     void Update()
     {
-        if (!isDead)
+        if (!isDead && !manager.isDayChanging)
         {
             getInput();
 
@@ -83,9 +83,11 @@ public class PlayerMove : MonoBehaviour
 
             if (rayHit.collider != null)//부딪힌 사물이 있다면
             {
-                //Debug.Log("scanObject 는: " + scanObject);
                 scanObject = rayHit.collider.gameObject;
-                questManager.ControlObject();//보통 대화중에만 controlobject함수를 불러줌. 그래서 대화중이 아닐때 1st floor의 anim trigger선을 넘을 때를 확인해주기 위해 함수를 호출.
+                if (manager.checkControlState)
+                {
+                    questManager.ControlObject();//보통 대화중에만 controlobject함수를 불러줌. 그래서 대화중이 아닐때 1st floor의 anim trigger선을 넘을 때를 확인해주기 위해 함수를 호출.
+                }
             }
             else
                 scanObject = null;

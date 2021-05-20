@@ -12,14 +12,23 @@ public class GameManager : MonoBehaviour
     public QuestManager questManager;
     public GameObject gameOverPanel;
     public ElevatorManager elevatorManager;
+    public GameObject screenLightPanel;
+
     public Text talkText;
     public Text heartText;
+    public Text screenLightDayText;
     public int talkIndex;
-    
+
+
+    public bool isBlackOut; // 정전이 실행되는 동안 true인 변수
     public bool isAction;
+    public bool isDayChanging;
     public bool isAutoMoving;
+    public bool checkControlState;//Controlstate함수를 강제로 불러야 하는 상황에서 사용하는 변수임.
     public Image portraitLeftImg;
     public Image portraitRightImg;
+    public Image screenLightImg;
+    public Image blackoutImg;
     public GameObject scanObject;//현재 space바 눌러서 만난 object
     public GameObject[] places;
     public PlayerMove player;
@@ -40,7 +49,6 @@ public class GameManager : MonoBehaviour
     public void Action(GameObject scanObj) 
     {
         scanObject = scanObj;
-        Debug.Log("scan obj는 : " + scanObject);
         objData = scanObj.GetComponent<ObjectData>();
 
         if(scanObj.tag == "Door")
@@ -56,22 +64,31 @@ public class GameManager : MonoBehaviour
         {
             /*말풍선이 있다면 띄워주기*/
             talk(objData.id, objData.isNpc);
+            Debug.Log("talk panel 검사");
             talkPanel.SetActive(isAction);
         }
+    }
+
+    public void talkPanelCheck()
+    {
+        Debug.Log("지워버려");
+        talkPanel.SetActive(isAction);
     }
 
  
     void talk(int id,bool isNpc)//playerMove에서 isAction이 false면 안움직임. 그래서 계속 이야기 할 수 있는 것임.
     {
+        //Debug.Log("id는 " + id);
         int questTalkIndex = questManager.GetQuestTalkIndex(id);
 
         string talkData = talkManager.GetTalk(id + questTalkIndex, talkIndex); //조니 id : 2000, +10 
 
         if(talkData == null)//얘기가 더이상 없을 때 (대화가 끝났을 때, 물건 조사가 끝났을 때)
         {
+            Debug.Log("id" + id+"과의 대화가 끝났어");
             isAction = false;
-            talkIndex = 0;
             Debug.Log(questManager.CheckQuest(id));
+            talkIndex = 0;
             return;
         }
 
@@ -79,12 +96,13 @@ public class GameManager : MonoBehaviour
 
         if (isNpc)
         {
+            
             talkText.text = talkData.Split(':')[0];
-
+            Debug.Log("id" + id + "는 npc고 대화중이야. 대화는 "+ talkText.text);
             /* 말하는 대상이 Fitra 일때만 오른쪽 portrait 활성화
              * 혼잣말을 할 때는 아무 캐릭터도 보이지 않게 하기 위해서 투명도를 올림.
              */
-            
+
             if (portraitNum >= 1 && portraitNum <= 4 )
             {
                 portraitRightImg.sprite = talkManager.GetPortrait(id, portraitNum);
@@ -130,10 +148,14 @@ public class GameManager : MonoBehaviour
                 }
             }
             portraitLeftImg.color = new Color(1, 1, 1, 0);
+            portraitRightImg.color = new Color(1, 1, 1, 0);
         }
-        questManager.ControlObject();
+        
+        
         isAction = true;
         talkIndex++;
+        questManager.ControlObject();
+        Debug.Log("talk 끝");
     }
 
 
@@ -188,6 +210,91 @@ public class GameManager : MonoBehaviour
 
         /*엘리베이터 내부 이미지 및 UI켜기*/
         elevatorManager.elevatorOn();
+    }
+
+
+    public void ScreenLightDarken(string dayText)
+    {
+        isDayChanging = true;
+        screenLightPanel.SetActive(true);
+        StartCoroutine(ScreenDarken(dayText));  
+    }
+
+    IEnumerator ScreenDarken(string dayText)
+    {
+        Debug.Log("ScreenDarken 함수 시작됨.");
+        bool isDarkning = true;
+        float a = screenLightImg.color.a;
+        while (isDarkning)
+        {
+            screenLightDayText.text = dayText;
+            a += Time.deltaTime * 0.5f;
+            screenLightImg.color = new Color(screenLightImg.color.r, screenLightImg.color.g, screenLightImg.color.b, a);
+            screenLightDayText.color = new Color(screenLightDayText.color.r, screenLightDayText.color.g, screenLightDayText.color.b, a);
+            yield return new WaitForSeconds(0.005f);
+            if (a >= 1)
+            {
+                isDarkning = false;
+                ScreenLightBrighten();
+                /*가장 어두워졌을 때 피트라가 앞을 보도록 돌려놓기*/
+                player.anim.SetTrigger("seeFront");
+            }
+        }
+    }
+
+    public void ScreenLightBrighten()
+    {
+        StartCoroutine("ScreenBrighten");
+    }
+
+    IEnumerator ScreenBrighten()
+    {
+        bool isBrightning = true;
+        float a = screenLightImg.color.a;
+        while (isBrightning)
+        {
+            a -= Time.deltaTime * 0.5f;
+            screenLightImg.color = new Color(screenLightImg.color.r, screenLightImg.color.g, screenLightImg.color.b, a);
+            screenLightDayText.color = new Color(screenLightDayText.color.r, screenLightDayText.color.g, screenLightDayText.color.b, a);
+            yield return new WaitForSeconds(0.005f);
+            if (a <= 0)
+            {
+                isBrightning = false;
+                isDayChanging = false;
+                screenLightPanel.SetActive(false);
+            }
+        }
+    }
+
+
+    public void blackout()
+    {
+
+        StartCoroutine(doBlackout());
+    }
+
+    IEnumerator doBlackout()
+    {
+        bool switching = true;
+        float a = screenLightImg.color.a;
+        while (isBlackOut)
+        {
+            /*전전의 깜박거리는 효과 만들기*/
+            if (switching)
+            {
+                switching = false;
+                 a-= Time.deltaTime * 1;
+            }
+            else
+            {
+                switching = true;
+                a += Time.deltaTime * 1;
+            }
+                
+            blackoutImg.color = new Color(blackoutImg.color.r, blackoutImg.color.g, blackoutImg.color.b, a);
+            yield return new WaitForSeconds(3);
+        
+        }
     }
 
 

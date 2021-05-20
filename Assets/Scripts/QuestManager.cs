@@ -9,8 +9,14 @@ public class QuestManager : MonoBehaviour
     public GameObject[] questObject;
     public GameManager manager;
     public PlayerMove player;
+    public GameObject playerObject;
+    public autoMove autoMoving;
+    public int count;
     public GameObject marin;
-
+    public GameObject green; // 1층 로비에 있는 green
+    public GameObject green2; //2층에 있는 green 
+    public GameObject fitraDesk;
+    public GameObject talkTriggerLine;
     public Vector3 MarinPos;
 
 
@@ -35,6 +41,7 @@ public class QuestManager : MonoBehaviour
 
     private void Update()
     {
+
         if (isMarinMovingToFitra)//마린을 피트라 옆으로 옮기기
             moveMarinToFitra();
 
@@ -52,9 +59,12 @@ public class QuestManager : MonoBehaviour
     {
         questList.Add(10, new QuestData("Sindy에게 서류를 받자", new int[] { 2000, 3000 }));
         questList.Add(20, new QuestData("서류를 그린씨에게 전달하자.", new int[] { 4000,2000 }));
-        questList.Add(30, new QuestData("피트라의 자리로 가자.", new int[] { 300 }));
+        questList.Add(30, new QuestData("피트라의 자리로 가자.", new int[] { 300,300 }));
         questList.Add(40, new QuestData("1층으로 나가 퇴근하자.", new int[] { 800,4000, 900 })); //800, 4000은 TALK 함수 강제 호출하면 될듯
-        questList.Add(50, new QuestData("Game Clear.", new int[] { 0 }));
+        questList.Add(50, new QuestData("출근 - 피트라의 자리로 가자.", new int[] { 300 }));
+        questList.Add(60, new QuestData("정전", new int[] { 300 }));
+        questList.Add(70, new QuestData("Game Clear.", new int[] { 0 }));
+        questList.Add(80, new QuestData("Game Clear.", new int[] { 0 }));
     }
 
     public int GetQuestTalkIndex(int id) //quest번호를 반환
@@ -72,6 +82,7 @@ public class QuestManager : MonoBehaviour
         ControlObject(); 
         if (questActionIndex == questList[questId].npcId.Length)
         {
+            ControlObject();
             NextQuest();
         }
         
@@ -105,8 +116,8 @@ public class QuestManager : MonoBehaviour
                     questObject[1].SetActive(true);
                     Debug.Log("문서 보이게 함");
                 }
-                    
                 break;
+
             case 20://서류를 그린씨에게 전달하자
                 Debug.Log("case 20에 들어옴");
                 if (questActionIndex == 1)
@@ -115,26 +126,32 @@ public class QuestManager : MonoBehaviour
                     Debug.Log("문서 꺼");
                 }
                 break;
+
             case 30://피트라의 자리로 가자.
-                if (manager.talkIndex == 3)//마린을 피트라 옆으로 이동시키기
+                if (manager.talkIndex == 4)//마린을 피트라 옆으로 이동시키기
                 {
                     /*bool값을 바꿔줌으로써 moveMarinToFitra 함수를 호출*/
                     isMarinMovingToFitra = true;
 
                     manager.objData.isNpc = true;//피트라의 첫 대화상대가 npc가 아닌 자기 책상이기 때문에 portrait가 안나옴. portrait의 등장을 위해 isnpc를 true로 바꿔줌.
                 }
-                if (manager.talkIndex == 12)//마린을 피트라 옆으로 이동시키기
+                if (manager.talkIndex == 13)//마린을 피트라 옆으로 이동시키기
                 {
-                    Debug.Log("마린 제자리로 가");
                     manager.objData.isNpc = false;//피트라의 첫 대화상대가 npc가 아닌 자기 책상이기때문에 (portrait의 등장을 위해 isnpc를 true로 바꿨던 것을) 다시 false로 돌려놓아줌
 
                     /*bool값을 바꿔줌으로써 returnMarin 함수를 호출*/
                     isMarinReturning = true;
                 }
+                manager.checkControlState = true;
                 break;
+
             case 40://1층으로 나가 퇴근하자
-                if(player.scanObject.gameObject.tag == "Anim Trigger Line")//quest를 위해 처음 문 근처로 왔을때 자동으로 HUMAN Door로 player을 옮겨줌 
+                /*2층의 그린을 없애기*/
+                green2.SetActive(false);
+                /*quest를 위해 처음 문 근처로 왔을때 자동으로 HUMAN Door로 player을 옮겨줌 */
+                if (player.scanObject && player.scanObject.gameObject.tag == "Anim Trigger Line")
                 {
+                    manager.checkControlState = false;//playerMove의 fixedupdate에서 계속 controlObject를 부르지 않도록 다시 변수를 false로 바꿈
                     ObjectData scanObj = player.scanObject.GetComponent<ObjectData>();
                     if (scanObj.isChecked)
                         break;
@@ -152,14 +169,80 @@ public class QuestManager : MonoBehaviour
                         targetPos = new Vector3(26.1f, player.transform.position.y, player.transform.position.z);
 
                         /*bool값을 바꿔줌으로써 moveFitraToHumanDoor 함수를 호출*/
-                        isFitraMovingToHumanDoorX = true; 
+                        isFitraMovingToHumanDoorX = true;
                     }
                 }
 
+                /*문과 말할때 피트라의 portrait를 보이게 하기 위해 잠시 문의 isNpc를 true로 바꿈*/
+                if(manager.objData && questActionIndex == 0 && manager.talkIndex == 1)
+                    manager.objData.isNpc = true;
+                if (manager.objData && questActionIndex == 0 && manager.talkIndex == 2)
+                    manager.objData.isNpc = false;
+
+
+                /*그린씨가 피트라에게 말걸기*/
+                if (questActionIndex == 1)//문과의 대화가 끝났다면 questActionIndex가 1로 바뀜.
+                {
+                    manager.isAction = true;//player의 키 입력에 의해 그린이 말걸기 전에 다른 곳으로 플레이어가 이동하지 않도록 정지시킴.
+                    ObjectData greenScript = green.GetComponent<ObjectData>();
+                    if (!greenScript.isArrived)
+                    {
+                        autoMoving.startAutoMove(green, new Vector3(25.4f, green.transform.position.y, green.transform.position.z));
+                        manager.checkControlState = true;//그린이 피트라 옆에 가면 playermove script에서 controlState함수를 불러주기 위함.
+                    }
+                    if (greenScript.isArrived && manager.checkControlState) // 그린이 피트라 옆에 도착한다면
+                    {
+                        /*피트라가 그린에게 말걸도록 왼쪽을 보게 함*/
+                        player.dirRayVec = Vector3.left;
+
+                        manager.checkControlState = false;
+                        autoMoving.arrivedToDest = false;
+                        manager.Action(green);
+
+                    }
+                }
+
+                /*AI door 로 나감*/
+                if (questActionIndex == 3 && manager.talkIndex == 1)
+                {
+                    Debug.Log("어두워져라 얍");
+                    manager.ScreenLightDarken("Day 2");
+                    manager.checkControlState = true;
+                }
+                break;
+
+            case 50: /*출근. 피트라의 자리로 가기*/
+                /*1층 로비의 그린을 없애고 2층 그린을 보여주기*/
+                green.SetActive(false);
+                green2.SetActive(true);
+
+                /*피트라의 자리로 가자는 talkbubble 띄우기*/
+                if (player.scanObject && player.scanObject.gameObject.tag == "Talk Trigger Line")
+                {
+                    manager.checkControlState = false;//playerMove의 fixedupdate에서 계속 controlObject를 부르지 않도록 다시 변수를 false로 바꿈
+                    ObjectData scanObj = player.scanObject.GetComponent<ObjectData>();
+                    if (scanObj.isChecked)
+                        break;
+                    else
+                    {
+                        scanObj.isChecked = true;
+                        manager.Action(talkTriggerLine);
+                    }
+                }
+
+                /*정전 구현*/
+                if (questActionIndex == 1 && !manager.isBlackOut) // 정전이 한번 실행되면 이 if문 안으로 다시 안들어가도록 하기 위해 지금 벌써 정전중인지도 확인.
+                {
+                    Debug.Log("정전 시작");
+                    manager.isBlackOut = true;
+                    manager.blackout();
+                    manager.Action(fitraDesk);
+                }
+                break;
+            case 60:
 
                 break;
-            case 50:
-                break;
+
         }
     } 
 
@@ -252,7 +335,6 @@ public class QuestManager : MonoBehaviour
 
     void autoTalkToHumanDoor()
     {
-        Debug.Log("함수 호출함");
         manager.Action(player.scanObject);
     }
     
