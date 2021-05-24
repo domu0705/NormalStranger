@@ -36,7 +36,7 @@ public class QuestManager : MonoBehaviour
 
     /*quest control 용 변수들.   (if (questActionIndex == 1) 이면, questActionIndex가 1일때 controlobject함수가 불리면 몇번이고 계속 if문안으로 들어감. 그래서 if문에 한번만 들어가게 하기 위한 변수임. if의 조건문에 이 변수를 넣고 한번 if안에 들어가면 변수를 false로 바꿔줌  )*/
     public bool startQuest;//control object에서 quest가 시작하자마자 바뀌는 상황들을 나타내주기 위한 변수
-    bool state1;
+    public bool state1;
     bool state2;
     Dictionary <int, QuestData> questList;
     
@@ -65,12 +65,12 @@ public class QuestManager : MonoBehaviour
     }
     void GenerateData()
     {
-        questList.Add(10, new QuestData("신디씨에게 서류를 받자", new int[] { 2000, 3000 }));
-        questList.Add(20, new QuestData("서류를 그린씨에게 전달하자.", new int[] { 4000,2000 }));
-        questList.Add(30, new QuestData("피트라의 자리로 가자.", new int[] { 300 }));
-        questList.Add(40, new QuestData("1층으로 나가 퇴근하자.", new int[] { 800,4000, 900 })); //800, 4000은 TALK 함수 강제 호출하면 될듯
-        questList.Add(50, new QuestData("출근 - 피트라의 자리로 가자.", new int[] { 300}));
-        questList.Add(60, new QuestData("정전 -  부품들을 모아 수리센터로 가자", new int[] { 1000, 1000,400,400,400,6000}));
+        questList.Add(10, new QuestData("신디씨에게 서류를 받자", new int[] { 20000, 30000 }));
+        questList.Add(20, new QuestData("서류를 그린씨에게 전달하자.", new int[] { 40000,20000 }));
+        questList.Add(30, new QuestData("피트라의 자리로 가자.", new int[] { 3000 }));
+        questList.Add(40, new QuestData("1층으로 나가 퇴근하자.", new int[] { 8000,40000, 9000 })); //800, 4000은 TALK 함수 강제 호출하면 될듯
+        questList.Add(50, new QuestData("출근 - 피트라의 자리로 가자.", new int[] { 3000}));
+        questList.Add(60, new QuestData("정전 -  부품들을 모아 수리센터로 가자", new int[] { 10000, 10000,4000,4000,4000,60000}));
         questList.Add(70, new QuestData("Game Clear.", new int[] { 0 }));
         questList.Add(80, new QuestData("Game Clear.", new int[] { 0 }));
     }
@@ -197,7 +197,7 @@ public class QuestManager : MonoBehaviour
                     ObjectData greenScript = green.GetComponent<ObjectData>();
                     if (!greenScript.isArrived)
                     {
-                        autoMoving.startAutoMove(green, new Vector3(25.4f, green.transform.position.y, green.transform.position.z));
+                        autoMoving.startAutoMove(green, new Vector3(25.4f, green.transform.position.y, green.transform.position.z),2.5f);
                         manager.checkControlState = true;//그린이 피트라 옆에 가면 playermove script에서 controlState함수를 불러주기 위함.
                     }
                     if (greenScript.isArrived && manager.checkControlState) // 그린이 피트라 옆에 도착한다면
@@ -263,12 +263,16 @@ public class QuestManager : MonoBehaviour
                     player.isFitraMonologing = true;// 피트라가 혼자말하게 함. 무조건 scanobj가 fitra로 바뀜.
                     manager.Action(playerObject); // 앗, 출근 하자마자 정전..?
                     manager.canPressSpace = true; //대사 넘겨야 하기떄문에 space바누를수 있게 함.
+
+                    
                     state1 = true;
+                    
                 }
 
                 /*피트라에게 수리도우라는 문자 보내기*/
                 if(questActionIndex == 1 && state1)
                 {
+                    questObject[6].SetActive(false);//3층 C동의 길막고 있는 상자 치우기
                     state1 = false;
                     Debug.Log("수리 문자 와야대");
                     manager.Action(playerObject); // 수리 문자 받기. 
@@ -286,6 +290,7 @@ public class QuestManager : MonoBehaviour
                         questObject[4].SetActive(false);
                         questObject[5].SetActive(false);
                     }
+
                 }
 
                 if (questActionIndex == 2)
@@ -309,10 +314,7 @@ public class QuestManager : MonoBehaviour
     } 
 
 
-    void fitraTalk()//혼잣말 할 때는 
-    {
 
-    }
     /*player을 'time' 초동안 멈추게 함*/
     IEnumerator wait(float time)
     {

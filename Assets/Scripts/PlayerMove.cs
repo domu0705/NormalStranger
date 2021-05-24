@@ -64,6 +64,7 @@ public class PlayerMove : MonoBehaviour
                 //플레이어의 animation을 변경
                 changeAnim();
             }
+            
 
             //물체 검사 (스페이스바를 누를 시 함수 내부가 실행됨)
             scanObj();
@@ -76,8 +77,16 @@ public class PlayerMove : MonoBehaviour
         if (!isDead)
         {
             //캐릭터 이동하기
-            Vector2 moveVec = isHorizonMove ? new Vector2(h, 0) : new Vector2(0, v);
-            rigid.velocity = moveVec * speed;
+            if (!manager.isPlayerPause)
+            {
+                Vector2 moveVec = isHorizonMove ? new Vector2(h, 0) : new Vector2(0, v);
+                rigid.velocity = moveVec * speed;
+            }
+            else
+            {
+                rigid.velocity = new Vector2(0, 0);
+            }
+            
 
             //캐릭터 ray
             //(플레이어도 collider가 있기 때문에(플레이어가 스스로의 collider을 감지하지 않게하기위해) 조사 가능한 것들을 모두 다 다른 layer(inspectObject)로 설정해주기)
@@ -150,6 +159,7 @@ public class PlayerMove : MonoBehaviour
 
         setDirRay(hDown, vDown, hUp, vUp);// 플레이어가 보는 앞 방향으로 물체 탐지용 ray를 그려주는 함수
     }
+
     void changeAnim()
     {
         if (manager.isAction && !(manager.isAutoMoving)) // player가 말하는 중이라면 움직이지 않게 한다.

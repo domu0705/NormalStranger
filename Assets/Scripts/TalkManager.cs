@@ -19,25 +19,28 @@ public class TalkManager : MonoBehaviour
 
 
     /*
-        100 : johnny's big locker
-        200 : 에너지 부스터가 들어있는 locker
-        300 : fitra desk
-        400 : 전기 수리 부품들
-        500 : 
-        600 : quest50 출근하자에 쓰이는 talk trigger Line
-        700 : quest 40 에 쓰이는 Anim Trigger Line(1st floor)
-        800 : Human Door (1st floor)
-        900 : AI Door (1st floor)
+        1000 : johnny's big locker
+        2000 : 에너지 부스터가 들어있는 locker // 이건 portrait numdmf 200으로 함
+        3000 : fitra desk
+        4000 : 전기 수리 부품들
+        5000 : Door E // 3층의 인공지능 관리부서 문
+        6000 : quest50 출근하자에 쓰이는 talk trigger Line
+        7000 : quest 40 에 쓰이는 Anim Trigger Line(1st floor)
+        8000 : Human Door (1st floor)
+        9000 : AI Door (1st floor)
         9999: 아무것도 없는 물건.
         
     
         portrait data 생성
-         * Fitra : 1000
-         * Johnny : 2000
-         * Sindy : 3000
-         * Green : 4000
-         * marin : 5000
-         * benny : 6000 -수리공
+         * Fitra : 10000
+         * Johnny : 20000
+         * Sindy : 30000
+         * Green : 40000
+         * marin : 50000
+         * benny : 60000 -수리공
+         * empty box : 70000
+         * repairshop AI bad : 80000
+         * repairshop AI good : 90000
          
     */
     void GeneratePortraitData()
@@ -61,27 +64,39 @@ public class TalkManager : MonoBehaviour
         portraitData.Add(15, portraitArr[15]);
         portraitData.Add(16, portraitArr[16]);
         portraitData.Add(17, portraitArr[17]);
+        portraitData.Add(18, portraitArr[18]);
+        portraitData.Add(19, portraitArr[19]);
+        portraitData.Add(20, portraitArr[20]);
+        portraitData.Add(21, portraitArr[21]);
+        portraitData.Add(22, portraitArr[22]);
     }
 
-
+    /*layer 무조건 nispect object로 설정해두기*/
     void GenerateTalkData()
     {
         /*디폴트 talk data 생성*/
-        talkData.Add(2000, new string[] { "[조니]" + "\n" + "\n" + "...네?:6",
+        talkData.Add(20000, new string[] { "[조니]" + "\n" + "\n" + "...네?:6",
                                           "[조니]" + "\n" + "\n" +"제가 좀 바빠서.. 미안해요~:7" });
-        talkData.Add(3000, new string[] { "[신디]" + "\n" + "\n" +"아! 안녕하세요.:8",
+        talkData.Add(30000, new string[] { "[신디]" + "\n" + "\n" +"아! 안녕하세요.:8",
                                           "[신디]" + "\n" + "\n" +"뭐 재밌는 일 있나요? :9" });
-        talkData.Add(4000, new string[] { "[그린]" + "\n" + "\n" +"아. 피트라씨 안녕하세요.:12",
+        talkData.Add(40000, new string[] { "[그린]" + "\n" + "\n" +"아. 피트라씨 안녕하세요.:12",
                                           "[그린]" + "\n" + "\n" +"좋은 하루 보내요 :13" });
-        talkData.Add(5000, new string[] { "[마린]" + "\n" + "\n" +"나 바빠요.:15"  });
+        talkData.Add(50000, new string[] { "[마린]" + "\n" + "\n" +"나 바빠요.:15"  });
+        talkData.Add(60000, new string[] { "[베니]" + "\n" + "\n" + "안녕하세요. 최고의 엔지니어 베니입니다.:18" });
+        talkData.Add(70000, new string[] { "\n" + "\n" + "이 상자는 비어있다...:0" });
+        talkData.Add(80000, new string[] { "[F-D0604]" + "\n" + "\n" + "사.라-지기 싫.ㅅ.ㄴㄴ니..:22" });
+        talkData.Add(90000, new string[] { "[E-M0705]" + "\n" + "\n" + "전 해야 할 일이 아직 많습니다.:21" });
 
         /*locker talk data 생성*/
-        talkData.Add(100, new string[] { "\n" + "\n" + "...잠겨있다.:9999" });
-        talkData.Add(200, new string[] { "\n" + "\n" + "에너지 부스터가 들어있다... 챙겨보자." + "\n" + "(에너지 부스터를 얻었다.):200" });
-        talkData.Add(300, new string[] { "\n" + "\n" + "내 자리. 좀 더럽다...:0" });
-        talkData.Add(700, new string[] { "\n" + "\n" + "선이다!.:0" });
-        talkData.Add(800, new string[] { "[문]" + "\n" + "\n" + "사용 권한이 없습니다.:0" });
-        talkData.Add(900, new string[] { "[문]" + "\n" + "\n" + "사용가능한 시간이 아닙니다.:0" });
+        talkData.Add(1000, new string[] { "\n" + "\n" + "...잠겨있다.:9999" });
+        talkData.Add(2000, new string[] { "\n" + "\n" + "에너지 부스터가 들어있다... 챙겨보자." + "\n" + "(에너지 부스터를 얻었다.):200" });
+        talkData.Add(3000, new string[] { "\n" + "\n" + "내 자리. 좀 더럽다...:0" });
+        talkData.Add(5000, new string[] { "\n" + "\n" + "[E동 - 출입 제한 구역] :0",
+                                         "[피트라]" + "\n" + "\n" + "잠겨있네.:3",
+                                       });
+        talkData.Add(7000, new string[] { "\n" + "\n" + "선이다.:0" });
+        talkData.Add(8000, new string[] { "[문]" + "\n" + "\n" + "사용 권한이 없습니다.:0" });
+        talkData.Add(9000, new string[] { "[문]" + "\n" + "\n" + "사용가능한 시간이 아닙니다.:0" });
 
 
 
@@ -89,7 +104,7 @@ public class TalkManager : MonoBehaviour
 
 
         /* quest 10 - Sindy에게 서류를 받자 */
-        talkData.Add(10 + 2000, new string[] { "[???]"+"\n"+"\n"+"......씨?:6", "[???]"+"\n"+"\n"+"피트라씨?:7",
+        talkData.Add(10 + 20000, new string[] { "[???]"+"\n"+"\n"+"......씨?:6", "[???]"+"\n"+"\n"+"피트라씨?:7",
                                                 "[피트라]"+"\n"+"\n"+".....:2",
                                                 "[???]"+"\n"+"\n"+"피.트.라.씨?:7",
                                                 "[피트라]"+"\n"+"\n"+"....네??:4",
@@ -100,8 +115,8 @@ public class TalkManager : MonoBehaviour
                                                 "[피트라]"+"\n"+"\n"+"(...방금 전까지 내가 뭐하고 있었더라):3" ,
                                                 "[피트라]"+"\n"+"\n"+"(신디씨...? 빨간 머리였던 것 같은데..):3",
                                               });
-        talkData.Add(11 + 2000, new string[] { "[조니]" + "\n" + "\n" + "문서는 [신디] 씨에게 맡겨뒀어요. 부탁해요.:5" });
-        talkData.Add(11 + 3000, new string[] {  "[신디]"+"\n"+"\n"+"안녕하세요~?:8",
+        talkData.Add(11 + 20000, new string[] { "[조니]" + "\n" + "\n" + "문서는 [신디] 씨에게 맡겨뒀어요. 부탁해요.:5" });
+        talkData.Add(11 + 30000, new string[] {  "[신디]"+"\n"+"\n"+"안녕하세요~?:8",
                                                 "[신디]"+"\n"+"\n"+"아 문서요? 여기요~:9",
                                                 "[신디]"+"\n"+"\n"+"옆 사무실 B동 의 그린씨에게 전달 부탁해요~:8",
                                                 "[피트라]"+"\n"+"\n"+"(그린씨… 밝은 갈색머리..):3",
@@ -114,7 +129,7 @@ public class TalkManager : MonoBehaviour
 
         /*quest 20 - 서류를 B동으로 가져가자. */
         /*20 - 주요 대사들*/
-        talkData.Add(20 + 4000, new string[] { "[그린]" + "\n" + "\n" + "피트라씨!!!:11",
+        talkData.Add(20 + 40000, new string[] { "[그린]" + "\n" + "\n" + "피트라씨!!!:11",
                                                "[피트라]" + "\n" + "\n" + "예…?:4 ",
                                                "[피트라]" + "\n" + "\n" + "안녕하세요 그린씨:2",
                                                "[그린]" + "\n" + "\n" +"아...안녕하세요..:13",
@@ -125,8 +140,8 @@ public class TalkManager : MonoBehaviour
                                                "[피트라]" + "\n" + "\n" + "(기분이 안좋아보이시네. 방금 뭐 실수했나..?):3",
                                                "[피트라]" + "\n" + "\n" + "(흠, 아마 일이 많아져서 그런 거 같군. 난 상사님께 보고하러 가야겠다.):2",
                                              });
-        talkData.Add(21 + 4000, new string[] { "[그린]" + "\n" + "\n" + "조니상사님께 오후까지 마무리 하겠다고 전달 부탁드릴게요.:11" });
-        talkData.Add(21 + 2000, new string[] { "[조니]" + "\n" + "\n" +"문서는 잘 전달했어요?:6",
+        talkData.Add(21 + 40000, new string[] { "[그린]" + "\n" + "\n" + "조니상사님께 오후까지 마무리 하겠다고 전달 부탁드릴게요.:11" });
+        talkData.Add(21 + 20000, new string[] { "[조니]" + "\n" + "\n" +"문서는 잘 전달했어요?:6",
                                                "[조니]" + "\n" + "\n" +"아, 고마워요. 역시 빠르다니까.:5",
                                                "[조니]" + "\n" + "\n" +"이건 피곤해보이는 피트라씨를 위한 감사선물.:6",
                                                "\n" + "\n" +"(조니에게 에너지 부스트를 받았다):200",
@@ -138,14 +153,14 @@ public class TalkManager : MonoBehaviour
                                                "[피트라]" + "\n" + "\n" + "(내 자리... 왼쪽 첫번째 책상이지.):2",
                                                });
         /*20 - 기타 대사들*/
-        talkData.Add(20 + 2000, new string[] { "[조니]" + "\n" + "\n" + "전달하고나면 나한테 상황 좀 알려줘요."+"\n"+"고마워요:5" });
-        talkData.Add(20 + 3000, new string[] { "[신디]" + "\n" + "\n" + "B동 그린씨에게 전달하면 돼요!:9",
+        talkData.Add(20 + 20000, new string[] { "[조니]" + "\n" + "\n" + "전달하고나면 나한테 상황 좀 알려줘요."+"\n"+"고마워요:5" });
+        talkData.Add(20 + 30000, new string[] { "[신디]" + "\n" + "\n" + "B동 그린씨에게 전달하면 돼요!:9",
                                                "[신디]"+"\n"+"\n"+"서두르는게 좋을거예요~:8" });
-        talkData.Add(21 + 3000, new string[] { "[신디]" + "\n" + "\n" + "수고했어요~ 조니상사님이 기다리시고 계신 것 같던데요~?:9" });
+        talkData.Add(21 + 30000, new string[] { "[신디]" + "\n" + "\n" + "수고했어요~ 조니상사님이 기다리시고 계신 것 같던데요~?:9" });
 
 
         /*quest 30 - 피트라의 자리로 가자.*/
-        talkData.Add(30 + 300, new string[] { "\n" + "\n" + "[ 책상 위에 문서가 놓여있다 ]:0",
+        talkData.Add(30 + 3000, new string[] { "\n" + "\n" + "[ 책상 위에 문서가 놓여있다 ]:0",
                                            "[피트라]" + "\n" + "\n" + "보안 A대상 문서... 이게 뭐지?:3",
                                            "\n" + "\n" + "A동 조정 관련. 담당 부서 E 동.:0",
                                            "\n" + "\n" + "대상 - 피트....:0",
@@ -164,34 +179,38 @@ public class TalkManager : MonoBehaviour
                                          });
 
         /* quest 40 - 1층으로 나가 퇴근하자 */
-        talkData.Add(40 + 800, new string[] { "[문]" +"\n" + "\n" + "사용 권한이 없습니다.:0" ,
+        talkData.Add(40 + 8000, new string[] { "[문]" +"\n" + "\n" + "사용 권한이 없습니다.:0" ,
                                               "[피트라]" +"\n" + "\n" + "음, 이게 왜 안되지? :4" ,
                                               "[문]" +"\n" + "\n" + "권한이 없습니다.:0" ,
                                             });
-        talkData.Add(41 + 4000, new string[] { "[그린]" + "\n" + "\n" + "저기..나가시는 문은 왼쪽이에요...:12",
+        talkData.Add(41 + 40000, new string[] { "[그린]" + "\n" + "\n" + "저기..나가시는 문은 왼쪽이에요...:12",
                                                "[피트라]" + "\n" + "\n" + "아! 그린씨, 감사합니다. 제가 오늘 정신이 없어서..:2",
                                                "[그린]" + "\n" + "\n" + "이해해요. 안녕히가세요:12",
                                                "[피트라]" + "\n" + "\n" + "그린씨도 조심히가세요.:2",
                                              });
-        talkData.Add(42 + 900, new string[] { "[문]" + "\n" + "\n" + "문이 열립니다.:0"});
+        talkData.Add(42 + 9000, new string[] { "[문]" + "\n" + "\n" + "문이 열립니다.:0"});
 
         /*40 - 기타 대사들*/
-        talkData.Add(42 + 800, new string[] { "[문]" + "\n" + "\n" + "사용 권한이 없습니다.:0" });
-        talkData.Add(42 + 4000, new string[] { "[그린]" + "\n" + "\n" + "아, 왼쪽에 저 문으로 나가시면 돼요!:12" });
+        talkData.Add(42 + 8000, new string[] { "[문]" + "\n" + "\n" + "사용 권한이 없습니다.:0" });
+        talkData.Add(42 + 40000, new string[] { "[그린]" + "\n" + "\n" + "아, 왼쪽에 저 문으로 나가시면 돼요!:12" });
+        talkData.Add(40 + 5000, new string[] { "\n" + "\n" + "[E동 - 출입 제한 구역] :0",
+                                              "\n" + "\n" + "(잠겨있다) :0",
+                                              "[피트라]" + "\n" + "\n" + "E동..아까 문서에서 본 곳이다. 뭐하는 곳일까? :3",
+                                            });
 
 
         /* quest 50 - 출근 - 피트라의 자리로 가자. */
-        talkData.Add(50 + 600, new string[] { "[피트라]" +"\n" + "\n" + "...출근이다.  :3" ,
+        talkData.Add(50 + 6000, new string[] { "[피트라]" +"\n" + "\n" + "...출근이다.  :3" ,
                                               "[피트라]" +"\n" + "\n" + "늦지 않게 얼른 내 자리로 가자.  :3" 
                                             });
-        talkData.Add(50 + 300, new string[] { "[피트라]" +"\n" + "\n" + "업무를 시작해볼까.:3" ,
+        talkData.Add(50 + 3000, new string[] { "[피트라]" +"\n" + "\n" + "업무를 시작해볼까.:3" ,
                                             });
 
         /* quest 60 - 정전. */
-        talkData.Add(60 + 1000, new string[] {"[피트라]" +"\n" + "\n" + "앗, 출근 하자마자 정전..? :4",
+        talkData.Add(60 + 10000, new string[] {"[피트라]" +"\n" + "\n" + "앗, 출근 하자마자 정전..? :4",
                                               "[피트라]" +"\n" + "\n" + "이래선 아무것도 할 수가 없는데 :3" ,
                                             });
-        talkData.Add(61 + 1000, new string[] {"[피트라]" +"\n" + "\n" + "다들 뭐하는거야? 아무렇지도 않잖아..? :4",
+        talkData.Add(61 + 10000, new string[] {"[피트라]" +"\n" + "\n" + "다들 뭐하는거야? 아무렇지도 않잖아..? :4",
                                               "[???]" +"\n" + "\n" + "[삐비빅]:0",
                                               "[피트라]" +"\n" + "\n" + "문자? :3" ,
                                               "[???]" +"\n" + "\n" + "[수리 필요]"+"\n"+"[수리 장비 3개를 모아 '고장 수리 센터' 방문 권고.] :0",
@@ -201,29 +220,33 @@ public class TalkManager : MonoBehaviour
                                               "[피트라]" +"\n" + "\n" + "아무리 그래도... 정전까지 도와야하다니. :3" ,
                                               "[피트라]" +"\n" + "\n" + "...어쩔 수 없지. 빨리 해치우자. :3" 
                                             });
-        talkData.Add(62 + 400, new string[] {"[피트라]" +"\n" + "\n" + "아, 부품이다! :1",
+        talkData.Add(62 + 4000, new string[] {"[피트라]" +"\n" + "\n" + "아, 부품이다! :1",
                                              "[피트라]" +"\n" + "\n" + "좋아. 얼른 나머지 2개도 찾아보자. :2" 
                                             });
-        talkData.Add(63 + 400, new string[] {"[피트라]" +"\n" + "\n" + "찾았다! :1",
+        talkData.Add(63 + 4000, new string[] {"[피트라]" +"\n" + "\n" + "찾았다! :1",
                                              "[피트라]" +"\n" + "\n" + "나머지 하나는 어디있으려나.. :2" 
                                             });
-        talkData.Add(64 + 400, new string[] {"[피트라]" +"\n" + "\n" + "좋아, 다 찾았다! :1",
+        talkData.Add(64 + 4000, new string[] {"[피트라]" +"\n" + "\n" + "좋아, 다 찾았다! :1",
                                              "[피트라]" +"\n" + "\n" + "'고장 수리 센터' 로 가라고 했지. :2" 
                                             });
-        talkData.Add(65 + 6000, new string[] {"[베니]" +"\n" + "\n" + "아, 오셨습니까? :1",
-                                              "[베니]" +"\n" + "\n" + "다행히 비상 전력이 있어서 완전 멈춰버리진 않았습니다. :2" ,
-                                              "[베니]" +"\n" + "\n" + "제가 금방 고치겠습니다. 잠시만요... :2"
+        talkData.Add(65 + 60000, new string[] {"[베니]" +"\n" + "\n" + "아, 오셨습니까? :18",
+                                              "[베니]" +"\n" + "\n" + "다행히 비상 전력이 있어서 완전 멈춰버리진 않았습니다. :19" ,
+                                              "[베니]" +"\n" + "\n" + "제가 금방 고치겠습니다. 잠시만요~ :19"
                                             });
         /*60 - 기타 대사들*/
-        talkData.Add(65 + 2000, new string[] {"[조니]" +"\n" + "\n" + "수리센터요..? :6",
+        talkData.Add(65 + 20000, new string[] {"[조니]" +"\n" + "\n" + "수리센터요..? :6",
                                               "[조니]" +"\n" + "\n" + "흠..3층에 있습니다. :7" ,
                                             });
-        talkData.Add(65 + 3000, new string[] {"[신디]" +"\n" + "\n" + "어디가세요? 바빠보이네요~:8",
+        talkData.Add(65 + 30000, new string[] {"[신디]" +"\n" + "\n" + "어디가세요? 바빠보이네요~:8",
                                               "[피트라]" +"\n" + "\n" + "고장 수리센터.. 어딘지 아십니까? :2",
                                               "[신디]" +"\n" + "\n" + "3층이에요.  :9" ,
                                             });
-        talkData.Add(65 + 4000, new string[] {"[그린]" +"\n" + "\n" + "어머, 안녕하세요. :11",
+        talkData.Add(65 + 40000, new string[] {"[그린]" +"\n" + "\n" + "어머, 안녕하세요. :11",
                                              "[그린]" +"\n" + "\n" + "아, 수리센터요? 3층에 있어요. :13" ,
+                                            });
+        talkData.Add(60 + 5000, new string[] { "\n" + "\n" + "[E동 - 출입 제한 구역] :0",
+                                              "\n" + "\n" + "(잠겨있다) :0",
+                                              "[피트라]" + "\n" + "\n" + "E동..아까 문서에서 본 곳이다. 뭐하는 곳일까? :3",
                                             });
 
 

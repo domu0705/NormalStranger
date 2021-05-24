@@ -10,14 +10,16 @@ public class autoMove : MonoBehaviour
     public Vector3 targetPos;
     public bool isAutoMoving;
     public bool arrivedToDest;
-
+    public float autoSpeed;
 
     // Update is called once per frame
     void Update()
     {
         if (isAutoMoving)
         {
-            movingObj.transform.position = Vector3.MoveTowards(movingObj.transform.position, targetPos, 2.5f * Time.deltaTime);
+            float speed = autoSpeed * Time.deltaTime;
+            Debug.Log("speed 는 : " + speed);
+            movingObj.transform.position = Vector3.MoveTowards(movingObj.transform.position, targetPos, speed);
 
             if (movingObj && (movingObj.transform.position == targetPos))
             {                                                               // movingObj 를 if 조건문 안에 넣은 이유 
@@ -32,9 +34,10 @@ public class autoMove : MonoBehaviour
     }
 
 
-    public void startAutoMove(GameObject movingObject, Vector3 targetPosition)
+    public void startAutoMove(GameObject movingObject, Vector3 targetPosition,float speed)
     {
         //arrivedToDest = false;
+        autoSpeed = speed;
         movingObj = movingObject;
         targetPos = targetPosition;
         isAutoMoving = true;

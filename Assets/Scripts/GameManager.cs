@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     public QuestManager questManager;
     public ElevatorManager elevatorManager;
     public CameraManager cameraManager;
-
+    public autoMove autoMovement;
     public GameObject gameOverPanel;
     public GameObject talkPanel;
     public GameObject screenLightPanel; // Day가 바뀔때 켜지는 panel
@@ -63,7 +63,8 @@ public class GameManager : MonoBehaviour
         if(scanObj.tag == "Door")
         {
             /*공간 이동하기. (문을 통해 장소 이동)*/
-            door(scanObj);
+            isPlayerPause = true;
+            StartCoroutine( door(scanObj));
         }
         else if (scanObj.tag == "Elevator")
         {
@@ -89,7 +90,7 @@ public class GameManager : MonoBehaviour
         
         int questTalkIndex = questManager.GetQuestTalkIndex(id);
         Debug.Log("id는 " + id+ "questTalkIndex은 : "+ questTalkIndex + "talkIndex 는 : "+ talkIndex);
-        string talkData = talkManager.GetTalk(id + questTalkIndex, talkIndex); //조니 id : 2000, +10 
+        string talkData = talkManager.GetTalk(id + questTalkIndex, talkIndex); //조니 id : 20000, +10 
 
         if(talkData == null)//얘기가 더이상 없을 때 (대화가 끝났을 때, 물건 조사가 끝났을 때)
         {
@@ -168,9 +169,38 @@ public class GameManager : MonoBehaviour
 
 
     /*공간 이동하기*/
-    void door(GameObject scanObj)
+    IEnumerator door(GameObject scanObj)
     {
+        Debug.Log("door함수에 들어감");
+        isPlayerPause = true; //player가 다른곳으로 움직일 수 없게 함
+        
         DoorData door = scanObj.GetComponent<DoorData>();
+        Animator doorAnim = door.GetComponent<Animator>();
+
+        scanObj.layer = 15; // 잠깐 player가 문과 안부딪치게 layer을 바꿔줌
+        
+
+        Debug.Log("자동 움직임 시작");
+
+        /*아래서 위로 올라가면서 들어가는 문일 때*/
+        if((door.type == DoorData.DoorType.DoorAOut) || (door.type == DoorData.DoorType.DoorBIn)|| 
+            (door.type == DoorData.DoorType.DoorCIn)|| (door.type == DoorData.DoorType.DoorDIn)|| (door.type == DoorData.DoorType.DoorRepairIn))
+        {
+            player.transform.position = new Vector3(door.transform.position.x, door.transform.position.y - 1f, player.transform.position.z);
+            Vector3 targetPos = new Vector3(player.transform.position.x, door.transform.position.y +0.1f, player.transform.position.z);
+            autoMovement.startAutoMove(player.gameObject, targetPos, 1f);
+        }
+        else/*위에서 아래로 내려가며 들어가는 문일때*/
+        {
+            Vector3 targetPos = new Vector3(player.transform.position.x , door.transform.position.y+0.3f, player.transform.position.z);
+            autoMovement.startAutoMove(player.gameObject, targetPos,1f);
+        }
+        
+
+        /*문열리는 에니메이션 시작하고 에니메이션 진행동안(2초)은 공간이동 하지 않고 기다림*/
+        doorAnim.SetTrigger("DoorOpen");
+        yield return new WaitForSeconds(2);
+        autoMovement.isAutoMoving = false;
         switch (door.type)
         {
             case DoorData.DoorType.DoorAIn:
@@ -196,8 +226,49 @@ public class GameManager : MonoBehaviour
                 places[1].SetActive(true);
                 player.transform.position = new Vector3(18.5f, 6.2f, 0);
                 break;
+            case DoorData.DoorType.DoorCIn:
+                places[1].SetActive(false);
+                places[3].SetActive(true);
+                player.transform.position = new Vector3(19.5f, 11.1f, 0);
+                break;
+
+            case DoorData.DoorType.DoorCOut:
+                places[3].SetActive(false);
+                places[1].SetActive(true);
+                player.transform.position = new Vector3(18.5f, 6.2f, 0);
+                break;
+            case DoorData.DoorType.DoorDIn:
+                places[1].SetActive(false);
+                places[3].SetActive(true);
+                player.transform.position = new Vector3(19.5f, 11.1f, 0);
+                break;
+
+            case DoorData.DoorType.DoorDOut:
+                places[3].SetActive(false);
+                places[1].SetActive(true);
+                player.transform.position = new Vector3(18.5f, 6.2f, 0);
+                break;
+            case DoorData.DoorType.DoorRepairIn:
+                
+                places[4].SetActive(false);
+                places[7].SetActive(true);
+                player.transform.position = new Vector3(15, 5.6f, 0);
+                break;
+
+            case DoorData.DoorType.DoorRepairOut:
+                places[7].SetActive(false);
+                places[4].SetActive(true);
+                player.transform.position = new Vector3(28.8f, 5.1f, 0);
+                break;
 
         }
+
+        Debug.Log("원ㅅ상복귀하기");
+        
+        ObjectData playerObjData = player.GetComponent<ObjectData>();
+        door.gameObject.layer = 10;
+        isPlayerPause = false;
+        
 
     }
 

@@ -18,7 +18,8 @@ public class EnemyAI : MonoBehaviour
         anim = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
 
-        Think();
+        //Think();
+        nextMove = 1;
     }
     // Update is called once per frame
     void Update()
@@ -51,10 +52,10 @@ public class EnemyAI : MonoBehaviour
         else
             rayVec = Vector2.down;
 
-        Debug.DrawRay(frontVec, rayVec, new Color(0, 1, 0));//에디터 상에서만 ray를 그려주는 함수
-        RaycastHit2D rayHit = Physics2D.Raycast(frontVec, rayVec, 1, LayerMask.GetMask("Boundary"));//실제로 ray를 쏘는 함수
-
-        if (rayHit.collider != null)
+        Debug.DrawRay(frontVec, rayVec, new Color(0, 0.5f, 0));//에디터 상에서만 ray를 그려주는 함수
+        RaycastHit2D rayHit1 = Physics2D.Raycast(frontVec, rayVec, 0.5f, LayerMask.GetMask("Boundary"));//실제로 ray를 쏘는 함수
+        RaycastHit2D rayHit2 = Physics2D.Raycast(frontVec, rayVec, 0.5f, LayerMask.GetMask("InspectObject"));
+        if ((rayHit1.collider != null) || (rayHit2.collider != null))
         {//enemy가 벽에 부딪혔다면
             nextMove *= -1;
             ControlAnim();
