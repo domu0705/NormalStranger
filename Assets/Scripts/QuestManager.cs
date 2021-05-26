@@ -15,11 +15,14 @@ public class QuestManager : MonoBehaviour
     public autoMove autoMoving;
 
     public GameObject playerObject;
+    public GameObject jhonny;
     public GameObject marin;
     public GameObject green; // 1층 로비에 있는 green
     public GameObject green2; //2층에 있는 green 
+    public GameObject benny;
     public GameObject fitraDesk;
-    public GameObject talkTriggerLine;
+    public GameObject talkTriggerLine; // 필요할때 setactive true로 해두고 끝나면 바로 끔.
+    public GameObject JhonnyLine;
 
     public Vector3 MarinPos;
 
@@ -70,9 +73,12 @@ public class QuestManager : MonoBehaviour
         questList.Add(30, new QuestData("피트라의 자리로 가자.", new int[] { 3000 }));
         questList.Add(40, new QuestData("1층으로 나가 퇴근하자.", new int[] { 8000,40000, 9000 })); //800, 4000은 TALK 함수 강제 호출하면 될듯
         questList.Add(50, new QuestData("출근 - 피트라의 자리로 가자.", new int[] { 3000}));
-        questList.Add(60, new QuestData("정전 -  부품들을 모아 수리센터로 가자", new int[] { 10000, 10000,4000,4000,4000,60000}));
-        questList.Add(70, new QuestData("Game Clear.", new int[] { 0 }));
-        questList.Add(80, new QuestData("Game Clear.", new int[] { 0 }));
+        questList.Add(60, new QuestData("정전 -  부품들을 모아 수리센터로 가자", new int[] { 10000, 10000,4000,4000,4000,60000, 60000 }));
+        questList.Add(70, new QuestData("신디씨에게 가보자.", new int[] { 6000, 30000  }));
+        questList.Add(80, new QuestData("건물을 나가자.", new int[] { 9000,8000, 7500 }));
+        questList.Add(90, new QuestData("quest 90시작.", new int[] { 0 }));
+        questList.Add(100, new QuestData("Game Clear.", new int[] { 0 }));
+        questList.Add(110, new QuestData("Game Clear.", new int[] { 0 }));
     }
 
     public int GetQuestTalkIndex(int id) //quest번호를 반환
@@ -92,6 +98,7 @@ public class QuestManager : MonoBehaviour
         ControlObject(); 
         if (questActionIndex == questList[questId].npcId.Length)
         {
+            Debug.Log("다음 quest로 넘어가자");
             ControlObject();
             NextQuest();
         }
@@ -106,6 +113,7 @@ public class QuestManager : MonoBehaviour
 
     public void NextQuest()
     {
+        Debug.Log("NextQuest함수 시작.");
         questId += 10;
         questActionIndex = 0;
     }
@@ -138,26 +146,35 @@ public class QuestManager : MonoBehaviour
                 break;
 
             case 30://피트라의 자리로 가자.
-                if (manager.talkIndex == 4)//마린을 피트라 옆으로 이동시키기
+
+                /*마린을 피트라 옆으로 이동시키기*/
+                if (manager.talkIndex == 4)
                 {
                     /*bool값을 바꿔줌으로써 moveMarinToFitra 함수를 호출*/
                     isMarinMovingToFitra = true;
 
                     manager.objData.isNpc = true;//피트라의 첫 대화상대가 npc가 아닌 자기 책상이기 때문에 portrait가 안나옴. portrait의 등장을 위해 isnpc를 true로 바꿔줌.
                 }
-                if (manager.talkIndex == 13)//마린을 피트라 옆으로 이동시키기
+
+
+                /*마린을 원래 자기자리로 이동시키기*/
+                if (manager.talkIndex == 13)
                 {
                     manager.objData.isNpc = false;//피트라의 첫 대화상대가 npc가 아닌 자기 책상이기때문에 (portrait의 등장을 위해 isnpc를 true로 바꿨던 것을) 다시 false로 돌려놓아줌
 
                     /*bool값을 바꿔줌으로써 returnMarin 함수를 호출*/
                     isMarinReturning = true;
                 }
+
+
                 manager.checkControlState = true;
                 break;
 
             case 40://1층으로 나가 퇴근하자
+
                 /*2층의 그린을 없애기*/
                 green2.SetActive(false);
+
                 /*quest를 위해 처음 문 근처로 왔을때 자동으로 HUMAN Door로 player을 옮겨줌 */
                 if (player.scanObject && player.scanObject.gameObject.tag == "Anim Trigger Line")
                 {
@@ -190,7 +207,7 @@ public class QuestManager : MonoBehaviour
                     manager.objData.isNpc = false;
 
 
-                /*그린씨가 피트라에게 말걸기*/
+                /*Human Door 앞에서 그린씨가 피트라에게 말걸기*/
                 if (questActionIndex == 1)//문과의 대화가 끝났다면 questActionIndex가 1로 바뀜.
                 {
                     manager.isAction = true;//player의 키 입력에 의해 그린이 말걸기 전에 다른 곳으로 플레이어가 이동하지 않도록 정지시킴.
@@ -212,16 +229,18 @@ public class QuestManager : MonoBehaviour
                     }
                 }
 
-                /*AI door 로 나감*/
+
+                /*AI door 로 나감(퇴근)*/
                 if (questActionIndex == 3 && manager.talkIndex == 0)
                 {
-                    Debug.Log("어두워져라 얍");
                     manager.ScreenLightDarken("Day 2");
                     manager.checkControlState = true;
                 }
+
                 break;
 
             case 50: /*출근. 피트라의 자리로 가기*/
+
                 /*1층 로비의 그린을 없애고 2층 그린을 보여주기*/
                 green.SetActive(false);
                 green2.SetActive(true);
@@ -235,8 +254,8 @@ public class QuestManager : MonoBehaviour
                         break;
                     else
                     {
-                        scanObj.isChecked = true;
                         manager.Action(talkTriggerLine);
+                        scanObj.isChecked = true;
                     }
                 }
 
@@ -256,6 +275,7 @@ public class QuestManager : MonoBehaviour
 
             case 60: /*정전을 고칠 부품들을 모아 수리센터로 가자*/
 
+                /*피트라 책상 앞에서 혼잣말 시작. "앗, 출근 하자마자 정전..?" */
                 if (startQuest && questActionIndex == 0)
                 {
                     startQuest = false; // 50이 끝나고 3초뒤 true가 됐던 변수를 다시 false로 바꿔줌
@@ -264,12 +284,10 @@ public class QuestManager : MonoBehaviour
                     manager.Action(playerObject); // 앗, 출근 하자마자 정전..?
                     manager.canPressSpace = true; //대사 넘겨야 하기떄문에 space바누를수 있게 함.
 
-                    
-                    state1 = true;
-                    
+                    state1 = true;    
                 }
 
-                /*피트라에게 수리도우라는 문자 보내기*/
+                /*피트라에게 정전 수리 도우라는 문자 보내기*/
                 if(questActionIndex == 1 && state1)
                 {
                     questObject[6].SetActive(false);//3층 C동의 길막고 있는 상자 치우기
@@ -293,21 +311,92 @@ public class QuestManager : MonoBehaviour
 
                 }
 
+
+                /*피트라가 혼자말하게 하는 것 취소하기.*/
                 if (questActionIndex == 2)
                 {
-                    player.isFitraMonologing = false;// 피트라가 혼자말하게 하는것 취소하기.
+                    player.isFitraMonologing = false;// 피트라가 혼자말하게 하는 것 취소하기.
+                    state1 = true;
                 }
-                    break;
+
+
+                /*수리하며 화면 어두워졌다가 수리 끝났다는 대화 하기*/
+                if (questActionIndex == 6 && state1)
+                {
+                    state1 = false;
+                    manager.canPressSpace = false;
+
+                    manager.ScreenLightDarken("");
+
+                    /*베니가 수리 완료 대화 하기*/
+                    StartCoroutine(waitForRepair1(6));
+                }
+
+
+                /*Day 2끝 화면 어두워지기*/
+                if (questActionIndex == 7 && manager.talkIndex == 0)
+                {
+                    manager.ScreenLightDarken("Day 3");
+
+                    /*Day 3가 시작하면 quest 70에서 신디씨에게 문자왔다는 이야기를 해야하므로 다시 talkTriggerline을 감지하기위해 ischecked를 false로 해줌*/
+                    ObjectData talkTriggerLineScript = talkTriggerLine.GetComponent<ObjectData>();
+                    talkTriggerLineScript.isChecked = false;
+
+                    /*quest 70에서 talk trigger line을 지나는 것을 확인하기 위함*/
+                    manager.checkControlState = true ;
+                    startQuest = true;
+                    talkTriggerLine.SetActive(true);
+                }
+
+                break;
+
 
             case 70:
-                if (startQuest && questActionIndex == 0)
+
+                /*1층의 Talk Trigger Line을 지나면 "신디씨한테 문자 와있던데... 먼저 들러보자"라는 talkbubble 띄우기*/
+                if (player.scanObject && player.scanObject.gameObject.tag == "Talk Trigger Line")
                 {
-                    startQuest = false;
-                    player.isFitraMonologing = true;
-                    manager.isPlayerPause = true;
+                    Debug.Log("70 선 넘음");
+                    manager.checkControlState = false;//playerMove의 fixedupdate에서 계속 controlObject를 부르지 않도록 다시 변수를 false로 바꿈
+                    ObjectData scanObj = player.scanObject.GetComponent<ObjectData>();
+                    if (scanObj.isChecked)
+                        break;
+                    else
+                    {
+                        Debug.Log("70 말 시작");
+                        manager.Action(talkTriggerLine);
+                        scanObj.isChecked = true;
+                        manager.checkControlState = true;
+                        questObject[7].SetActive(false); // 조니자리의 컴퓨터 켜두기
+                        jhonny.SetActive(false); // 조니자리의 컴퓨터 켜두기
+                    }
                 }
+
                 break;
             case 80:
+
+                /*조니상사의 자리에 왔을 때 문서 발견*/
+                if(questActionIndex == 2)
+                {
+
+                    if (player.scanObject && player.scanObject.gameObject.tag == "Jhonny Line")
+                    {
+                        manager.checkControlState = false;
+                        Debug.Log("조니의 선 넘음");
+                        manager.checkControlState = false;//playerMove의 fixedupdate에서 계속 controlObject를 부르지 않도록 다시 변수를 false로 바꿈
+                        ObjectData scanObj = player.scanObject.GetComponent<ObjectData>();
+                        if (scanObj.isChecked)
+                            break;
+                        else
+                        {
+                            Debug.Log("조니 문서 말 시작");
+                            scanObj.isChecked = true;
+                            manager.Action(JhonnyLine);
+                        }
+                    }
+                }
+                
+
                 break;
 
         }
@@ -325,9 +414,28 @@ public class QuestManager : MonoBehaviour
         startQuest = true;
     }
 
+    IEnumerator waitForRepair1(float time)
+    {
+        manager.isPlayerPause = true;
+        yield return new WaitForSeconds(time);
+        Debug.Log("베니가 수리끝났다고 대화 시작");
+        manager.Action(benny); // 베니가 "피트라씨?"라고 부르는 창이 뜬 뒤 1초뒤에 space 를 누를 수 있게 함
+        StartCoroutine(waitForRepair2(1));
+    }
 
-    /*마린을 피트라 옆으로 이동시키는 함수*/
-    void moveMarinToFitra()
+    IEnumerator waitForRepair2(float time)
+    {
+        yield return new WaitForSeconds(time);
+        manager.canPressSpace = true;
+        manager.isPlayerPause = false;
+
+        startQuest = true;
+    }
+
+
+
+        /*마린을 피트라 옆으로 이동시키는 함수*/
+        void moveMarinToFitra()
     {
         Vector3 targetPos = new Vector3(player.transform.position.x + 0.5f, player.transform.position.y, player.transform.position.z);
         marin.transform.position = Vector3.MoveTowards(marin.transform.position, targetPos, 1.5f * Time.deltaTime);

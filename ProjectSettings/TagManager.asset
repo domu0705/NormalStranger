@@ -10,6 +10,7 @@ TagManager:
   - Elevator
   - Anim Trigger Line
   - Talk Trigger Line
+  - Jhonny Line
   layers:
   - Default
   - TransparentFX

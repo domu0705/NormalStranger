@@ -12,6 +12,10 @@ public class GameManager : MonoBehaviour
     public ElevatorManager elevatorManager;
     public CameraManager cameraManager;
     public autoMove autoMovement;
+
+    public Animator portraitLeftAnimator;
+    public Animator portraitRightAnimator;
+
     public GameObject gameOverPanel;
     public GameObject talkPanel;
     public GameObject screenLightPanel; // Day가 바뀔때 켜지는 panel
@@ -31,14 +35,16 @@ public class GameManager : MonoBehaviour
     public bool isPlayerPause; //player움직일 수 없음. talk panel 안보임. space바 누를 수 있음. talkPanel이 보이지 않는 상황에서 player을 멈춰야 할 때. (isAction을 사용하면 isAction = true일떄는 무조건 talkpanel이 보이게 돼서 안됨)
     public bool canPressSpace;  //player가 space바를 누를 수 있는지 없는지를 결정하는 변수.
     public bool isAutoMoving;
-    public bool checkControlState;//Controlstate함수를 강제로 불러야 하는 상황에서 사용하는 변수임.
+    public bool checkControlState;//playermove에서 controlobject함수를 강제로 불러야 하는 상황에서 사용하는 변수임.
 
     public Image portraitLeftImg;
     public Image portraitRightImg;
+    public Image portraitBigImg;
+
     public Image screenLightImg;
     public Image blackoutImg;
 
-    
+    public Sprite prevPortrait;//이전 portrait를 저장해두는 변수
     public PlayerMove player;
     public EnergyBooster energyBooster;
     public ObjectData objData;//현재 조사중인 물건 or 사람
@@ -57,6 +63,7 @@ public class GameManager : MonoBehaviour
     */
     public void Action(GameObject scanObj) 
     {
+        Debug.Log("action함수 시작");
         scanObject = scanObj;
         objData = scanObj.GetComponent<ObjectData>();
 
@@ -78,13 +85,27 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /*
     public void talkPanelCheck()
     {
         Debug.Log("지워버려");
         talkPanel.SetActive(isAction);
     }
+    */
 
- 
+    /*player가 한번 건드리면 없어져야하는 item을 없애준다. ex) 정전 수리 아이템은 주우면 사라져야함*/
+    void eraseItem()
+    {
+        Debug.Log("지울까?");
+        if ((objData.id == 4000) || (objData.id == 6000) || (objData.id == 7000) || (objData.id == 7500))
+        {
+            objData.gameObject.SetActive(false);
+            Debug.Log("지워버려");
+        }
+            
+    }
+
+
     void talk(int id,bool isNpc)//playerMove에서 isAction이 false면 안움직임. 그래서 계속 이야기 할 수 있는 것임.
     {
         
@@ -98,6 +119,8 @@ public class GameManager : MonoBehaviour
             isAction = false;
             talkIndex = 0;
             Debug.Log(questManager.CheckQuest(id));
+
+            eraseItem();
             return;
         }
 
@@ -117,12 +140,20 @@ public class GameManager : MonoBehaviour
                 portraitRightImg.sprite = talkManager.GetPortrait(id, portraitNum);
                 portraitLeftImg.color = new Color(1, 1, 1, 0);
                 portraitRightImg.color = new Color(1, 1, 1, 1);
+                portraitBigImg.color = new Color(1, 1, 1, 0);
+
+                if (prevPortrait != portraitRightImg.sprite)
+                {
+                    portraitRightAnimator.SetTrigger("doEffect");
+                    prevPortrait = portraitRightImg.sprite;
+                }
             }
 
             else if (portraitNum == 0) // portrait가 안보여야 할 떄라면
             {
                 portraitLeftImg.color = new Color(1, 1, 1, 0);
                 portraitRightImg.color = new Color(1, 1, 1, 0);
+                portraitBigImg.color = new Color(1, 1, 1, 0);
             }
 
             else if (portraitNum == 200)//대화도중 npc에게 booster을 받았다면 (jhonny만 booster을 주기때문에 portrait는 조니로 고정해둠)
@@ -130,14 +161,30 @@ public class GameManager : MonoBehaviour
                 portraitLeftImg.sprite = talkManager.GetPortrait(id, 5); // jhonny의 웃는얼굴임.
                 portraitLeftImg.color = new Color(1, 1, 1, 1);
                 portraitRightImg.color = new Color(1, 1, 1, 0);
+                portraitBigImg.color = new Color(1, 1, 1, 0);
                 energyBooster.getBooster();
             }
+            else if(portraitNum == 23)
+            {
 
+                portraitBigImg.sprite = talkManager.GetPortrait(id, portraitNum); // 폐기 문서
+                portraitLeftImg.color = new Color(1, 1, 1, 0);
+                portraitRightImg.color = new Color(1, 1, 1, 0);
+                portraitBigImg.color = new Color(1, 1, 1, 1);
+            }
             else
             {
                 portraitLeftImg.sprite = talkManager.GetPortrait(id, portraitNum);
                 portraitLeftImg.color = new Color(1, 1, 1, 1);
                 portraitRightImg.color = new Color(1, 1, 1, 0);
+                portraitBigImg.color = new Color(1, 1, 1, 0);
+
+                if (prevPortrait != portraitLeftImg.sprite)
+                {
+                    portraitLeftAnimator.SetTrigger("doEffect");
+                    prevPortrait = portraitLeftImg.sprite;
+                }
+                    
             }
     
         }
@@ -227,26 +274,26 @@ public class GameManager : MonoBehaviour
                 player.transform.position = new Vector3(18.5f, 6.2f, 0);
                 break;
             case DoorData.DoorType.DoorCIn:
-                places[1].SetActive(false);
-                places[3].SetActive(true);
-                player.transform.position = new Vector3(19.5f, 11.1f, 0);
+                places[4].SetActive(false);
+                places[5].SetActive(true);
+                player.transform.position = new Vector3(31.5f, 21.1f, 0);
                 break;
 
             case DoorData.DoorType.DoorCOut:
-                places[3].SetActive(false);
-                places[1].SetActive(true);
-                player.transform.position = new Vector3(18.5f, 6.2f, 0);
+                places[5].SetActive(false);
+                places[4].SetActive(true);
+                player.transform.position = new Vector3(31.5f, 15, 0);
                 break;
             case DoorData.DoorType.DoorDIn:
-                places[1].SetActive(false);
-                places[3].SetActive(true);
-                player.transform.position = new Vector3(19.5f, 11.1f, 0);
+                places[4].SetActive(false);
+                places[6].SetActive(true);
+                player.transform.position = new Vector3(18.5f, 21.1f, 0);
                 break;
 
             case DoorData.DoorType.DoorDOut:
-                places[3].SetActive(false);
-                places[1].SetActive(true);
-                player.transform.position = new Vector3(18.5f, 6.2f, 0);
+                places[6].SetActive(false);
+                places[4].SetActive(true);
+                player.transform.position = new Vector3(18.5f, 15, 0);
                 break;
             case DoorData.DoorType.DoorRepairIn:
                 
@@ -295,6 +342,7 @@ public class GameManager : MonoBehaviour
     public void ScreenLightDarken(string dayText)
     {
         isPlayerPause = true;
+        canPressSpace = false;
         screenLightPanel.SetActive(true);
         StartCoroutine(ScreenDarken(dayText));  
     }
@@ -307,7 +355,7 @@ public class GameManager : MonoBehaviour
         while (isDarkning)
         {
             screenLightDayText.text = dayText;
-            a += Time.deltaTime * 0.5f;
+            a += Time.deltaTime * 0.7f;
             screenLightImg.color = new Color(screenLightImg.color.r, screenLightImg.color.g, screenLightImg.color.b, a);
             screenLightDayText.color = new Color(screenLightDayText.color.r, screenLightDayText.color.g, screenLightDayText.color.b, a);
             yield return new WaitForSeconds(0.005f);
@@ -315,8 +363,21 @@ public class GameManager : MonoBehaviour
             {
                 isDarkning = false;
                 ScreenLightBrighten();
-                /*가장 어두워졌을 때 피트라가 앞을 보도록 돌려놓기*/
-                player.anim.SetTrigger("seeFront");
+                if(dayText != "")
+                {
+                    /*가장 어두워졌을 때 피트라가 앞을 보도록 돌려놓기*/
+                    player.anim.SetTrigger("seeFront");
+                    player.dirRayVec = Vector3.down;
+                }
+                if(dayText == "Day 3")
+                {
+                    Debug.Log("문앞으로 순간이동 뿅");
+                    places[0].SetActive(true);
+                    places[7].SetActive(false);
+                    player.transform.position = new Vector3(21.15f, 15.08f, 0);
+                    questManager.green.SetActive(false);
+                }
+                
             }
         }
     }
@@ -332,7 +393,7 @@ public class GameManager : MonoBehaviour
         float a = screenLightImg.color.a;
         while (isBrightning)
         {
-            a -= Time.deltaTime * 0.5f;
+            a -= Time.deltaTime * 0.7f;
             screenLightImg.color = new Color(screenLightImg.color.r, screenLightImg.color.g, screenLightImg.color.b, a);
             screenLightDayText.color = new Color(screenLightDayText.color.r, screenLightDayText.color.g, screenLightDayText.color.b, a);
             yield return new WaitForSeconds(0.005f);
@@ -340,6 +401,7 @@ public class GameManager : MonoBehaviour
             {
                 isBrightning = false;
                 isPlayerPause = false;
+                canPressSpace = true;
                 screenLightPanel.SetActive(false);
             }
         }
