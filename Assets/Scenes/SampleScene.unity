@@ -27261,6 +27261,8 @@ GameObject:
   - component: {fileID: 701695410}
   - component: {fileID: 701695412}
   - component: {fileID: 701695411}
+  - component: {fileID: 701695413}
+  - component: {fileID: 701695414}
   m_Layer: 5
   m_Name: Talk Panel Text
   m_TagString: Untagged
@@ -27319,7 +27321,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "[]\n\n\uC544..! \uC548\uB155\uD558\uC138\uC694."
+  m_Text: "\uC671"
 --- !u!222 &701695412
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -27328,6 +27330,120 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 701695409}
   m_CullTransparentMesh: 0
+--- !u!114 &701695413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 701695409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cffc8aa8a26c87c4a922c984b73bab34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EndCursor: {fileID: 1801840761}
+  audioSource: {fileID: 0}
+  TargetMsg: 
+  charPerSeconds: 15
+  msgText: {fileID: 701695411}
+  isAnim: 0
+--- !u!82 &701695414
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 701695409}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: ffb159a21c8a04135a5616979c828fab, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 0.3
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &707205346
 GameObject:
   m_ObjectHideFlags: 0
@@ -52090,8 +52206,8 @@ MonoBehaviour:
   talkManager: {fileID: 1677009465}
   questManager: {fileID: 260124428}
   elevatorManager: {fileID: 1317275184}
-  cameraManager: {fileID: 1820937057}
   autoMovement: {fileID: 1770696439}
+  typeEffect: {fileID: 701695413}
   portraitLeftAnimator: {fileID: 1438714591}
   portraitRightAnimator: {fileID: 214385861}
   gameOverPanel: {fileID: 862362007}
@@ -52108,7 +52224,6 @@ MonoBehaviour:
   - {fileID: 878577195}
   - {fileID: 23497147}
   - {fileID: 819715514}
-  talkText: {fileID: 701695411}
   heartText: {fileID: 1805647786}
   screenLightDayText: {fileID: 552654043}
   talkIndex: 0

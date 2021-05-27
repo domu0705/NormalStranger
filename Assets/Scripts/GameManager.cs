@@ -10,8 +10,9 @@ public class GameManager : MonoBehaviour
     public TalkManager talkManager;
     public QuestManager questManager;
     public ElevatorManager elevatorManager;
-    public CameraManager cameraManager;
+    //public CameraManager cameraManager;
     public autoMove autoMovement;
+    public TypeEffect typeEffect;
 
     public Animator portraitLeftAnimator;
     public Animator portraitRightAnimator;
@@ -23,7 +24,6 @@ public class GameManager : MonoBehaviour
     public GameObject scanObject;//현재 space바 눌러서 만난 object
     public GameObject[] places;
 
-    public Text talkText;
     public Text heartText;
     public Text screenLightDayText;
     public int talkIndex;
@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log(questManager.CheckQuest());
         heartChanged();
-        cameraManager.UseFirstCamera();
+        //cameraManager.UseFirstCamera();
     }
 
 
@@ -108,10 +108,20 @@ public class GameManager : MonoBehaviour
 
     void talk(int id,bool isNpc)//playerMove에서 isAction이 false면 안움직임. 그래서 계속 이야기 할 수 있는 것임.
     {
-        
-        int questTalkIndex = questManager.GetQuestTalkIndex(id);
-        Debug.Log("id는 " + id+ "questTalkIndex은 : "+ questTalkIndex + "talkIndex 는 : "+ talkIndex);
-        string talkData = talkManager.GetTalk(id + questTalkIndex, talkIndex); //조니 id : 20000, +10 
+
+        int questTalkIndex = 0;
+        string talkData = "";
+        if (typeEffect.isAnim)
+        {
+            typeEffect.SetMsg("");
+            return;
+        }
+        else
+        {
+            questTalkIndex = questManager.GetQuestTalkIndex(id);
+            Debug.Log("id는 " + id + "questTalkIndex은 : " + questTalkIndex + "talkIndex 는 : " + talkIndex);
+            talkData = talkManager.GetTalk(id + questTalkIndex, talkIndex); //조니 id : 20000, +10 
+        }
 
         if(talkData == null)//얘기가 더이상 없을 때 (대화가 끝났을 때, 물건 조사가 끝났을 때)
         {
@@ -128,9 +138,8 @@ public class GameManager : MonoBehaviour
 
         if (isNpc)//npc와 말할 때
         {
-            
-            talkText.text = talkData.Split(':')[0];
-            Debug.Log("id" + id + "는 npc고 대화중이야. 대화는 "+ talkText.text);
+            typeEffect.SetMsg(talkData.Split(':')[0]);
+
             /* 말하는 대상이 Fitra 일때만 오른쪽 portrait 활성화
              * 혼잣말을 할 때는 아무 캐릭터도 보이지 않게 하기 위해서 투명도를 올림.
              */
@@ -144,7 +153,8 @@ public class GameManager : MonoBehaviour
 
                 if (prevPortrait != portraitRightImg.sprite)
                 {
-                    portraitRightAnimator.SetTrigger("doEffect");
+                    if (talkIndex > 0)
+                            portraitRightAnimator.SetTrigger("doEffect");
                     prevPortrait = portraitRightImg.sprite;
                 }
             }
@@ -181,7 +191,8 @@ public class GameManager : MonoBehaviour
 
                 if (prevPortrait != portraitLeftImg.sprite)
                 {
-                    portraitLeftAnimator.SetTrigger("doEffect");
+                    if (talkIndex > 0)
+                        portraitLeftAnimator.SetTrigger("doEffect");
                     prevPortrait = portraitLeftImg.sprite;
                 }
                     
@@ -191,18 +202,22 @@ public class GameManager : MonoBehaviour
         else // 물건을 조사할 때
         {
             Debug.Log("물건을 조사한다");
-            talkText.text = talkData.Split(':')[0];
             if (portraitNum == 200) // energybooster 을 발견했을 때. (energy booster의 대화 끝에는 200번 써줌)
             {
                 if (objData.isChecked)//이미 확인했던 Locker 라면 아이템이 계속 나오면 안됨
                 {
-                    talkText.text = "..이미 열었던 곳이야";
+                    typeEffect.SetMsg("..이미 열었던 곳이야");
                 }
                 else//처음 확인하는 Locker 이라면 energy booster을 얻는다.
                 {
+                    typeEffect.SetMsg(talkData.Split(':')[0]);
                     energyBooster.getBooster();
                     objData.isChecked = true;
                 }
+            }
+            else
+            {
+                typeEffect.SetMsg(talkData.Split(':')[0]);
             }
             portraitLeftImg.color = new Color(1, 1, 1, 0);
             portraitRightImg.color = new Color(1, 1, 1, 0);
