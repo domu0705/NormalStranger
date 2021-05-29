@@ -11,6 +11,7 @@ TagManager:
   - Anim Trigger Line
   - Talk Trigger Line
   - Jhonny Line
+  - AI Chasing Line
   layers:
   - Default
   - TransparentFX
@@ -28,7 +29,7 @@ TagManager:
   - Enemy
   - playerDead
   - Opened Door
-  - 
+  - Police Enemy
   - 
   - 
   - 

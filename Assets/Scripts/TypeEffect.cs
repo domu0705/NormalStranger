@@ -18,7 +18,6 @@ public class TypeEffect : MonoBehaviour
 
     void Awake()
     {
-        Debug.Log("값 넣어");
         msgText = GetComponent<Text>();
         audioSource = GetComponent<AudioSource>();
     }
@@ -42,10 +41,13 @@ public class TypeEffect : MonoBehaviour
 
     void cutName(string msg)
     {
-        string name = msg.Split(']')[0];
-        msgText.text = name + "]";
-        index = name.Length+1;
-        Debug.Log("index는 : " + index);
+        if(msg[0] == '[') // 이름이 있는 경우에만 cutName을 하기
+        {
+            string name = msg.Split(']')[0];
+            msgText.text = name + "]";
+            index = name.Length+1;
+        }
+        
     }
 
     // Update is called once per frame
@@ -60,7 +62,6 @@ public class TypeEffect : MonoBehaviour
 
     void Effecting()
     {
-        Debug.Log("effecting 부르는 중");
         if (msgText.text == TargetMsg)
         {
             EffectEnd();

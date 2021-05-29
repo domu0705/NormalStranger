@@ -67,6 +67,7 @@
     <Compile Include="Assets\Scripts\ElevatorManager.cs" />
     <Compile Include="Assets\Scripts\Enemy Scripts\EnemyA.cs" />
     <Compile Include="Assets\Scripts\Enemy Scripts\EnemyAI.cs" />
+    <Compile Include="Assets\Scripts\Enemy Scripts\PoliceAI.cs" />
     <Compile Include="Assets\Scripts\EnergyBooster.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\ObjectData.cs" />

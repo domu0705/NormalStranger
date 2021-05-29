@@ -20,6 +20,7 @@ public class QuestManager : MonoBehaviour
     public GameObject green; // 1층 로비에 있는 green
     public GameObject green2; //2층에 있는 green 
     public GameObject benny;
+    public GameObject PoliceAI;
     public GameObject fitraDesk;
     public GameObject talkTriggerLine; // 필요할때 setactive true로 해두고 끝나면 바로 끔.
     public GameObject JhonnyLine;
@@ -76,7 +77,7 @@ public class QuestManager : MonoBehaviour
         questList.Add(60, new QuestData("정전 -  부품들을 모아 수리센터로 가자", new int[] { 10000, 10000,4000,4000,4000,60000, 60000 }));
         questList.Add(70, new QuestData("신디씨에게 가보자.", new int[] { 6000, 30000  }));
         questList.Add(80, new QuestData("건물을 나가자.", new int[] { 9000,8000, 7500 }));
-        questList.Add(90, new QuestData("quest 90시작.", new int[] { 0 }));
+        questList.Add(90, new QuestData("도움 받을만한 사람을 찾아보자", new int[] { 6500,40000 }));
         questList.Add(100, new QuestData("Game Clear.", new int[] { 0 }));
         questList.Add(110, new QuestData("Game Clear.", new int[] { 0 }));
     }
@@ -395,9 +396,49 @@ public class QuestManager : MonoBehaviour
                         }
                     }
                 }
-                
+
+                if (questActionIndex == 3 && manager.talkIndex == 0)
+                {
+                    manager.checkControlState = true;
+                }
+
+
+                    break;
+            case 90:
+
+                /*Police AI가 피트라를 따라오기 시작함*/
+                if (questActionIndex == 0)
+                {
+                    if (player.scanObject && player.scanObject.gameObject.tag == "AI Chasing Line")
+                    {
+                        manager.checkControlState = false;//playerMove의 fixedupdate에서 계속 controlObject를 부르지 않도록 다시 변수를 false로 바꿈
+                        Debug.Log("AI 선 넘음");
+                        ObjectData scanObj = player.scanObject.GetComponent<ObjectData>();
+                        if (scanObj.isChecked)
+                            break;
+                        else
+                        {
+                            PoliceAI.SetActive(true);
+                            Debug.Log("AI Chasing 말 시작");
+                            scanObj.isChecked = true;
+                            manager.Action(scanObj.gameObject);
+                            state1 = true;
+                        }
+                    }
+                }
+
+                if(questActionIndex == 0 && manager.talkIndex == 2 && state1)
+                {
+                    state1 = false;
+                    Vector3 targetPos = new Vector3(player.transform.position.x-0.5f, player.transform.position.y, PoliceAI.transform.position.z);
+                    autoMoving.startAutoMove(PoliceAI, targetPos, 3);
+                }
+
 
                 break;
+            case 100:
+                break;
+
 
         }
     } 
