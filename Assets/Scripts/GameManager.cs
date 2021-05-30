@@ -67,8 +67,9 @@ public class GameManager : MonoBehaviour
         scanObject = scanObj;
         objData = scanObj.GetComponent<ObjectData>();
 
-        if(scanObj.tag == "Door")
+        if(scanObj.tag == "Door" && questManager.questId !=90)
         {
+         
             /*공간 이동하기. (문을 통해 장소 이동)*/
             isPlayerPause = true;
             StartCoroutine( door(scanObj));
@@ -217,10 +218,12 @@ public class GameManager : MonoBehaviour
             }
             else
             {
+                Debug.Log("setMeg 함 " + talkData.Split(':')[0]);
                 typeEffect.SetMsg(talkData.Split(':')[0]);
             }
             portraitLeftImg.color = new Color(1, 1, 1, 0);
             portraitRightImg.color = new Color(1, 1, 1, 0);
+            portraitBigImg.color = new Color(1, 1, 1, 0);
         }
         
         
@@ -348,6 +351,10 @@ public class GameManager : MonoBehaviour
         places[2].SetActive(false);
         places[3].SetActive(false);
         places[4].SetActive(false);
+
+        //추격하던 PoliceAI가 있다면 끄기.
+        questManager.PoliceAisetActive(false);
+
 
         /*엘리베이터 내부 이미지 및 UI켜기*/
         elevatorManager.elevatorOn();

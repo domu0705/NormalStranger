@@ -18,7 +18,6 @@ public class autoMove : MonoBehaviour
         if (isAutoMoving)
         {
             float speed = autoSpeed * Time.deltaTime;
-            Debug.Log("speed 는 : " + speed);
             movingObj.transform.position = Vector3.MoveTowards(movingObj.transform.position, targetPos, speed);
 
             if (movingObj && (movingObj.transform.position == targetPos))

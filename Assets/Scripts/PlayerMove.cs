@@ -200,7 +200,9 @@ public class PlayerMove : MonoBehaviour
 
     }
 
-    void setDirRay(bool hDown, bool vDown, bool hUp, bool vUp) // 플레이어가 보는 앞 방향으로 물체 탐지용 ray를 그려주는 함수
+
+    // 플레이어가 보는 앞 방향으로 물체 탐지용 ray를 그려주는 함수
+    void setDirRay(bool hDown, bool vDown, bool hUp, bool vUp) 
     {
         if (vDown && v == 1) // vDown 이면서 v == 1
             dirRayVec = Vector3.up;
@@ -230,8 +232,10 @@ public class PlayerMove : MonoBehaviour
             }
         }
     }
+    
 
-    void OnTriggerEnter2D(Collider2D other)// OnCollisionEnter은 collider/rigidbody에 다른 collider/rigidbody가 닿을 때 호출됨.
+    // OnCollisionEnter은 collider/rigidbody에 다른 collider/rigidbody가 닿을 때 호출됨.
+    void OnTriggerEnter2D(Collider2D other)
     {
         if(other.gameObject.tag == "Enemy")
         {
@@ -246,7 +250,7 @@ public class PlayerMove : MonoBehaviour
             return;
         isInvincible = true;
         Debug.Log("damaged 실행");
-
+        this.gameObject.layer = 17;
         
 
         heart--;
@@ -286,6 +290,7 @@ public class PlayerMove : MonoBehaviour
     {
         //무적 해제
         isInvincible = false;
+        this.gameObject.layer = 9;
 
         //플레이어의 투명도 원상복구하기
         spriteRenderer.color = new Color(1, 1, 1, 1);

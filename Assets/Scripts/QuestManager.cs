@@ -19,12 +19,15 @@ public class QuestManager : MonoBehaviour
     public GameObject marin;
     public GameObject green; // 1층 로비에 있는 green
     public GameObject green2; //2층에 있는 green 
+    public GameObject green3thfloor;
     public GameObject benny;
-    public GameObject PoliceAI;
+    public GameObject[] policeAIAry;
     public GameObject fitraDesk;
     public GameObject talkTriggerLine; // 필요할때 setactive true로 해두고 끝나면 바로 끔.
     public GameObject JhonnyLine;
 
+    public GameObject secretExitTilemap;//3층의 비밀통로
+    public GameObject exitBlocker; // 3층의 비밀길이 열리기 전 막고있던 collider
     public Vector3 MarinPos;
 
 
@@ -288,6 +291,7 @@ public class QuestManager : MonoBehaviour
                     state1 = true;    
                 }
 
+
                 /*피트라에게 정전 수리 도우라는 문자 보내기*/
                 if(questActionIndex == 1 && state1)
                 {
@@ -402,11 +406,10 @@ public class QuestManager : MonoBehaviour
                     manager.checkControlState = true;
                 }
 
-
                     break;
             case 90:
 
-                /*Police AI가 피트라를 따라오기 시작함*/
+                /*소리 다시 들린다는 말. Police AI가 폐기시작이라는 말 함*/
                 if (questActionIndex == 0)
                 {
                     if (player.scanObject && player.scanObject.gameObject.tag == "AI Chasing Line")
@@ -418,7 +421,7 @@ public class QuestManager : MonoBehaviour
                             break;
                         else
                         {
-                            PoliceAI.SetActive(true);
+                            PoliceAisetActive(true);
                             Debug.Log("AI Chasing 말 시작");
                             scanObj.isChecked = true;
                             manager.Action(scanObj.gameObject);
@@ -427,15 +430,24 @@ public class QuestManager : MonoBehaviour
                     }
                 }
 
-                if(questActionIndex == 0 && manager.talkIndex == 2 && state1)
+                /*Police AI가 피트라를 따라오기 시작함*/
+                if (questActionIndex == 1)
                 {
-                    state1 = false;
-                    Vector3 targetPos = new Vector3(player.transform.position.x-0.5f, player.transform.position.y, PoliceAI.transform.position.z);
-                    autoMoving.startAutoMove(PoliceAI, targetPos, 3);
+                    foreach (GameObject policeAI in policeAIAry)
+                    {
+
+                        PoliceAiStartChasing(policeAI);
+                    }
                 }
 
+                /*그린과 말이 끝나면 비밀통로가 열림*/
+                if (questActionIndex == 1 && manager.talkIndex == 14)
+                {
+                    secretExitTilemap.SetActive(true);
+                    exitBlocker.SetActive(false);
+                }
 
-                break;
+                    break;
             case 100:
                 break;
 
@@ -474,9 +486,27 @@ public class QuestManager : MonoBehaviour
     }
 
 
+    /*police AI를 보여주거나 끄는 함수*/
+    public void PoliceAisetActive(bool isShowing)
+    {
+        foreach (GameObject policeAI in policeAIAry)
+        {
+            policeAI.SetActive(isShowing);
+        }
+    }
 
-        /*마린을 피트라 옆으로 이동시키는 함수*/
-        void moveMarinToFitra()
+
+
+    /*police AI가 추격을 시작하게 하는 함수*/
+    void PoliceAiStartChasing(GameObject policeAI)
+    {
+        PoliceAI policeAIScript = policeAI.GetComponent<PoliceAI>();
+        policeAIScript.startChasing = true;
+    }
+
+
+    /*마린을 피트라 옆으로 이동시키는 함수*/
+    void moveMarinToFitra()
     {
         Vector3 targetPos = new Vector3(player.transform.position.x + 0.5f, player.transform.position.y, player.transform.position.z);
         marin.transform.position = Vector3.MoveTowards(marin.transform.position, targetPos, 1.5f * Time.deltaTime);

@@ -8,6 +8,10 @@ public class ElevatorManager : MonoBehaviour
     public GameObject elevatorPanel;
     public GameObject[] floors;
 
+    public QuestManager questManager;
+    
+
+
     public int currentFloor;
     void Update()
     {
@@ -36,6 +40,9 @@ public class ElevatorManager : MonoBehaviour
         floors[0].SetActive(true);
         floors[1].SetActive(false);
         floors[2].SetActive(false);
+
+        /*quest에 따라 바뀌는 object 위치, 세팅을 설정하기*/
+        questManager.green3thfloor.SetActive(false);
     }
 
     public void secondFloorButton()
@@ -46,6 +53,10 @@ public class ElevatorManager : MonoBehaviour
         floors[0].SetActive(false);
         floors[1].SetActive(true);
         floors[2].SetActive(false);
+
+
+        /*quest에 따라 바뀌는 object 위치, 세팅을 설정하기*/
+        questManager.green3thfloor.SetActive(false);
     }
 
     public void thirdFloorButton()
@@ -56,6 +67,18 @@ public class ElevatorManager : MonoBehaviour
         floors[0].SetActive(false);
         floors[1].SetActive(false);
         floors[2].SetActive(true);
+
+
+
+        /*quest에 따라 바뀌는 object 위치, 세팅을 설정하기*/
+        if (questManager.questId == 90)
+        {
+            questManager.green3thfloor.SetActive(true);
+        }
+        else
+        {
+            questManager.green3thfloor.SetActive(false);
+        }
     }
 }
 

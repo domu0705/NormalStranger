@@ -25,6 +25,7 @@ public class TypeEffect : MonoBehaviour
 
     public void  SetMsg(string msg)
     {
+
         if (isAnim)//anim실행중에 space바 누르면
         {
             msgText.text = TargetMsg;
@@ -34,6 +35,7 @@ public class TypeEffect : MonoBehaviour
         else
         {
             TargetMsg = msg;
+            msgText.text = "";
             cutName(msg);
             EffectStart();
         }
@@ -47,7 +49,10 @@ public class TypeEffect : MonoBehaviour
             msgText.text = name + "]";
             index = name.Length+1;
         }
-        
+        else
+        {
+            index = 0;
+        }
     }
 
     // Update is called once per frame
@@ -67,7 +72,6 @@ public class TypeEffect : MonoBehaviour
             EffectEnd();
             return;
         }
-
         msgText.text += TargetMsg[index];
         
 

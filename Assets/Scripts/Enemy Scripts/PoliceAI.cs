@@ -9,15 +9,18 @@ public class PoliceAI : MonoBehaviour
     SpriteRenderer spriteRenderer;
 
     public Transform playerTrans;
-    public int speed;
+    public float speed;
     public int maxSpeed;
     public bool sideWalking;
-    public float detectDist;
+    public bool startChasing; // Police AI가 나타나도 말이 끝나고 추격을 시작해야함. 이걸 관리하는 변수.
+    public float detectDist; //특정 거리를 나타내는 변수. 플레이어와 일정거리 이하가 되면 쫒아가기위함.
 
-    float blockingCheck;
+    //float blockingCheck;
     float clock;
     Vector2 moveVec;
 
+
+   
     Transform prevPosition;
     void Awake()
     {
@@ -26,25 +29,33 @@ public class PoliceAI : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         prevPosition = this.transform;
 
-        blockingCheck = 1;
+        //blockingCheck = 1;
 
         
     }
     void Update()
     {
+        if (!startChasing)
+        {
+            return;
+        }
+          
         float distance = (playerTrans.position - this.transform.position).sqrMagnitude;
-        Debug.Log("지금 거리는 : " + distance);
         if (detectDist >= distance)
+        {
             changeDir();
+        }
+            
         else
         {
-            Debug.Log("멈춤");
             StopCoroutine("changeDir");
             rigid.velocity = new Vector2(0, 0);
 
         }
             
     }
+
+
     void changeDir()
     {
         moveVec = (playerTrans.position - this.transform.position).normalized;
