@@ -4,6 +4,18 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;//scene관련 함수를 사용하기 위해 필요함
 
+
+
+/*
+ * 기본 세팅 : 
+ * istfloor ->off
+ * 2nd floor -> 0n / 그 중 room A-> on,  room b->off,   2nd hall -> off             
+ * 3rd floor -> 0n / 그 아래 하위폴더들은 모두 off
+ * exit floor -> off
+ * elevator ->off
+ * repair component ->on / 그아래 하위폴더 3개는 모두 off
+ */
+
 public class GameManager : MonoBehaviour
 {
 
@@ -19,6 +31,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject gameOverPanel;
     public GameObject talkPanel;
+    public GameObject rule2Panel;
     public GameObject screenLightPanel; // Day가 바뀔때 켜지는 panel
     public GameObject blackoutPanel; // 정전일 때 켜지는 panel
     public GameObject scanObject;//현재 space바 눌러서 만난 object
@@ -83,16 +96,10 @@ public class GameManager : MonoBehaviour
             /*말풍선이 있다면 띄워주기*/
             talk(objData.id, objData.isNpc);
             talkPanel.SetActive(isAction);
+            Debug.Log("Action함수 끝");
         }
     }
 
-    /*
-    public void talkPanelCheck()
-    {
-        Debug.Log("지워버려");
-        talkPanel.SetActive(isAction);
-    }
-    */
 
     /*player가 한번 건드리면 없어져야하는 item을 없애준다. ex) 정전 수리 아이템은 주우면 사라져야함*/
     void eraseItem()
@@ -327,8 +334,6 @@ public class GameManager : MonoBehaviour
                 break;
 
         }
-
-        Debug.Log("원ㅅ상복귀하기");
         
         ObjectData playerObjData = player.GetComponent<ObjectData>();
         door.gameObject.layer = 10;
@@ -338,29 +343,30 @@ public class GameManager : MonoBehaviour
     }
 
 
-    /*game manager에서 상위 object를 꺼놓으면 여기서 아무리 하위 object를 켜도 안켜지는 점 주의하기
-     *  예를들어 여기서 2nd floor을 꺼버리면 그안의 Room A를 켜도 안보임. 
-     */
-    void elevator()
+   
+    public IEnumerator teleportToExit()
     {
-        Debug.Log("엘리베ㅣㅇ터 함수로 들어옴");
-
-        /*엘리베이터가 아닌 다른 공간은 모두 끄기*/
-        places[0].SetActive(false);
-        places[1].SetActive(false);
-        places[2].SetActive(false);
-        places[3].SetActive(false);
+        Debug.Log("플레이어 멈춰");
+        isPlayerPause = true;
         places[4].SetActive(false);
+        places[8].SetActive(true);
+        questManager.green3thfloor.SetActive(false);
 
-        //추격하던 PoliceAI가 있다면 끄기.
-        questManager.PoliceAisetActive(false);
+        /*플레이어 이동*/
+        player.transform.position = new Vector3(12.5f,15.8f, player.transform.position.z);
+        Vector3 targetPos = new Vector3(player.transform.position.x, player.transform.position.y-1.8f, player.transform.position.z);
+        autoMovement.startAutoMove(player.gameObject, targetPos, 1f);
+        yield return new WaitForSeconds(2);
 
 
-        /*엘리베이터 내부 이미지 및 UI켜기*/
-        elevatorManager.elevatorOn();
+
+        /*게임 설명 창 띄움*/
+        rule2Panel.SetActive(true);
+        
     }
 
 
+    /*화면 어둡게 및 밝게*/
     public void ScreenLightDarken(string dayText)
     {
         isPlayerPause = true;
@@ -430,6 +436,7 @@ public class GameManager : MonoBehaviour
     }
 
 
+    /*정전*/
     public void blackout()
     {
         blackoutPanel.SetActive(true);
@@ -473,6 +480,7 @@ public class GameManager : MonoBehaviour
         //string.Format("{0:n0}", player.score);
     }
 
+
     public void gameOver()
     {
         Debug.Log("게임 오버");
@@ -484,4 +492,40 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene(0);
     }
+
+    /*game manager에서 상위 object를 꺼놓으면 여기서 아무리 하위 object를 켜도 안켜지는 점 주의하기
+     *  예를들어 여기서 2nd floor을 꺼버리면 그안의 Room A를 켜도 안보임. 
+     */
+    void elevator()
+    {
+        /*엘리베이터가 아닌 다른 공간은 모두 끄기*/
+        places[0].SetActive(false);
+        places[1].SetActive(false);
+        places[2].SetActive(false);
+        places[3].SetActive(false);
+        places[4].SetActive(false);
+
+        //추격하던 PoliceAI가 있다면 끄기.
+        questManager.PoliceAisetActive(false);
+
+
+        /*엘리베이터 내부 이미지 및 UI켜기*/
+        elevatorManager.elevatorOn();
+    }
+
+    /*게임 룰 2 의 창을 닫는 함수*/
+    public void closeButton()
+    {
+        Debug.Log("창닫음");
+        /*창을 끔*/
+        rule2Panel.SetActive(false);
+
+        /*창을 닫으면 플레이어가 다시 움직일 수 있게 함*/
+        isPlayerPause = false;
+
+        /*피트라가 quest100에서 혼잣말 할 수 있게 변수 true로 바꿔줌*/
+        questManager.state1 = true;
+        questManager.ControlObject();
+    }
+
 }

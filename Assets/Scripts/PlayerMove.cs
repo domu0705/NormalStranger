@@ -160,6 +160,7 @@ public class PlayerMove : MonoBehaviour
         setDirRay(hDown, vDown, hUp, vUp);// 플레이어가 보는 앞 방향으로 물체 탐지용 ray를 그려주는 함수
     }
 
+
     void changeAnim()
     {
         if (manager.isAction && !(manager.isAutoMoving)) // player가 말하는 중이라면 움직이지 않게 한다.
@@ -219,27 +220,29 @@ public class PlayerMove : MonoBehaviour
     /* 스페이스바 누른다면*/
     public void scanObj()
     {
-        if (Input.GetButtonDown("Jump") && scanObject != null && manager.canPressSpace)
+        if (Input.GetButtonDown("Jump") && isFitraMonologing && manager.canPressSpace)
         {
-            if (isFitraMonologing)//혼잣말
-            {
-                manager.Action(this.gameObject);
-            }
-            else
-            {
-                Debug.Log("조사해");
-                manager.Action(scanObject);
-            }
+            manager.Action(this.gameObject);
         }
+        else if (Input.GetButtonDown("Jump") && scanObject != null && manager.canPressSpace)
+        {
+            manager.Action(scanObject);
+        }
+
     }
     
 
     // OnCollisionEnter은 collider/rigidbody에 다른 collider/rigidbody가 닿을 때 호출됨.
     void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.gameObject.tag == "Enemy")
+        if (other.gameObject.tag == "Enemy")
         {
             damaged(other.transform.position);
+        }
+
+        if (other.gameObject.tag == "Teleport To Exit Line")
+        {
+            StartCoroutine(manager.teleportToExit());
         }
     }
 

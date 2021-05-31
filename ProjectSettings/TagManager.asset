@@ -12,6 +12,7 @@ TagManager:
   - Talk Trigger Line
   - Jhonny Line
   - AI Chasing Line
+  - Teleport To Exit Line
   layers:
   - Default
   - TransparentFX

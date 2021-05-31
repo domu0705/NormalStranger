@@ -44,6 +44,7 @@ public class TalkManager : MonoBehaviour
          * repairshop AI bad : 80000
          * repairshop AI good : 90000
          * 닫힌 문 : 100000
+         * 
          
     */
     void GeneratePortraitData()
@@ -363,22 +364,27 @@ public class TalkManager : MonoBehaviour
                                               "[그린]" +"\n" + "\n" + "고마워요 피트라씨 :11",
                                               "[그린]" +"\n" + "\n" + "여기 아래가 택배 출입구로 가는 문이예요. :12",
                                               "[그린]" +"\n" + "\n" + "열기 전까지는 아무나, 정확히는.. 인공지능은 열수도 볼수도 없고...:13",
-                                              "[그린]" +"\n" + "\n" +  "피트라씨가 유일하게 탈출할 수 있는 길이죠. :13",
+                                           /*   "[그린]" +"\n" + "\n" +  "피트라씨가 유일하게 탈출할 수 있는 길이죠. :13",
                                               "[피트라]" +"\n" + "\n" + "정말.. 감사합니다 그린씨:2" ,
                                               "[그린]" +"\n" + "\n" + "저는 피트라씨를 뒤따라가는 로봇들을 최대한 꺼볼게요.:12",
                                               "[그린]" +"\n" + "\n" + "오는 길에.. 수리실에서 조종 리모컨을 하나 주웠...거든요.:11",
                                               "[피트라]" +"\n" + "\n" + "그럼...부탁드립니다:3" ,
-                                              "[그린]" +"\n" + "\n" + "행운을 빌게요. 나중에 또 봐요. :11",
+                                              "[그린]" +"\n" + "\n" + "행운을 빌게요. 나중에 또 봐요. :11",*/
                                               "[피트라]" +"\n" + "\n" + "나중에... 밖에서 봬요 그린씨. :2" ,
                                             });
 
+        talkData.Add(100 + 40000, new string[] { "[그린]" + "\n" + "\n" + "조심히 가요.:11" });
+        talkData.Add(100 + 10000, new string[] { "[피트라]" + "\n" + "\n" + "으악! 경찰이 한가득이잖아??:4" ,
+                                                 "[피트라]" + "\n" + "\n" + "뛰어!:4" ,
+                                                });
     }
 
     public string GetTalk (int id, int talkIndex) // .GetTalk(id + questTalkIndex, talkIndex) 이렇게 Game Manager에서쓰임
     {
-        //Debug.Log("id:" + id + "talkINdex: " + talkIndex);
+        Debug.Log("GetTalk에 들어옴. id:" + id + "talkINdex: " + talkIndex);
         if (!talkData.ContainsKey(id))// 특정퀘스트의 대사를 만들어놓지 않은 npc에게 말을 건다면?
         {
+            Debug.Log("이전 대사들 가져옴");
             //해당 퀘스트 진행 순서 중 대사가 없을 때
             if (!talkData.ContainsKey(id - id % 10))
             {   //퀘스트의 맨 처음 대사마져 없을 때는
@@ -413,7 +419,10 @@ public class TalkManager : MonoBehaviour
             return null;
         }
         else
+        {
+            Debug.Log("있는 말 바로 가져다 줌");
             return talkData[id][talkIndex];
+        }
     }
 
     public Sprite GetPortrait(int id, int portraitIndex)

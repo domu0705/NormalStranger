@@ -22,6 +22,7 @@ public class QuestManager : MonoBehaviour
     public GameObject green3thfloor;
     public GameObject benny;
     public GameObject[] policeAIAry;
+    public GameObject[] ExitpoliceAIAry;//exit에서 나오는 police ai들의 그룹
     public GameObject fitraDesk;
     public GameObject talkTriggerLine; // 필요할때 setactive true로 해두고 끝나면 바로 끔.
     public GameObject JhonnyLine;
@@ -81,7 +82,7 @@ public class QuestManager : MonoBehaviour
         questList.Add(70, new QuestData("신디씨에게 가보자.", new int[] { 6000, 30000  }));
         questList.Add(80, new QuestData("건물을 나가자.", new int[] { 9000,8000, 7500 }));
         questList.Add(90, new QuestData("도움 받을만한 사람을 찾아보자", new int[] { 6500,40000 }));
-        questList.Add(100, new QuestData("Game Clear.", new int[] { 0 }));
+        questList.Add(100, new QuestData("건물을 탈출하자.", new int[] { 10000, 200000 }));
         questList.Add(110, new QuestData("Game Clear.", new int[] { 0 }));
     }
 
@@ -425,7 +426,7 @@ public class QuestManager : MonoBehaviour
                             Debug.Log("AI Chasing 말 시작");
                             scanObj.isChecked = true;
                             manager.Action(scanObj.gameObject);
-                            state1 = true;
+                            
                         }
                     }
                 }
@@ -435,7 +436,6 @@ public class QuestManager : MonoBehaviour
                 {
                     foreach (GameObject policeAI in policeAIAry)
                     {
-
                         PoliceAiStartChasing(policeAI);
                     }
                 }
@@ -447,8 +447,32 @@ public class QuestManager : MonoBehaviour
                     exitBlocker.SetActive(false);
                 }
 
-                    break;
+
+                /*player script에서 collider에 닿으면 exit floor로 순간이동하면서 rule설명 창이 열림 (gamemanager 의 teleportToExit함수가 호출됨)*/
+
+                break;
             case 100:
+
+                /*피트라가 경찰 발결하고 "뛰어"라고 말함*/
+                if(questActionIndex == 0 && state1)
+                {
+                    Debug.Log("말해");
+                    state1 = false;
+                    player.isFitraMonologing = true;// 피트라가 혼자말하게 함. 무조건 scanobj가 fitra로 바뀜.
+                    manager.Action(playerObject); // 도망쳐!
+                  
+                }
+
+                /*police ai들이 피트라를 쫒아가기 시작함*/
+                if (questActionIndex == 1 && player.isFitraMonologing)
+                {
+                    player.isFitraMonologing = false;
+                    foreach (GameObject policeAI in ExitpoliceAIAry)
+                    {
+                        PoliceAiStartChasing(policeAI);
+                    }
+                }
+
                 break;
 
 

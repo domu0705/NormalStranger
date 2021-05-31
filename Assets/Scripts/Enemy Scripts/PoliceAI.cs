@@ -29,9 +29,6 @@ public class PoliceAI : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         prevPosition = this.transform;
 
-        //blockingCheck = 1;
-
-        
     }
     void Update()
     {

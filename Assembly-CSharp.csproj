@@ -76,6 +76,7 @@
     <Compile Include="Assets\Scripts\QuestManager.cs" />
     <Compile Include="Assets\Scripts\ScreenLight.cs" />
     <Compile Include="Assets\Scripts\TalkManager.cs" />
+    <Compile Include="Assets\Scripts\TeleportToExit.cs" />
     <Compile Include="Assets\Scripts\TypeEffect.cs" />
     <Compile Include="Assets\Scripts\autoMove.cs" />
     <Reference Include="UnityEngine">
