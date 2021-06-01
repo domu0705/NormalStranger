@@ -13,6 +13,7 @@ TagManager:
   - Jhonny Line
   - AI Chasing Line
   - Teleport To Exit Line
+  - Exit Talk Trigger Line
   layers:
   - Default
   - TransparentFX
@@ -32,7 +33,7 @@ TagManager:
   - Opened Door
   - Police Enemy
   - Player Damaged
-  - 
+  - Police Enemy Power Off
   - 
   - 
   - 

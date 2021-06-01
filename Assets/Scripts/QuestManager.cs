@@ -82,7 +82,7 @@ public class QuestManager : MonoBehaviour
         questList.Add(70, new QuestData("신디씨에게 가보자.", new int[] { 6000, 30000  }));
         questList.Add(80, new QuestData("건물을 나가자.", new int[] { 9000,8000, 7500 }));
         questList.Add(90, new QuestData("도움 받을만한 사람을 찾아보자", new int[] { 6500,40000 }));
-        questList.Add(100, new QuestData("건물을 탈출하자.", new int[] { 10000, 200000 }));
+        questList.Add(100, new QuestData("건물을 탈출하자.", new int[] { 10000, 9500, 200000 }));
         questList.Add(110, new QuestData("Game Clear.", new int[] { 0 }));
     }
 
@@ -470,6 +470,29 @@ public class QuestManager : MonoBehaviour
                     foreach (GameObject policeAI in ExitpoliceAIAry)
                     {
                         PoliceAiStartChasing(policeAI);
+                    }
+                    state1 = true;
+                    manager.checkControlState = true; // 아래 if문에서 사용
+                }
+
+                /*피트라가 "..출구다" 라고 말함*/
+                if (questActionIndex == 1 && state1)
+                {
+                    if (player.scanObject && player.scanObject.gameObject.tag == "Exit Talk Trigger Line")
+                    {
+                        Debug.Log("100 선 넘음");
+                        manager.checkControlState = false;//playerMove의 fixedupdate에서 계속 controlObject를 부르지 않도록 다시 변수를 false로 바꿈
+                        ObjectData scanObj = player.scanObject.GetComponent<ObjectData>();
+                        if (scanObj.isChecked)
+                            break;
+                        else
+                        {
+                            Debug.Log("100 말 시작");
+                            manager.Action(talkTriggerLine);
+                            scanObj.isChecked = true;
+                            manager.checkControlState = true;
+                        }
+
                     }
                 }
 

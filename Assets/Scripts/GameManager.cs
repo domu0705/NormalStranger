@@ -105,7 +105,7 @@ public class GameManager : MonoBehaviour
     void eraseItem()
     {
         Debug.Log("지울까?");
-        if ((objData.id == 4000) || (objData.id == 6000) || (objData.id == 6500) || (objData.id == 7000) || (objData.id == 7500))
+        if ((objData.id == 4000) || (objData.id == 6000) || (objData.id == 6500) || (objData.id == 7000) || (objData.id == 7500) || (objData.id == 9500))
         {
             objData.gameObject.SetActive(false);
             Debug.Log("지워버려");

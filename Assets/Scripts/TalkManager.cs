@@ -30,6 +30,7 @@ public class TalkManager : MonoBehaviour
         7500 : quest 70 에 쓰이는 Anim Trigger Line(2st floor 조니 상사의 자리)
         8000 : Human Door (1st floor)
         9000 : AI Door (1st floor)
+        9500 : quest 100 에 쓰이는 exit talk Trigger Line
         9999: 아무것도 없는 물건.
         
     
@@ -373,10 +374,14 @@ public class TalkManager : MonoBehaviour
                                               "[피트라]" +"\n" + "\n" + "나중에... 밖에서 봬요 그린씨. :2" ,
                                             });
 
+
+
+        /*quest 100 탈출하자*/
         talkData.Add(100 + 40000, new string[] { "[그린]" + "\n" + "\n" + "조심히 가요.:11" });
         talkData.Add(100 + 10000, new string[] { "[피트라]" + "\n" + "\n" + "으악! 경찰이 한가득이잖아??:4" ,
                                                  "[피트라]" + "\n" + "\n" + "뛰어!:4" ,
                                                 });
+        talkData.Add(101 + 10000, new string[] { "[피트라]" + "\n" + "\n" + "...출구다:4" });
     }
 
     public string GetTalk (int id, int talkIndex) // .GetTalk(id + questTalkIndex, talkIndex) 이렇게 Game Manager에서쓰임

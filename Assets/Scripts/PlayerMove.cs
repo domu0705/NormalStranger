@@ -63,6 +63,9 @@ public class PlayerMove : MonoBehaviour
             
                 //플레이어의 animation을 변경
                 changeAnim();
+
+                //마우스 입력 받기
+                getMouseButton();
             }
             
 
@@ -155,7 +158,6 @@ public class PlayerMove : MonoBehaviour
                                                               //animation에서 어쨌든 isVertical도 0보다 크니까 자꾸 위보는 에니메이션을 실행시키는 듯. (anystate에서 위로도 갈수있고 오른쪽으로도 갈수 있게 되는데 그냥 위로 가는듯.)
                                                               //에니메이션이 계속 위로 가는 에니메이션에 멈춰있는 것 막기 위함. 
         }
-        
 
         setDirRay(hDown, vDown, hUp, vUp);// 플레이어가 보는 앞 방향으로 물체 탐지용 ray를 그려주는 함수
     }
@@ -243,6 +245,33 @@ public class PlayerMove : MonoBehaviour
         if (other.gameObject.tag == "Teleport To Exit Line")
         {
             StartCoroutine(manager.teleportToExit());
+        }
+    }
+
+
+
+    void getMouseButton()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            GameObject targetPoliceAI;
+
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit2D rayHit = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity, LayerMask.GetMask("Police Enemy"));
+
+            if (rayHit.collider != null)//부딪힌 사물이 있다면
+            {
+                targetPoliceAI = rayHit.collider.gameObject;
+                PoliceAI policeScript = targetPoliceAI.GetComponent<PoliceAI>();
+
+                if (policeScript.startChasing)//움직이기 전에 꺼버리면 안되니까 움직이는 것들만 끌수 있게 함.
+                {
+                    policeScript.powerOff = true;
+                    policeScript.policePowerOff();
+                }
+                
+            }
+
         }
     }
 
