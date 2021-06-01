@@ -246,10 +246,16 @@ public class PlayerMove : MonoBehaviour
         {
             StartCoroutine(manager.teleportToExit());
         }
+
+        if (other.gameObject.tag == "Teleport To Outside")
+        {
+            StartCoroutine(manager.teleportToOutside());
+        }
+
     }
 
 
-
+    //police ai를 멈취 위해 마우스 좌클릭을 감지할 때 사용.
     void getMouseButton()
     {
         if (Input.GetMouseButtonDown(0))

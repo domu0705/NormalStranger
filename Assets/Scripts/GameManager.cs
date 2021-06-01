@@ -67,6 +67,9 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log(questManager.CheckQuest());
         heartChanged();
+
+        Screen.SetResolution(Screen.width, Screen.width * 16 / 9,  true); // 16:9 로 개발시
+        //Screen.SetResolution(1980, 1080, true);
         //cameraManager.UseFirstCamera();
     }
 
@@ -364,6 +367,29 @@ public class GameManager : MonoBehaviour
         rule2Panel.SetActive(true);
         
     }
+
+    public IEnumerator teleportToOutside()
+    {
+        Debug.Log("플레이어 멈춰");
+        isPlayerPause = true;
+        places[8].SetActive(false);
+        places[8].SetActive(true);
+
+        /*플레이어 이동*/
+        player.transform.position = new Vector3(40.4f, 14.27f, player.transform.position.z);
+        Vector3 targetPos = new Vector3(player.transform.position.x +3f, player.transform.position.y, player.transform.position.z);
+        autoMovement.startAutoMove(player.gameObject, targetPos, 1f);
+        yield return new WaitForSeconds(2);
+
+
+
+        /*피트라의 마지막 멘트*/
+
+        
+
+    }
+
+
 
 
     /*화면 어둡게 및 밝게*/

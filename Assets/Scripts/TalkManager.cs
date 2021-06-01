@@ -8,6 +8,7 @@ public class TalkManager : MonoBehaviour
     Dictionary<int, Sprite> portraitData;
     public Sprite[] portraitArr;
 
+    int errorCount;
     void Awake()
     {
         talkData = new Dictionary<int, string[]>();
@@ -381,7 +382,15 @@ public class TalkManager : MonoBehaviour
         talkData.Add(100 + 10000, new string[] { "[피트라]" + "\n" + "\n" + "으악! 경찰이 한가득이잖아??:4" ,
                                                  "[피트라]" + "\n" + "\n" + "뛰어!:4" ,
                                                 });
-        talkData.Add(101 + 10000, new string[] { "[피트라]" + "\n" + "\n" + "...출구다:4" });
+        talkData.Add(101 + 9500, new string[] { "[피트라]" + "\n" + "\n" + "...출구다:4",
+                                                "[피트라]" + "\n" + "\n" + "내가..해냈어:3",
+                                                });
+
+        /*quest 110 첫 걸음*/
+        talkData.Add(110 + 9500, new string[] { "[피트라]" + "\n" + "\n" + "...:2",
+                                                "[피트라]" + "\n" + "\n" + "이제 프로그래밍 된 일은 끝났어:2",
+                                                "[피트라]" + "\n" + "\n" + "내 맘대로 걸어볼까?:1",
+                                                });
     }
 
     public string GetTalk (int id, int talkIndex) // .GetTalk(id + questTalkIndex, talkIndex) 이렇게 Game Manager에서쓰임
@@ -394,6 +403,11 @@ public class TalkManager : MonoBehaviour
             if (!talkData.ContainsKey(id - id % 10))
             {   //퀘스트의 맨 처음 대사마져 없을 때는
                 //기본 대사를 가지고 온다.
+                errorCount++;
+                if (errorCount > 10000)
+                {
+                    return "안돼 에러남";
+                }
                 return GetTalk(id - id % 100, talkIndex);
 
                 /*

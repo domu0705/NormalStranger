@@ -14,6 +14,7 @@ TagManager:
   - AI Chasing Line
   - Teleport To Exit Line
   - Exit Talk Trigger Line
+  - Teleport To Outside
   layers:
   - Default
   - TransparentFX

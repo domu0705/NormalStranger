@@ -28,7 +28,9 @@ public class QuestManager : MonoBehaviour
     public GameObject JhonnyLine;
 
     public GameObject secretExitTilemap;//3층의 비밀통로
+    public GameObject exitTalkTriggerLine; // 필요할때 setactive true로 해두고 끝나면 바로 끔.
     public GameObject exitBlocker; // 3층의 비밀길이 열리기 전 막고있던 collider
+
     public Vector3 MarinPos;
 
 
@@ -82,8 +84,9 @@ public class QuestManager : MonoBehaviour
         questList.Add(70, new QuestData("신디씨에게 가보자.", new int[] { 6000, 30000  }));
         questList.Add(80, new QuestData("건물을 나가자.", new int[] { 9000,8000, 7500 }));
         questList.Add(90, new QuestData("도움 받을만한 사람을 찾아보자", new int[] { 6500,40000 }));
-        questList.Add(100, new QuestData("건물을 탈출하자.", new int[] { 10000, 9500, 200000 }));
-        questList.Add(110, new QuestData("Game Clear.", new int[] { 0 }));
+        questList.Add(100, new QuestData("건물을 탈출하자.", new int[] { 10000, 9500 }));
+        questList.Add(110, new QuestData("첫 발걸음.", new int[] { 10000 }));
+        questList.Add(120, new QuestData("Game Clear.", new int[] { 0 }));
     }
 
     public int GetQuestTalkIndex(int id) //quest번호를 반환
@@ -475,7 +478,7 @@ public class QuestManager : MonoBehaviour
                     manager.checkControlState = true; // 아래 if문에서 사용
                 }
 
-                /*피트라가 "..출구다" 라고 말함*/
+                /*피트라가 "..출구다" 라고 말함.  Police AI 를 멈추기*/
                 if (questActionIndex == 1 && state1)
                 {
                     if (player.scanObject && player.scanObject.gameObject.tag == "Exit Talk Trigger Line")
@@ -487,8 +490,13 @@ public class QuestManager : MonoBehaviour
                             break;
                         else
                         {
+                            /*Police AI 를 멈추기*/
+                            foreach (GameObject policeAI in ExitpoliceAIAry)
+                            {
+                                PoliceAiStopChasing(policeAI);
+                            }
                             Debug.Log("100 말 시작");
-                            manager.Action(talkTriggerLine);
+                            manager.Action(exitTalkTriggerLine);
                             scanObj.isChecked = true;
                             manager.checkControlState = true;
                         }
@@ -550,6 +558,14 @@ public class QuestManager : MonoBehaviour
         PoliceAI policeAIScript = policeAI.GetComponent<PoliceAI>();
         policeAIScript.startChasing = true;
     }
+
+    /*police AI가 추격을 멈추게 하는 함수*/
+    void PoliceAiStopChasing(GameObject policeAI)
+    {
+        PoliceAI policeAIScript = policeAI.GetComponent<PoliceAI>();
+        policeAIScript.startChasing = false;
+    }
+
 
 
     /*마린을 피트라 옆으로 이동시키는 함수*/
