@@ -387,7 +387,7 @@ public class TalkManager : MonoBehaviour
                                                 });
 
         /*quest 110 첫 걸음*/
-        talkData.Add(110 + 9500, new string[] { "[피트라]" + "\n" + "\n" + "...:2",
+        talkData.Add(110 + 10000, new string[] { "[피트라]" + "\n" + "\n" + "...:2",
                                                 "[피트라]" + "\n" + "\n" + "이제 프로그래밍 된 일은 끝났어:2",
                                                 "[피트라]" + "\n" + "\n" + "내 맘대로 걸어볼까?:1",
                                                 });
@@ -398,7 +398,6 @@ public class TalkManager : MonoBehaviour
         Debug.Log("GetTalk에 들어옴. id:" + id + "talkINdex: " + talkIndex);
         if (!talkData.ContainsKey(id))// 특정퀘스트의 대사를 만들어놓지 않은 npc에게 말을 건다면?
         {
-            Debug.Log("이전 대사들 가져옴");
             //해당 퀘스트 진행 순서 중 대사가 없을 때
             if (!talkData.ContainsKey(id - id % 10))
             {   //퀘스트의 맨 처음 대사마져 없을 때는
@@ -439,7 +438,6 @@ public class TalkManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("있는 말 바로 가져다 줌");
             return talkData[id][talkIndex];
         }
     }

@@ -13,7 +13,7 @@ public class PlayerMove : MonoBehaviour
 {
     Rigidbody2D rigid;
     BoxCollider2D boxCollider;
-    SpriteRenderer spriteRenderer;
+    public SpriteRenderer spriteRenderer;
     public Vector3 dirRayVec;//플레이어 앞방향으로 나가는 탐지용 ray
 
     public GameManager manager;
@@ -249,7 +249,7 @@ public class PlayerMove : MonoBehaviour
 
         if (other.gameObject.tag == "Teleport To Outside")
         {
-            StartCoroutine(manager.teleportToOutside());
+            manager.teleportToOutside();
         }
 
     }

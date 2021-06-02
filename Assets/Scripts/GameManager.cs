@@ -29,7 +29,9 @@ public class GameManager : MonoBehaviour
     public Animator portraitLeftAnimator;
     public Animator portraitRightAnimator;
 
+    public GameObject gameUIPanel; 
     public GameObject gameOverPanel;
+    public GameObject gameClearPanel;
     public GameObject talkPanel;
     public GameObject rule2Panel;
     public GameObject screenLightPanel; // Day가 바뀔때 켜지는 panel
@@ -368,25 +370,20 @@ public class GameManager : MonoBehaviour
         
     }
 
-    public IEnumerator teleportToOutside()
+    public void teleportToOutside()
     {
         Debug.Log("플레이어 멈춰");
         isPlayerPause = true;
         places[8].SetActive(false);
-        places[8].SetActive(true);
+        places[9].SetActive(true);
 
-        /*플레이어 이동*/
+        /*출입문 앞으로 이동 & 피트라가 앞을 보도록 돌려놓기*/
         player.transform.position = new Vector3(40.4f, 14.27f, player.transform.position.z);
-        Vector3 targetPos = new Vector3(player.transform.position.x +3f, player.transform.position.y, player.transform.position.z);
-        autoMovement.startAutoMove(player.gameObject, targetPos, 1f);
-        yield return new WaitForSeconds(2);
+        player.anim.SetTrigger("seeFront");
 
 
-
-        /*피트라의 마지막 멘트*/
-
-        
-
+        /*다음 동작이 이뤄지도록 questmanager.ControlObject() 를 부름 */
+        questManager.ControlObject();
     }
 
 
@@ -416,22 +413,33 @@ public class GameManager : MonoBehaviour
             if (a >= 1)
             {
                 isDarkning = false;
-                ScreenLightBrighten();
-                if(dayText != "")
+
+
+                if (dayText == "Thanks for Playing!")
                 {
-                    /*가장 어두워졌을 때 피트라가 앞을 보도록 돌려놓기*/
-                    player.anim.SetTrigger("seeFront");
-                    player.dirRayVec = Vector3.down;
+                    Debug.Log("Thanks for Playing이 들어옴");
+                    gameClearPanel.SetActive(true);
+                    
                 }
-                if(dayText == "Day 3")
+                else
                 {
-                    Debug.Log("문앞으로 순간이동 뿅");
-                    places[0].SetActive(true);
-                    places[7].SetActive(false);
-                    player.transform.position = new Vector3(21.15f, 15.08f, 0);
-                    questManager.green.SetActive(false);
+                    if (dayText != "")
+                    {
+                        /*가장 어두워졌을 때 피트라가 앞을 보도록 돌려놓기*/
+                        player.anim.SetTrigger("seeFront");
+                        player.dirRayVec = Vector3.down;
+                        ScreenLightBrighten();
+                    }
+                    if (dayText == "Day 3")
+                    {
+                        Debug.Log("문앞으로 순간이동 뿅");
+                        places[0].SetActive(true);
+                        places[7].SetActive(false);
+                        player.transform.position = new Vector3(21.15f, 15.08f, 0);
+                        questManager.green.SetActive(false);
+                        ScreenLightBrighten();
+                    }
                 }
-                
             }
         }
     }
@@ -553,5 +561,6 @@ public class GameManager : MonoBehaviour
         questManager.state1 = true;
         questManager.ControlObject();
     }
+
 
 }
