@@ -54,7 +54,6 @@ public class QuestManager : MonoBehaviour
     {
         questList = new Dictionary<int, QuestData>();
         GenerateData();
-        ControlObject();//첫대화 시작용
     }
 
 
@@ -150,11 +149,8 @@ public class QuestManager : MonoBehaviour
                 if (questActionIndex == 0 && manager.talkIndex == 0  && !state1)
                 {
                     state1 = true;
-                    manager.isPlayerPause = true;
-                    //플레이어가 왼쪽을 보게 함.
-                    player.dirRayVec = Vector3.left;
-                    player.anim.SetTrigger("walkSide");
-                    player.spriteRenderer.flipX = true;
+                    
+                    
                     Debug.Log("첫 대화 시작"+ player.scanObject);
                     Invoke("jhonnyTalkToFitra", 1);
                     
@@ -162,6 +158,8 @@ public class QuestManager : MonoBehaviour
                 }
                 if(questActionIndex == 1)
                 {
+                    Debug.Log("ControlObject 여기서 playerpause 를 flase로 바꿨어");
+
                     manager.isPlayerPause = false;
 
                 }

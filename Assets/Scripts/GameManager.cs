@@ -18,6 +18,7 @@ using UnityEngine.SceneManagement;//scene관련 함수를 사용하기 위해 �
 
 public class GameManager : MonoBehaviour
 {
+   // public AudioSource endingTheme;
 
     public TalkManager talkManager;
     public QuestManager questManager;
@@ -29,7 +30,8 @@ public class GameManager : MonoBehaviour
     public Animator portraitLeftAnimator;
     public Animator portraitRightAnimator;
 
-    public GameObject gameUIPanel; 
+    public GameObject gameUIPanel;
+    public GameObject gameStartPanel;
     public GameObject gameOverPanel;
     public GameObject gameClearPanel;
     public GameObject talkPanel;
@@ -51,6 +53,7 @@ public class GameManager : MonoBehaviour
     public bool canPressSpace;  //player가 space바를 누를 수 있는지 없는지를 결정하는 변수.
     public bool isAutoMoving;
     public bool checkControlState;//playermove에서 controlobject함수를 강제로 불러야 하는 상황에서 사용하는 변수임.
+    public bool startFirstTalk;// 게임이 시작하며 화면이 밝아질 때는 ScreenBrighten 함수 안에서 플레이어 관련 설정을 건드리지 않기 위해 만든 변수.
 
     public Image portraitLeftImg;
     public Image portraitRightImg;
@@ -69,12 +72,51 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log(questManager.CheckQuest());
         heartChanged();
-
+        startFirstTalk = true;
         Screen.SetResolution(Screen.width, Screen.width * 16 / 9,  true); // 16:9 로 개발시
         //Screen.SetResolution(1980, 1080, true);
         //cameraManager.UseFirstCamera();
+
+        /*게임 시작 화면에서 플레이어가 이동하지 못하도록 함*/
+        isPlayerPause = true;
     }
 
+
+    public void GameStart()
+    {
+
+        Debug.Log("Gamestart 함수 시작함");
+        //menuCam.SetActive(false);
+        //gameCam.SetActive(true);
+        gameStartPanel.SetActive(false);
+        gameUIPanel.SetActive(true);
+
+        //화면 어두웠다가 밝아지기
+        screenLightPanel.SetActive(true);
+        screenLightImg.color = new Color(screenLightImg.color.r, screenLightImg.color.g, screenLightImg.color.b, 1);
+        
+        
+        //플레이어가 왼쪽을 보게 함.
+        player.dirRayVec = Vector3.left;
+        player.anim.SetTrigger("walkSide");
+        player.spriteRenderer.flipX = true;
+
+        Invoke("callScreenBrighten", 1);
+        //조니와 피트라의 대화가 시작되는 함수 호출
+        Invoke("firstTalkstart", 2);
+   
+    }
+    void callScreenBrighten()
+    {
+        StartCoroutine("ScreenBrighten");
+    }
+    void firstTalkstart()
+    {
+        questManager.ControlObject();//첫대화 시작용
+
+        //shopSound.Play();
+        //stageSound.Stop();
+    }
 
     /*space bar 누를때 실행되는 함수
       함수의 실행을 위해서는 object의 layer을 ispectObject로 바꿔주는 것 잊지 말기. 
@@ -245,7 +287,7 @@ public class GameManager : MonoBehaviour
     }
 
 
-    /*공간 이동하기*/
+    /*문으로 공간 이동하기*/
     IEnumerator door(GameObject scanObj)
     {
         Debug.Log("door함수에 들어감");
@@ -348,7 +390,8 @@ public class GameManager : MonoBehaviour
     }
 
 
-   
+
+    /*3층에서 택배 보관실 통로로 이동시키기*/
     public IEnumerator teleportToExit()
     {
         Debug.Log("플레이어 멈춰");
@@ -370,6 +413,9 @@ public class GameManager : MonoBehaviour
         
     }
 
+
+
+    /*택배 보관실에서 건물 밖 거리로 이동시키기*/
     public void teleportToOutside()
     {
         Debug.Log("플레이어 멈춰");
@@ -385,7 +431,6 @@ public class GameManager : MonoBehaviour
         /*다음 동작이 이뤄지도록 questmanager.ControlObject() 를 부름 */
         questManager.ControlObject();
     }
-
 
 
 
@@ -414,12 +459,10 @@ public class GameManager : MonoBehaviour
             {
                 isDarkning = false;
 
-
                 if (dayText == "Thanks for Playing!")
                 {
                     Debug.Log("Thanks for Playing이 들어옴");
                     gameClearPanel.SetActive(true);
-                    
                 }
                 else
                 {
@@ -461,9 +504,20 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(0.005f);
             if (a <= 0)
             {
-                isBrightning = false;
-                isPlayerPause = false;
-                canPressSpace = true;
+                if (!startFirstTalk)//게임 시작화면이 아니라면
+                {
+                    Debug.Log("스크린 밝아지는거 안됨");
+                    isBrightning = false;
+                    isPlayerPause = false;
+                    canPressSpace = true;
+                }
+                else
+                {//게임 시작하며 조니와 말할때라면
+                    startFirstTalk = false;
+                    isBrightning = false;
+                    Debug.Log("스크린 밝아지는거 잘됨");
+                }
+
                 screenLightPanel.SetActive(false);
             }
         }
