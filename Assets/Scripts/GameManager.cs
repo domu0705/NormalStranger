@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour
     public GameObject gameOverPanel;
     public GameObject gameClearPanel;
     public GameObject talkPanel;
+    public GameObject rule1Panel; // 게임 조작법 설명 panel
     public GameObject rule2Panel;
     public GameObject screenLightPanel; // Day가 바뀔때 켜지는 panel
     public GameObject blackoutPanel; // 정전일 때 켜지는 panel
@@ -261,7 +262,7 @@ public class GameManager : MonoBehaviour
             {
                 if (objData.isChecked)//이미 확인했던 Locker 라면 아이템이 계속 나오면 안됨
                 {
-                    typeEffect.SetMsg("..이미 열었던 곳이야");
+                    typeEffect.SetMsg("\n" + "\n" + "..이미 열었던 곳이야");
                 }
                 else//처음 확인하는 Locker 이라면 energy booster을 얻는다.
                 {
@@ -600,6 +601,26 @@ public class GameManager : MonoBehaviour
         /*엘리베이터 내부 이미지 및 UI켜기*/
         elevatorManager.elevatorOn();
     }
+
+
+    /*게임 룰 2 의 창을 닫는 함수*/
+    public void rule1Button()
+    {
+        /*창을 끄고 시작 화면 창 띄움*/
+        rule1Panel.SetActive(true);
+        gameStartPanel.SetActive(false);
+    }
+
+
+    /*게임 룰 2 의 창을 닫는 함수*/
+    public void closeButton1()
+    {
+        Debug.Log("창닫음");
+        /*창을 끄고 시작 화면 창 띄움*/
+        rule1Panel.SetActive(false);
+        gameStartPanel.SetActive(true);
+    }
+
 
     /*게임 룰 2 의 창을 닫는 함수*/
     public void closeButton()

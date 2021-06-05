@@ -12351,7 +12351,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &319542233
 RectTransform:
   m_ObjectHideFlags: 0
@@ -29873,7 +29873,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1249100092}
-        m_MethodName: closeButton
+        m_MethodName: closeButton1
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -40430,6 +40430,81 @@ Transform:
   m_Father: {fileID: 1192477205}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &680200139
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 680200140}
+  - component: {fileID: 680200142}
+  - component: {fileID: 680200141}
+  m_Layer: 5
+  m_Name: Keyboard Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &680200140
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 680200139}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.65, y: 0.65, z: 0.65}
+  m_Children: []
+  m_Father: {fileID: 2100649109}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -40, y: 0}
+  m_SizeDelta: {x: 1962.5, y: 937.5}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &680200141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 680200139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: -5690122954830693929, guid: eefb76e08dd943741b2bfed51e3fbb23,
+    type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &680200142
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 680200139}
+  m_CullTransparentMesh: 0
 --- !u!1 &680898933
 GameObject:
   m_ObjectHideFlags: 0
@@ -54024,7 +54099,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 0.68
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -74658,7 +74733,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d7968ce91698fd4fbb6f79522f8bebf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 200
+  id: 2000
   isNpc: 0
   isChecked: 0
   isArrived: 0
@@ -74780,6 +74855,7 @@ MonoBehaviour:
   gameOverPanel: {fileID: 862362007}
   gameClearPanel: {fileID: 2103520454}
   talkPanel: {fileID: 1611129559}
+  rule1Panel: {fileID: 319542232}
   rule2Panel: {fileID: 1119259467}
   screenLightPanel: {fileID: 989325843}
   blackoutPanel: {fileID: 961376682}
@@ -77673,7 +77749,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1337456792
 Transform:
   m_ObjectHideFlags: 0
@@ -87835,7 +87911,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1249100092}
-        m_MethodName: GameStart
+        m_MethodName: rule1Button
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -106724,7 +106800,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1892794651
 RectTransform:
   m_ObjectHideFlags: 0
@@ -116053,6 +116129,7 @@ RectTransform:
   - {fileID: 137302128}
   - {fileID: 1933248280}
   - {fileID: 614846716}
+  - {fileID: 680200140}
   m_Father: {fileID: 319542233}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
