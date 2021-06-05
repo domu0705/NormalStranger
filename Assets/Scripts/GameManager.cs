@@ -14,6 +14,12 @@ using UnityEngine.SceneManagement;//scene관련 함수를 사용하기 위해 �
  * exit floor -> off
  * elevator ->off
  * repair component ->on / 그아래 하위폴더 3개는 모두 off
+ * 
+ * 
+ * 변수
+ * state1 = false
+ * checkControlState = false;
+ * startQuest - false;
  */
 
 public class GameManager : MonoBehaviour
@@ -41,6 +47,10 @@ public class GameManager : MonoBehaviour
     public GameObject blackoutPanel; // 정전일 때 켜지는 panel
     public GameObject scanObject;//현재 space바 눌러서 만난 object
     public GameObject[] places;
+
+    /*음악들*/
+    public AudioSource endingBGM;
+
 
     public Text heartText;
     public Text screenLightDayText;
@@ -79,16 +89,20 @@ public class GameManager : MonoBehaviour
         //cameraManager.UseFirstCamera();
 
         /*게임 시작 화면에서 플레이어가 이동하지 못하도록 함*/
-        isPlayerPause = true;
+        isPlayerPause = true;// test할떄는 꺼두기.
+        player.transform.position = new Vector3(-1.88f, -2.02f, player.transform.position.z);//조니 옆으로 위치 옮겨두기
+
+        /*BGM 켜기*/
+        endingBGM.Play();
+        
     }
 
 
     public void GameStart()
     {
-
+        
         Debug.Log("Gamestart 함수 시작함");
-        //menuCam.SetActive(false);
-        //gameCam.SetActive(true);
+        
         gameStartPanel.SetActive(false);
         gameUIPanel.SetActive(true);
 
@@ -124,23 +138,38 @@ public class GameManager : MonoBehaviour
     */
     public void Action(GameObject scanObj) 
     {
-        Debug.Log("action함수 시작");
+        Debug.Log("action함수 시작. scanObj는" + scanObj);
         scanObject = scanObj;
         objData = scanObj.GetComponent<ObjectData>();
 
-        if(scanObj.tag == "Door" && questManager.questId !=90)
+        if(scanObj.tag == "Door")
         {
-         
+            DoorData doorScript = scanObject.GetComponent<DoorData>();
+            if (questManager.questId == 90 && doorScript.type != DoorData.DoorType.DoorAOut)//case 90에서는 문 안으로 들어가면 안됨. 잠겨있다는 말 띄워주기. room a에서 나갈떄만 문 열어주기.
+            {
+                /*말풍선이 있다면 띄워주기*/
+                talk(objData.id, objData.isNpc);
+                talkPanel.SetActive(isAction);
+            }
+            else
+            {
             /*공간 이동하기. (문을 통해 장소 이동)*/
-            isPlayerPause = true;
-            StartCoroutine( door(scanObj));
+                isPlayerPause = true;
+                StartCoroutine( door(scanObj));
+            }
+            
         }
         else if (scanObj.tag == "Elevator")
         {
             elevator();
         }
+        else if(scanObj.tag == "Anim Trigger Line")//말걸면 안되는 선
+        {
+            return;
+        }
         else
         {
+            
             /*말풍선이 있다면 띄워주기*/
             talk(objData.id, objData.isNpc);
             talkPanel.SetActive(isAction);
@@ -428,7 +457,7 @@ public class GameManager : MonoBehaviour
         player.transform.position = new Vector3(40.4f, 14.27f, player.transform.position.z);
         player.anim.SetTrigger("seeFront");
 
-
+        questManager.state1 = true;
         /*다음 동작이 이뤄지도록 questmanager.ControlObject() 를 부름 */
         questManager.ControlObject();
     }
@@ -467,22 +496,33 @@ public class GameManager : MonoBehaviour
                 }
                 else
                 {
-                    if (dayText != "")
-                    {
-                        /*가장 어두워졌을 때 피트라가 앞을 보도록 돌려놓기*/
-                        player.anim.SetTrigger("seeFront");
-                        player.dirRayVec = Vector3.down;
-                        ScreenLightBrighten();
-                    }
                     if (dayText == "Day 3")
                     {
                         Debug.Log("문앞으로 순간이동 뿅");
                         places[0].SetActive(true);
                         places[7].SetActive(false);
                         player.transform.position = new Vector3(21.15f, 15.08f, 0);
+
+                        /*가장 어두워졌을 때 피트라가 앞을 보도록 돌려놓기*/
+                        player.anim.SetTrigger("seeFront");
+                        player.dirRayVec = Vector3.down;
+
                         questManager.green.SetActive(false);
                         ScreenLightBrighten();
                     }
+                    else if (dayText != "")
+                    {
+                        Debug.Log("dayText가 뭔가 있긴 해");
+                        /*가장 어두워졌을 때 피트라가 앞을 보도록 돌려놓기*/
+                        player.anim.SetTrigger("seeFront");
+                        player.dirRayVec = Vector3.down;
+                        ScreenLightBrighten();
+                    }
+                    else // daytext 가 "" 일때.
+                    {
+                        ScreenLightBrighten();
+                    }
+                    
                 }
             }
         }
@@ -495,6 +535,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator ScreenBrighten()
     {
+        Debug.Log("ScreenBrighten함수 시작");
         bool isBrightning = true;
         float a = screenLightImg.color.a;
         while (isBrightning)
@@ -612,13 +653,15 @@ public class GameManager : MonoBehaviour
     }
 
 
-    /*게임 룰 2 의 창을 닫는 함수*/
+    /*게임 룰 1 의 창을 닫는 함수*/
     public void closeButton1()
     {
         Debug.Log("창닫음");
         /*창을 끄고 시작 화면 창 띄움*/
         rule1Panel.SetActive(false);
         gameStartPanel.SetActive(true);
+
+        
     }
 
 
@@ -634,7 +677,13 @@ public class GameManager : MonoBehaviour
 
         /*피트라가 quest100에서 혼잣말 할 수 있게 변수 true로 바꿔줌*/
         questManager.state1 = true;
-        questManager.ControlObject();
+
+        Debug.Log("말해");
+        questManager.state1 = false;
+        player.isFitraMonologing = true;// 피트라가 혼자말하게 함. 무조건 scanobj가 fitra로 바뀜.
+        Action(player.gameObject); // 도망쳐!
+
+        //questManager.ControlObject();
     }
 
 

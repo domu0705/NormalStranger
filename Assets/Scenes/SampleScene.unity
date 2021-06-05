@@ -3841,7 +3841,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 93125642}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.776, y: -1.87, z: 0}
+  m_LocalPosition: {x: -32.6, y: -54.9, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 519420032}
@@ -11065,7 +11065,7 @@ MonoBehaviour:
   exitTalkTriggerLine: {fileID: 1780311058}
   exitBlocker: {fileID: 1978931115}
   MarinPos: {x: -0.38, y: 3.25, z: 0}
-  startQuest: 1
+  startQuest: 0
   state1: 0
 --- !u!4 &260124429
 Transform:
@@ -14801,7 +14801,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &384789948
 Transform:
   m_ObjectHideFlags: 0
@@ -54097,7 +54097,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 89c41d8b118b2ff4e98fd95a22bfdbf8, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.68
+  m_Volume: 0.51
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -72229,7 +72229,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1218837517}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 27, y: 9, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1274125899}
@@ -74871,6 +74871,7 @@ MonoBehaviour:
   - {fileID: 819715514}
   - {fileID: 1218837517}
   - {fileID: 657380305}
+  endingBGM: {fileID: 891729656}
   heartText: {fileID: 1805647786}
   screenLightDayText: {fileID: 552654043}
   talkIndex: 0
@@ -77749,7 +77750,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1337456792
 Transform:
   m_ObjectHideFlags: 0
@@ -93658,7 +93659,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1663456942
 Transform:
   m_ObjectHideFlags: 0
@@ -93684,8 +93685,8 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 89c41d8b118b2ff4e98fd95a22bfdbf8, type: 3}
-  m_PlayOnAwake: 1
-  m_Volume: 0.68
+  m_PlayOnAwake: 0
+  m_Volume: 0
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -106800,7 +106801,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1892794651
 RectTransform:
   m_ObjectHideFlags: 0
@@ -110145,7 +110146,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1978931116
 Transform:
   m_ObjectHideFlags: 0
@@ -114411,7 +114412,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 7000
   isNpc: 0
-  isChecked: 1
+  isChecked: 0
   isArrived: 0
 --- !u!1 &2065062760
 GameObject:
@@ -115128,7 +115129,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 6000
   isNpc: 1
-  isChecked: 1
+  isChecked: 0
   isArrived: 0
 --- !u!19719996 &2081243811
 TilemapCollider2D:
