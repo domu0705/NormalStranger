@@ -7,11 +7,12 @@ public class TypeEffect : MonoBehaviour
 {
     public GameObject EndCursor;
     public AudioSource audioSource;
+    public QuestManager questManager;
     public string TargetMsg;
     public int charPerSeconds;
     public Text msgText;
     public bool isAnim;
-
+    public bool cantHearSound;
     int index;
     bool isNameDone;//캐릭터의 이름이 나올 떄는 소리를 나지 않게 하기.
     float interval;//글자 나오는 속도
@@ -73,10 +74,11 @@ public class TypeEffect : MonoBehaviour
             return;
         }
         msgText.text += TargetMsg[index];
-        
 
-        //소리
-        if((TargetMsg[index] != ' ' ) && (TargetMsg[index] !=  '.'))
+
+        //소리 (단, quest 70,80에는 소리 안나게 하기)
+        cantHearSound = ((questManager.questId == 70) || (questManager.questId == 80));
+        if ((TargetMsg[index] != ' ' ) && (TargetMsg[index] !=  '.') && !cantHearSound)
             audioSource.Play();
         
         index++;

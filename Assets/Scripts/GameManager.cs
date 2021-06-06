@@ -47,6 +47,7 @@ public class GameManager : MonoBehaviour
     public GameObject blackoutPanel; // 정전일 때 켜지는 panel
     public GameObject scanObject;//현재 space바 눌러서 만난 object
     public GameObject[] places;
+    public GameObject questText;
 
     /*음악들*/
     public AudioSource endingBGM;
@@ -163,10 +164,10 @@ public class GameManager : MonoBehaviour
         {
             elevator();
         }
-        else if(scanObj.tag == "Anim Trigger Line")//말걸면 안되는 선
+        /*else if((scanObj.tag == "Anim Trigger Line") || (scanObj.tag == "Talk Trigger Line")|| (scanObj.tag == "AI Chasing Line"))//말걸면 안되는 선
         {
             return;
-        }
+        }*/
         else
         {
             

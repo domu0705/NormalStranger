@@ -3943,6 +3943,7 @@ MonoBehaviour:
   heart: 100
   isFitraMonologing: 0
   press1: 0
+  pressQ: 0
 --- !u!70 &93125649
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -11060,7 +11061,9 @@ MonoBehaviour:
   - {fileID: 1607764253}
   fitraDesk: {fileID: 2007520479}
   talkTriggerLine: {fileID: 2081243809}
+  animTriggerLine: {fileID: 2063992291}
   JhonnyLine: {fileID: 725130061}
+  aiChasingLine: {fileID: 2117983829}
   secretExitTilemap: {fileID: 384789947}
   exitTalkTriggerLine: {fileID: 1780311058}
   exitBlocker: {fileID: 1978931115}
@@ -26661,6 +26664,84 @@ Transform:
   m_Father: {fileID: 2089302299}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &560585657
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 560585658}
+  - component: {fileID: 560585660}
+  - component: {fileID: 560585659}
+  m_Layer: 5
+  m_Name: quest Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &560585658
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 560585657}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1957411859}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -800, y: 30}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &560585659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 560585657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: b687d9c97bc87514695434f7a02e90ec, type: 3}
+    m_FontSize: 50
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 5
+    m_MaxSize: 50
+    m_Alignment: 1
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 1
+    m_LineSpacing: 1
+  m_Text: "\uD018\uC2A4\uD2B8"
+--- !u!222 &560585660
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 560585657}
+  m_CullTransparentMesh: 0
 --- !u!1 &561277635
 GameObject:
   m_ObjectHideFlags: 0
@@ -41242,10 +41323,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EndCursor: {fileID: 1801840761}
   audioSource: {fileID: 0}
+  questManager: {fileID: 260124428}
   TargetMsg: 
   charPerSeconds: 15
   msgText: {fileID: 701695411}
   isAnim: 0
+  cantHearSound: 0
 --- !u!82 &701695414
 AudioSource:
   m_ObjectHideFlags: 0
@@ -42078,7 +42161,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &725130062
 Transform:
   m_ObjectHideFlags: 0
@@ -54097,7 +54180,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 89c41d8b118b2ff4e98fd95a22bfdbf8, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.51
+  m_Volume: 0.01
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -74871,6 +74954,7 @@ MonoBehaviour:
   - {fileID: 819715514}
   - {fileID: 1218837517}
   - {fileID: 657380305}
+  questText: {fileID: 560585657}
   endingBGM: {fileID: 891729656}
   heartText: {fileID: 1805647786}
   screenLightDayText: {fileID: 552654043}
@@ -74880,7 +74964,7 @@ MonoBehaviour:
   isPlayerPause: 0
   canPressSpace: 1
   isAutoMoving: 0
-  checkControlState: 1
+  checkControlState: 0
   startFirstTalk: 0
   portraitLeftImg: {fileID: 1438714589}
   portraitRightImg: {fileID: 214385858}
@@ -109420,6 +109504,7 @@ RectTransform:
   m_Children:
   - {fileID: 1781005911}
   - {fileID: 1971671630}
+  - {fileID: 560585658}
   m_Father: {fileID: 1628202451}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -114176,7 +114261,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2063992292
 Transform:
   m_ObjectHideFlags: 0
@@ -115114,7 +115199,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2081243810
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -119733,7 +119818,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2117983830
 Transform:
   m_ObjectHideFlags: 0

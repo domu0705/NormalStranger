@@ -37,7 +37,7 @@ public class PlayerMove : MonoBehaviour
     public bool press1;
     bool press2;
     bool press3;
-    bool press4;
+    public bool pressQ;
 
     void Awake()
     {
@@ -71,6 +71,8 @@ public class PlayerMove : MonoBehaviour
 
             //물체 검사 (스페이스바를 누를 시 함수 내부가 실행됨)
             scanObj();
+
+            getInputQ();
         }
     }
 
@@ -118,7 +120,6 @@ public class PlayerMove : MonoBehaviour
         press1 = Input.GetButtonDown("Press1");
         press2 = Input.GetButtonDown("Press2");
         press3 = Input.GetButtonDown("Press3");
-        press4 = Input.GetButtonDown("Press4");
     }
 
 
@@ -233,6 +234,14 @@ public class PlayerMove : MonoBehaviour
 
     }
     
+
+
+    public void getInputQ()
+    {
+        pressQ = Input.GetButton("PressQ");
+        manager.questText.SetActive(pressQ);
+    }
+
 
     // OnCollisionEnter은 collider/rigidbody에 다른 collider/rigidbody가 닿을 때 호출됨.
     void OnTriggerEnter2D(Collider2D other)

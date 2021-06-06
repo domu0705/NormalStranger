@@ -1,7 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
+
+
+/* 시작 설정
+ * talkTriggerLine, animTriggerLine,  JhonnyLine, aiChasingLine 네개 다 시작 전에 setactive(false)싱태로 해두기
+ 
+     
+     
+     
+     */
 public class QuestManager : MonoBehaviour
 {
     public int questId; // 지금 진행중인 quest id
@@ -24,8 +34,11 @@ public class QuestManager : MonoBehaviour
     public GameObject[] policeAIAry;
     public GameObject[] ExitpoliceAIAry;//exit에서 나오는 police ai들의 그룹
     public GameObject fitraDesk;
+
     public GameObject talkTriggerLine; // 필요할때 setactive true로 해두고 끝나면 바로 끔.
+    public GameObject animTriggerLine;
     public GameObject JhonnyLine;
+    public GameObject aiChasingLine;
 
     public GameObject secretExitTilemap;//3층의 비밀통로
     public GameObject exitTalkTriggerLine; // 필요할때 setactive true로 해두고 끝나면 바로 끔.
@@ -54,6 +67,7 @@ public class QuestManager : MonoBehaviour
     {
         questList = new Dictionary<int, QuestData>();
         GenerateData();
+        setQuestText();
     }
 
 
@@ -78,12 +92,12 @@ public class QuestManager : MonoBehaviour
     {
         //quest가 끝나면 index가 ++된 뒤 다음 퀘스트로 넘어감. 즉 퀘스트 10번은 questactionindex가 2로 바뀌었다가(이때 talkindex는 0) 퀘스트 20번으로 넘어감.
         questList.Add(10, new QuestData("신디씨에게 서류를 받자", new int[] { 20000, 30000 }));
-        questList.Add(20, new QuestData("서류를 그린씨에게 전달하자.", new int[] { 40000,20000 }));
-        questList.Add(30, new QuestData("피트라의 자리로 가자.", new int[] { 3000 }));
-        questList.Add(40, new QuestData("1층으로 나가 퇴근하자.", new int[] { 8000,40000, 9000 })); //800, 4000은 TALK 함수 강제 호출하면 될듯
-        questList.Add(50, new QuestData("출근 - 피트라의 자리로 가자.", new int[] { 3000}));
-        questList.Add(60, new QuestData("정전 -  부품들을 모아 수리센터로 가자", new int[] { 10000, 10000,4000,4000,4000,60000, 60000 }));
-        questList.Add(70, new QuestData("신디씨에게 가보자.", new int[] { 6000, 30000  }));
+        questList.Add(20, new QuestData("서류를 전달하자.", new int[] { 40000,20000 }));
+        questList.Add(30, new QuestData("내 자리로 가자.", new int[] { 3000 }));
+        questList.Add(40, new QuestData("퇴근하자.", new int[] { 8000,40000, 9000 })); //800, 4000은 TALK 함수 강제 호출하면 될듯
+        questList.Add(50, new QuestData("내 자리로 가자.", new int[] { 3000}));
+        questList.Add(60, new QuestData("부품 3개를 모아 수리 센터로 가자", new int[] { 10000, 10000,4000,4000,4000,60000, 60000 }));
+        questList.Add(70, new QuestData("신디씨가 할 말이 있다고 했어.", new int[] { 6000, 30000  }));
         questList.Add(80, new QuestData("건물을 나가자.", new int[] { 9000,8000, 7500 }));
         questList.Add(90, new QuestData("도움 받을만한 사람을 찾아보자", new int[] { 6500,40000 }));
         questList.Add(100, new QuestData("건물을 탈출하자.", new int[] { 10000, 9500 }));
@@ -133,9 +147,16 @@ public class QuestManager : MonoBehaviour
         Debug.Log("NextQuest함수 시작.");
         questId += 10;
         questActionIndex = 0;
+        setQuestText();
         ControlObject(); //추가해봄. 없애도 됨
     }
 
+
+    public void setQuestText()
+    {
+        Text questTxt = manager.questText.GetComponent<Text>();
+        questTxt.text = CheckQuest();
+    }
 
     /*Quest와 관련된 object들을 관리하는 함수
      * 한 talkData 안에 여러 스트링이 있잖아. 
@@ -209,10 +230,10 @@ public class QuestManager : MonoBehaviour
                 break;
 
             case 40://1층으로 나가 퇴근하자
-
+                animTriggerLine.SetActive(true);
                 /*2층의 그린을 없애기*/
                 green2.SetActive(false);
-
+                
                 /*quest를 위해 처음 문 근처로 왔을때 자동으로 HUMAN Door로 player을 옮겨줌 */
 
                 if (player.scanObject && player.scanObject.gameObject.tag == "Anim Trigger Line")
@@ -291,6 +312,7 @@ public class QuestManager : MonoBehaviour
                 break;
 
             case 50: /*출근. 피트라의 자리로 가기*/
+                talkTriggerLine.SetActive(true);
 
                 /*1층 로비의 그린을 없애고 2층 그린을 보여주기*/
                 green.SetActive(false);
@@ -373,13 +395,13 @@ public class QuestManager : MonoBehaviour
                     manager.ScreenLightDarken("Day 3");
 
                     /*Day 3가 시작하면 quest 70에서 신디씨에게 문자왔다는 이야기를 해야하므로 다시 talkTriggerline을 감지하기위해 ischecked를 false로 해줌*/
+                    talkTriggerLine.SetActive(true);
                     ObjectData talkTriggerLineScript = talkTriggerLine.GetComponent<ObjectData>();
                     talkTriggerLineScript.isChecked = false;
 
                     /*quest 70에서 talk trigger line을 지나는 것을 확인하기 위함*/
                     manager.checkControlState = true ;
                     startQuest = true;
-                    talkTriggerLine.SetActive(true);
                 }
 
                 break;
@@ -413,6 +435,7 @@ public class QuestManager : MonoBehaviour
                 if(questActionIndex == 1)
                 {
                     manager.checkControlState = true;
+                    JhonnyLine.SetActive(true);
                 }
                 /*조니상사의 자리에 왔을 때 문서 발견*/
                 if(questActionIndex == 2)
@@ -437,6 +460,7 @@ public class QuestManager : MonoBehaviour
                 if (questActionIndex == 3 && manager.talkIndex == 0)
                 {
                     manager.checkControlState = true;
+                    aiChasingLine.SetActive(true);
                 }
 
                     break;
@@ -447,9 +471,6 @@ public class QuestManager : MonoBehaviour
                 {
                     if (player.scanObject && player.scanObject.gameObject.tag == "AI Chasing Line")
                     {
-                        /*소리 켬*/
-                        manager.endingBGM.Play();
-
                         manager.checkControlState = false;//playerMove의 fixedupdate에서 계속 controlObject를 부르지 않도록 다시 변수를 false로 바꿈
                         Debug.Log("AI 선 넘음");
                         ObjectData scanObj = player.scanObject.GetComponent<ObjectData>();
@@ -457,6 +478,9 @@ public class QuestManager : MonoBehaviour
                             break;
                         else
                         {
+                            /*소리 켬*/
+                            manager.endingBGM.Play();
+
                             PoliceAisetActive(true);
                             Debug.Log("AI Chasing 말 시작");
                             scanObj.isChecked = true;
