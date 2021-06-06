@@ -42,6 +42,12 @@ public class TalkManager : MonoBehaviour
          * Green : 40000
          * marin : 50000
          * benny : 60000 -수리공
+         * 이후의 사람들은 기타 사람들
+         * Doming : 61000
+         * Dana : 62000
+         * Harry : 63000
+         * NPC G : 64000,67000 ,68000
+         * NPC M : 65000,66000,69000
          * empty box : 70000
          * repairshop AI bad : 80000
          * repairshop AI good : 90000
@@ -108,7 +114,21 @@ public class TalkManager : MonoBehaviour
                                           "[그린]" + "\n" + "\n" +"좋은 하루 보내요 :11" });
         talkData.Add(50000, new string[] { "[마린]" + "\n" + "\n" +"나 바빠요.:15"  });
         talkData.Add(60000, new string[] { "[베니]" + "\n" + "\n" + "안녕하세요. 최고의 엔지니어 베니입니다.:18" });
+        talkData.Add(61000, new string[] { "[도밍]" + "\n" + "\n" + "우리 회사는 고장난 로봇들이 너무 많아. :0",
+                                           "[도밍]" + "\n" + "\n" + "이러다 다치는건 아닌지..:0",
+                                         });
+        talkData.Add(62000, new string[] { "[다나]" + "\n" + "\n" + "아~ 집에 가고싶다.:0" });
+        talkData.Add(63000, new string[] { "[헤리]" + "\n" + "\n" + "야근인가.:0" });
+        talkData.Add(64000, new string[] { "[릴리]" + "\n" + "\n" + "이게 왜 안되는거야?:0" });
         talkData.Add(70000, new string[] { "\n" + "\n" + "이 상자는 비어있다...:0" });
+        talkData.Add(65000, new string[] { "[레오]" + "\n" + "\n" + "출출한데..:0" });
+        talkData.Add(66000, new string[] { "[노아]" + "\n" + "\n" + "이따 뭐먹지:0" });
+        talkData.Add(67000, new string[] { "[루나]" + "\n" + "\n" + "아..다이어트 해야되는데.:0" });
+        talkData.Add(68000, new string[] { "[데니]" + "\n" + "\n" + "졸려.:0" });
+        talkData.Add(69000, new string[] { "[로건]" + "\n" + "\n" + "네? 책장 뒤로는 가지 않는게 좋을겁니다.:0",
+                                           "[로건]" + "\n" + "\n" + "화난 사람들과 고장난 기계들은...:0",
+                                           "[로건]" + "\n" + "\n" + "서로 구별하기도 힘들죠.:0",
+                                         });
         talkData.Add(80000, new string[] { "[F-D0604]" + "\n" + "\n" + "사.라-지기 싫.ㅅ.ㄴㄴ니..:22" });
         talkData.Add(90000, new string[] { "[E-M0705]" + "\n" + "\n" + "전 해야 할 일이 아직 많습니다.:21" });
         talkData.Add(100000, new string[] { "[피트라]" + "\n" + "\n" + "문이..닫혀있어...?! :0" });
@@ -358,6 +378,11 @@ public class TalkManager : MonoBehaviour
         talkData.Add(80 + 30000, new string[] { "[신디]" + "\n" + "\n" +"...:8"});
         talkData.Add(80 + 50000, new string[] { "[마린]" + "\n" + "\n" + "--:15" });
         talkData.Add(80 + 60000, new string[] { "[베니]" + "\n" + "\n" + "-----. --- ---- -----.:18" });
+        talkData.Add(80 +61000, new string[] { "[도밍]" + "\n" + "\n" + "-- --- --- ---- -- --. :0",
+                                           "[도밍]" + "\n" + "\n" + "--- ---- ---..:0",
+                                         });
+        talkData.Add(80 + 62000, new string[] { "[다나]" + "\n" + "\n" + "-~ -- ----. :0" });
+        talkData.Add(80 + 63000, new string[] { "[헤리]" + "\n" + "\n" + "----.:0" });
         talkData.Add(80 + 80000, new string[] { "[F-D0604]" + "\n" + "\n" + "-@----@---..:22" });
         talkData.Add(80 + 90000, new string[] { "[E-M0705]" + "\n" + "\n" + "- -- - -- -- ----.:21" });
 
