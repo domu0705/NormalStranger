@@ -360,11 +360,20 @@ public class QuestManager : MonoBehaviour
                 /*피트라에게 정전 수리 도우라는 문자 보내기*/
                 if(questActionIndex == 1 && state1)
                 {
-                    Debug.Log("피트라에게 정전 수리 도우라는 문자 보내기 시작");
                     state1 = false;
+                    startQuest = true;
+                    Debug.Log("피트라에게 정전 수리 도우라는 문자 보내기 시작");
+                    manager.checkControlState = true;
                     StartCoroutine("inCase60_2");
                     
 
+                }
+
+                if(questActionIndex == 1 && manager.talkIndex == 1 && startQuest && !state1)
+                {
+                    manager.checkControlState = false;
+                    startQuest = false;
+                    manager.beepSound.Play();
                 }
 
 
@@ -381,11 +390,14 @@ public class QuestManager : MonoBehaviour
                 {
                     state1 = false;
                     manager.canPressSpace = false;
+                    manager.isPlayerPause = true;
 
+                    manager.componentItem.useComponent();
+                    
                     manager.ScreenLightDarken("");
                     manager.blackoutPanel.SetActive(false);
                     /*베니가 수리 완료 대화 하기*/
-                    StartCoroutine(waitForRepair1(6));
+                    Invoke("waitForRepair1",6);
                 }
 
 
@@ -409,7 +421,7 @@ public class QuestManager : MonoBehaviour
 
             case 70:
                 /*소리 끄기*/
-                manager.endingBGM.Stop();
+                manager.mainBGM.Stop();
 
                 /*1층의 Talk Trigger Line을 지나면 "신디씨한테 문자 와있던데... 먼저 들러보자"라는 talkbubble 띄우기*/
                 if (player.scanObject && player.scanObject.gameObject.tag == "Talk Trigger Line")
@@ -479,7 +491,7 @@ public class QuestManager : MonoBehaviour
                         else
                         {
                             /*소리 켬*/
-                            manager.endingBGM.Play();
+                            manager.mainBGM.Play();
 
                             PoliceAisetActive(true);
                             Debug.Log("AI Chasing 말 시작");
@@ -556,6 +568,9 @@ public class QuestManager : MonoBehaviour
                             manager.Action(exitTalkTriggerLine);
                             scanObj.isChecked = true;
                             manager.checkControlState = true;
+
+                            /*exit브금 끄기*/
+                            manager.exitBGM.Stop();
                         }
 
                     }
@@ -630,18 +645,16 @@ public class QuestManager : MonoBehaviour
         ControlObject();
     }
 
-    IEnumerator waitForRepair1(float time)
+    void waitForRepair1()
     {
-        manager.isPlayerPause = true;
-        yield return new WaitForSeconds(time);
         Debug.Log("베니가 수리끝났다고 대화 시작");
         manager.Action(benny); // 베니가 "피트라씨?"라고 부르는 창이 뜬 뒤 1초뒤에 space 를 누를 수 있게 함
-        StartCoroutine(waitForRepair2(1));
+        Invoke("waitForRepair2",4);
     }
 
-    IEnumerator waitForRepair2(float time)
+    void waitForRepair2()
     {
-        yield return new WaitForSeconds(time);
+        Debug.Log("플레이어 움직이게 함");
         manager.canPressSpace = true;
         manager.isPlayerPause = false;
 
@@ -665,22 +678,6 @@ public class QuestManager : MonoBehaviour
         
         Debug.Log("수리 문자 와야대");
         manager.Action(playerObject); // 수리 문자 받기. 
-
-        /*
-        //2층에 갔을 때만 수리 부품들 보이게 하기
-        if (elevatorManager.currentFloor == 2)
-        {
-            questObject[3].SetActive(true);
-            questObject[4].SetActive(true);
-            questObject[5].SetActive(true);
-        }
-        else
-        {
-            questObject[3].SetActive(false);
-            questObject[4].SetActive(false);
-            questObject[5].SetActive(false);
-        }
-        */
     }
 
     /*police AI를 보여주거나 끄는 함수*/

@@ -68,8 +68,9 @@
     <Compile Include="Assets\Scripts\Enemy Scripts\EnemyA.cs" />
     <Compile Include="Assets\Scripts\Enemy Scripts\EnemyAI.cs" />
     <Compile Include="Assets\Scripts\Enemy Scripts\PoliceAI.cs" />
-    <Compile Include="Assets\Scripts\EnergyBooster.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
+    <Compile Include="Assets\Scripts\Item Scripts\ComponentItem.cs" />
+    <Compile Include="Assets\Scripts\Item Scripts\EnergyBooster.cs" />
     <Compile Include="Assets\Scripts\ObjectData.cs" />
     <Compile Include="Assets\Scripts\PlayerMove.cs" />
     <Compile Include="Assets\Scripts\QuestData.cs" />

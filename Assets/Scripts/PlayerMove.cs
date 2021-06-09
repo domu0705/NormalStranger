@@ -133,6 +133,7 @@ public class PlayerMove : MonoBehaviour
             manager.heartChanged();
             energyBooster.useBooster();
         }
+   
     }
 
 
@@ -303,6 +304,8 @@ public class PlayerMove : MonoBehaviour
         heart--;
         if(heart > 0)
         {
+            //소리
+            manager.damagedBGM.Play();
             //다치는 animation
             anim.SetTrigger("isDamaged");
 
@@ -320,6 +323,8 @@ public class PlayerMove : MonoBehaviour
         }
         else // player 사망
         {
+            manager.deadBGM.Play();
+            manager.mainBGM.Stop();
             gameObject.layer = 14; //layer을 바꿔서 죽었을 때 enemy가 player을 밀지 않도록 함
             rigid.velocity = new Vector2(0,0);
             anim.SetTrigger("doDie");

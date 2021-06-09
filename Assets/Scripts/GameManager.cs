@@ -50,8 +50,12 @@ public class GameManager : MonoBehaviour
     public GameObject questText;
 
     /*음악들*/
-    public AudioSource endingBGM;
-
+    public AudioSource mainBGM;
+    public AudioSource exitBGM;
+    public AudioSource beepSound;
+    public AudioSource elevatorBGM;
+    public AudioSource damagedBGM;
+    public AudioSource deadBGM;
 
     public Text heartText;
     public Text screenLightDayText;
@@ -77,6 +81,7 @@ public class GameManager : MonoBehaviour
     public Sprite prevPortrait;//이전 portrait를 저장해두는 변수
     public PlayerMove player;
     public EnergyBooster energyBooster;
+    public ComponentItem componentItem;
     public ObjectData objData;//현재 조사중인 물건 or 사람
 
 
@@ -86,18 +91,24 @@ public class GameManager : MonoBehaviour
         heartChanged();
         startFirstTalk = true;
         Screen.SetResolution(Screen.width, Screen.width * 16 / 9,  true); // 16:9 로 개발시
-        //Screen.SetResolution(1980, 1080, true);
+        Screen.SetResolution(1980, 1080, true);
         //cameraManager.UseFirstCamera();
 
         /*게임 시작 화면에서 플레이어가 이동하지 못하도록 함*/
-        isPlayerPause = true;// test할떄는 꺼두기.
+        isPlayerPause = true;
         player.transform.position = new Vector3(-1.88f, -2.02f, player.transform.position.z);//조니 옆으로 위치 옮겨두기
 
         /*BGM 켜기*/
-        endingBGM.Play();
+        mainBGM.Play();
         
     }
 
+    
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+            Application.Quit();
+    }
 
     public void GameStart()
     {
@@ -120,8 +131,16 @@ public class GameManager : MonoBehaviour
         Invoke("callScreenBrighten", 1);
         //조니와 피트라의 대화가 시작되는 함수 호출
         Invoke("firstTalkstart", 2);
+
+        Invoke("unblockSpace", 2);
    
     }
+
+    void unblockSpace()
+    {
+        canPressSpace = true;
+    }
+
     void callScreenBrighten()
     {
         StartCoroutine("ScreenBrighten");
@@ -162,7 +181,11 @@ public class GameManager : MonoBehaviour
         }
         else if (scanObj.tag == "Elevator")
         {
-            elevator();
+            
+            Animator elevatorAnim = scanObj.GetComponent<Animator>();
+            elevatorAnim.SetTrigger("elevatorOn");
+            elevatorBGM.Play();
+            Invoke("elevator",1.5f);
         }
         /*else if((scanObj.tag == "Anim Trigger Line") || (scanObj.tag == "Talk Trigger Line")|| (scanObj.tag == "AI Chasing Line"))//말걸면 안되는 선
         {
@@ -182,11 +205,16 @@ public class GameManager : MonoBehaviour
     /*player가 한번 건드리면 없어져야하는 item을 없애준다. ex) 정전 수리 아이템은 주우면 사라져야함*/
     void eraseItem()
     {
-        Debug.Log("지울까?");
-        if ((objData.id == 4000) || (objData.id == 6000) || (objData.id == 6500) || (objData.id == 7000) || (objData.id == 7500) || (objData.id == 9500))
+        /*tilemap의 line들을 지우기*/
+        if ((objData.id == 6000) || (objData.id == 6500) || (objData.id == 7000) || (objData.id == 7500) || (objData.id == 9500))
         {
             objData.gameObject.SetActive(false);
             Debug.Log("지워버려");
+        }
+        /*정전 수리 부품들을 지우기*/
+        if((objData.id == 4000) && (questManager.questId == 60))
+        {
+            objData.gameObject.SetActive(false);
         }
             
     }
@@ -259,6 +287,15 @@ public class GameManager : MonoBehaviour
                 portraitRightImg.color = new Color(1, 1, 1, 0);
                 portraitBigImg.color = new Color(1, 1, 1, 0);
                 energyBooster.getBooster();
+            }
+            else if(portraitNum == 4000)//정전 수리 component를 발견했다면
+            {
+                portraitRightImg.sprite = talkManager.GetPortrait(id, 1); // jhonny의 웃는얼굴임.
+                portraitLeftImg.color = new Color(1, 1, 1, 0);
+                portraitRightImg.color = new Color(1, 1, 1, 1);
+                portraitBigImg.color = new Color(1, 1, 1, 0);
+
+                componentItem.getComponentItem();
             }
             else if(portraitNum == 23)
             {
@@ -441,6 +478,10 @@ public class GameManager : MonoBehaviour
 
         /*게임 설명 창 띄움*/
         rule2Panel.SetActive(true);
+
+        /*exit 브금으로 바꾸기*/
+        mainBGM.Stop();
+        exitBGM.Play();
         
     }
 
@@ -453,6 +494,9 @@ public class GameManager : MonoBehaviour
         isPlayerPause = true;
         places[8].SetActive(false);
         places[9].SetActive(true);
+
+        /**/
+        mainBGM.Play();
 
         /*출입문 앞으로 이동 & 피트라가 앞을 보도록 돌려놓기*/
         player.transform.position = new Vector3(40.4f, 14.27f, player.transform.position.z);
@@ -547,17 +591,20 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(0.005f);
             if (a <= 0)
             {
+                isBrightning = false;
+                if (screenLightDayText.text == "")//정전수리 event라면
+                {
+                    canPressSpace = true;
+                }
                 if (!startFirstTalk)//게임 시작화면이 아니라면
                 {
                     Debug.Log("스크린 밝아지는거 안됨");
-                    isBrightning = false;
                     isPlayerPause = false;
                     canPressSpace = true;
                 }
                 else
                 {//게임 시작하며 조니와 말할때라면
                     startFirstTalk = false;
-                    isBrightning = false;
                     Debug.Log("스크린 밝아지는거 잘됨");
                 }
 
@@ -645,7 +692,7 @@ public class GameManager : MonoBehaviour
     }
 
 
-    /*게임 룰 2 의 창을 닫는 함수*/
+    /*게임 룰 1 의 창을 여는 함수*/
     public void rule1Button()
     {
         /*창을 끄고 시작 화면 창 띄움*/
