@@ -340,7 +340,7 @@ GameObject:
   - component: {fileID: 5958501}
   - component: {fileID: 5958503}
   - component: {fileID: 5958502}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: small locker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -954,6 +954,7 @@ GameObject:
   - component: {fileID: 21071723}
   - component: {fileID: 21071725}
   - component: {fileID: 21071724}
+  - component: {fileID: 21071726}
   m_Layer: 10
   m_Name: small locker
   m_TagString: Untagged
@@ -1052,6 +1053,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &21071726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 21071722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d7968ce91698fd4fbb6f79522f8bebf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 2000
+  isNpc: 0
+  isChecked: 0
+  isArrived: 0
 --- !u!1 &23497147
 GameObject:
   m_ObjectHideFlags: 0
@@ -4475,7 +4492,7 @@ MonoBehaviour:
   speed: 4
   h: 0
   v: 0
-  heart: 5
+  heart: 10
   isFitraMonologing: 0
   press1: 0
   pressQ: 0
@@ -4522,6 +4539,7 @@ GameObject:
   - component: {fileID: 95328999}
   - component: {fileID: 95329001}
   - component: {fileID: 95329000}
+  - component: {fileID: 95329002}
   m_Layer: 10
   m_Name: small locker
   m_TagString: Untagged
@@ -4620,6 +4638,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &95329002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 95328998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d7968ce91698fd4fbb6f79522f8bebf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 2000
+  isNpc: 0
+  isChecked: 0
+  isArrived: 0
 --- !u!1 &96434382
 GameObject:
   m_ObjectHideFlags: 0
@@ -8974,7 +9008,7 @@ GameObject:
   - component: {fileID: 193953792}
   - component: {fileID: 193953794}
   - component: {fileID: 193953793}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: small locker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10774,7 +10808,7 @@ GameObject:
   - component: {fileID: 232080185}
   - component: {fileID: 232080187}
   - component: {fileID: 232080186}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: small locker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13096,7 +13130,7 @@ GameObject:
   - component: {fileID: 273519375}
   - component: {fileID: 273519377}
   - component: {fileID: 273519376}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: small locker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13685,7 +13719,7 @@ GameObject:
   - component: {fileID: 312682764}
   - component: {fileID: 312682766}
   - component: {fileID: 312682765}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: small locker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14126,7 +14160,7 @@ GameObject:
   - component: {fileID: 329719133}
   - component: {fileID: 329719135}
   - component: {fileID: 329719134}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: small locker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14671,7 +14705,7 @@ GameObject:
   - component: {fileID: 341451776}
   - component: {fileID: 341451778}
   - component: {fileID: 341451777}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: small locker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18985,7 +19019,7 @@ GameObject:
   - component: {fileID: 405394899}
   - component: {fileID: 405394901}
   - component: {fileID: 405394900}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: small locker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24581,7 +24615,7 @@ GameObject:
   - component: {fileID: 444434287}
   - component: {fileID: 444434289}
   - component: {fileID: 444434288}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: small locker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26910,7 +26944,7 @@ GameObject:
   - component: {fileID: 495049616}
   - component: {fileID: 495049618}
   - component: {fileID: 495049617}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: small locker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27860,7 +27894,7 @@ GameObject:
   - component: {fileID: 531836276}
   - component: {fileID: 531836278}
   - component: {fileID: 531836277}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: small locker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28124,7 +28158,7 @@ GameObject:
   - component: {fileID: 535234153}
   - component: {fileID: 535234154}
   - component: {fileID: 535234155}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: small locker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32379,7 +32413,7 @@ GameObject:
   - component: {fileID: 600858609}
   - component: {fileID: 600858611}
   - component: {fileID: 600858610}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: small locker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44014,7 +44048,8 @@ GameObject:
   - component: {fileID: 688734758}
   - component: {fileID: 688734760}
   - component: {fileID: 688734759}
-  m_Layer: 10
+  - component: {fileID: 688734761}
+  m_Layer: 12
   m_Name: small locker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44112,6 +44147,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &688734761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 688734757}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d7968ce91698fd4fbb6f79522f8bebf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 2000
+  isNpc: 0
+  isChecked: 0
+  isArrived: 0
 --- !u!1 &693859108
 GameObject:
   m_ObjectHideFlags: 0
@@ -45036,7 +45087,7 @@ GameObject:
   - component: {fileID: 718065737}
   - component: {fileID: 718065739}
   - component: {fileID: 718065738}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: small locker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47860,7 +47911,7 @@ GameObject:
   - component: {fileID: 772189227}
   - component: {fileID: 772189229}
   - component: {fileID: 772189228}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: small locker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48473,7 +48524,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 787505713}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 40.67, y: 15.01, z: 0}
+  m_LocalPosition: {x: 40.67, y: 15.01, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2097083091}
@@ -48567,7 +48618,7 @@ GameObject:
   - component: {fileID: 790690991}
   - component: {fileID: 790690993}
   - component: {fileID: 790690992}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: small locker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50525,7 +50576,7 @@ GameObject:
   - component: {fileID: 817917454}
   - component: {fileID: 817917456}
   - component: {fileID: 817917455}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: small locker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57786,7 +57837,7 @@ GameObject:
   - component: {fileID: 882605960}
   - component: {fileID: 882605962}
   - component: {fileID: 882605961}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: small locker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -62810,7 +62861,7 @@ GameObject:
   - component: {fileID: 910645481}
   - component: {fileID: 910645483}
   - component: {fileID: 910645482}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: small locker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -63945,7 +63996,7 @@ GameObject:
   - component: {fileID: 932048774}
   - component: {fileID: 932048776}
   - component: {fileID: 932048775}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: small locker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -70075,7 +70126,7 @@ GameObject:
   - component: {fileID: 1008007477}
   - component: {fileID: 1008007479}
   - component: {fileID: 1008007478}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: small locker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -70184,7 +70235,7 @@ GameObject:
   - component: {fileID: 1014000215}
   - component: {fileID: 1014000217}
   - component: {fileID: 1014000216}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: small locker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71831,7 +71882,7 @@ GameObject:
   - component: {fileID: 1075166902}
   - component: {fileID: 1075166904}
   - component: {fileID: 1075166903}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: small locker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72267,7 +72318,7 @@ GameObject:
   - component: {fileID: 1086531266}
   - component: {fileID: 1086531268}
   - component: {fileID: 1086531267}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: small locker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72376,7 +72427,7 @@ GameObject:
   - component: {fileID: 1087401904}
   - component: {fileID: 1087401906}
   - component: {fileID: 1087401905}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: small locker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74269,7 +74320,7 @@ GameObject:
   - component: {fileID: 1133281276}
   - component: {fileID: 1133281278}
   - component: {fileID: 1133281277}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: small locker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74516,7 +74567,7 @@ GameObject:
   - component: {fileID: 1141242655}
   - component: {fileID: 1141242657}
   - component: {fileID: 1141242656}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: small locker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -78687,7 +78738,7 @@ GameObject:
   - component: {fileID: 1244234288}
   - component: {fileID: 1244234290}
   - component: {fileID: 1244234289}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: small locker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -78796,7 +78847,7 @@ GameObject:
   - component: {fileID: 1244932011}
   - component: {fileID: 1244932013}
   - component: {fileID: 1244932012}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: small locker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -81195,7 +81246,7 @@ GameObject:
   - component: {fileID: 1269137866}
   - component: {fileID: 1269137868}
   - component: {fileID: 1269137867}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: small locker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -82851,7 +82902,7 @@ GameObject:
   - component: {fileID: 1302280308}
   - component: {fileID: 1302280310}
   - component: {fileID: 1302280309}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: small locker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -84112,7 +84163,7 @@ GameObject:
   - component: {fileID: 1342882688}
   - component: {fileID: 1342882690}
   - component: {fileID: 1342882689}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: small locker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90166,7 +90217,7 @@ GameObject:
   - component: {fileID: 1452696449}
   - component: {fileID: 1452696451}
   - component: {fileID: 1452696450}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: small locker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94717,7 +94768,7 @@ GameObject:
   - component: {fileID: 1546004369}
   - component: {fileID: 1546004371}
   - component: {fileID: 1546004370}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: small locker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96422,7 +96473,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1580586668}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 40.62985, y: 15.671764, z: -5}
+  m_LocalPosition: {x: 40.62985, y: 15.671764, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1148529801}
@@ -98814,7 +98865,7 @@ GameObject:
   - component: {fileID: 1624622579}
   - component: {fileID: 1624622581}
   - component: {fileID: 1624622580}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: small locker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -109571,7 +109622,7 @@ GameObject:
   - component: {fileID: 1787188537}
   - component: {fileID: 1787188539}
   - component: {fileID: 1787188538}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: small locker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -110665,7 +110716,7 @@ GameObject:
   - component: {fileID: 1810898703}
   - component: {fileID: 1810898705}
   - component: {fileID: 1810898704}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: small locker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -111411,7 +111462,7 @@ GameObject:
   - component: {fileID: 1825751553}
   - component: {fileID: 1825751555}
   - component: {fileID: 1825751554}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: small locker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -112598,7 +112649,7 @@ GameObject:
   - component: {fileID: 1851138417}
   - component: {fileID: 1851138419}
   - component: {fileID: 1851138418}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: small locker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -116992,7 +117043,7 @@ GameObject:
   - component: {fileID: 1914929181}
   - component: {fileID: 1914929183}
   - component: {fileID: 1914929182}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: small locker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -117464,7 +117515,7 @@ GameObject:
   - component: {fileID: 1928594604}
   - component: {fileID: 1928594606}
   - component: {fileID: 1928594605}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: small locker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -120773,7 +120824,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1995346451}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 40.67, y: 15.01, z: 0}
+  m_LocalPosition: {x: 40.67, y: 15.01, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1790000632}
@@ -120867,7 +120918,7 @@ GameObject:
   - component: {fileID: 1997269184}
   - component: {fileID: 1997269186}
   - component: {fileID: 1997269185}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: small locker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -122196,7 +122247,7 @@ GameObject:
   - component: {fileID: 2020282869}
   - component: {fileID: 2020282871}
   - component: {fileID: 2020282870}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: small locker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -123793,7 +123844,7 @@ GameObject:
   - component: {fileID: 2050696279}
   - component: {fileID: 2050696281}
   - component: {fileID: 2050696280}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: small locker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -128749,7 +128800,7 @@ GameObject:
   - component: {fileID: 2102817204}
   - component: {fileID: 2102817206}
   - component: {fileID: 2102817205}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: small locker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -131165,7 +131216,7 @@ GameObject:
   - component: {fileID: 2126273184}
   - component: {fileID: 2126273186}
   - component: {fileID: 2126273185}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: small locker
   m_TagString: Untagged
   m_Icon: {fileID: 0}

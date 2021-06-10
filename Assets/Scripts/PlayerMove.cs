@@ -130,7 +130,7 @@ public class PlayerMove : MonoBehaviour
         if (energyBooster.boosterNum <= 0)
             return;
 
-        if (press1 && (heart < 5) )
+        if (press1 && (heart < 10) )
         {
             heart++;
             manager.heartChanged();
