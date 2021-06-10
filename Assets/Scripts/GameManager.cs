@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;//scene관련 함수를 사용하기 위해 �
 
 /*
  * 기본 세팅 : 
- * istfloor ->off
+ * istfloor ->off / 안에 그린 따로 꺼두기
  * 2nd floor -> 0n / 그 중 room A-> on,  room b->off,   2nd hall -> off             
  * 3rd floor -> 0n / 그 아래 하위폴더들은 모두 off
  * exit floor -> off

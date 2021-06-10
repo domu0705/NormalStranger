@@ -32,10 +32,8 @@ ScriptsOnlyBuild:
     UnityEditor.Graphs.dll:
     - UnityEditor.Graphs.AnimationBlendTree.Graph
     - UnityEditor.Graphs.AnimationBlendTree.GraphGUI
-    - UnityEditor.Graphs.AnimationStateMachine.AnyStateNode
     - UnityEditor.Graphs.AnimationStateMachine.Graph
     - UnityEditor.Graphs.AnimationStateMachine.GraphGUI
-    - UnityEditor.Graphs.AnimationStateMachine.StateNode
     - UnityEditor.Graphs.AnimatorControllerTool
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
@@ -90,53 +88,53 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 596}
     - Class: 114
-      Script: {instanceID: 11270}
+      Script: {instanceID: 11272}
     - Class: 114
-      Script: {instanceID: 11418}
+      Script: {instanceID: 11420}
     - Class: 114
-      Script: {instanceID: 11562}
+      Script: {instanceID: 11564}
     - Class: 114
-      Script: {instanceID: 11616}
+      Script: {instanceID: 11618}
     - Class: 114
-      Script: {instanceID: 11978}
+      Script: {instanceID: 11980}
     - Class: 114
-      Script: {instanceID: 11996}
+      Script: {instanceID: 11998}
     - Class: 114
-      Script: {instanceID: 12052}
+      Script: {instanceID: 12054}
     - Class: 114
-      Script: {instanceID: 12288}
+      Script: {instanceID: 12290}
     - Class: 114
-      Script: {instanceID: 12536}
+      Script: {instanceID: 12538}
     - Class: 114
-      Script: {instanceID: 12540}
+      Script: {instanceID: 12542}
     - Class: 114
-      Script: {instanceID: 12686}
+      Script: {instanceID: 12688}
     - Class: 114
-      Script: {instanceID: 12888}
+      Script: {instanceID: 12890}
     - Class: 114
-      Script: {instanceID: 13006}
-    - Class: 114
-      Script: {instanceID: 13016}
+      Script: {instanceID: 13008}
     - Class: 114
       Script: {instanceID: 13018}
     - Class: 114
-      Script: {instanceID: 13130}
+      Script: {instanceID: 13020}
     - Class: 114
-      Script: {instanceID: 13352}
+      Script: {instanceID: 13132}
     - Class: 114
-      Script: {instanceID: 13780}
+      Script: {instanceID: 13354}
     - Class: 114
-      Script: {instanceID: 13842}
+      Script: {instanceID: 13782}
     - Class: 114
-      Script: {instanceID: 14002}
+      Script: {instanceID: 13844}
     - Class: 114
-      Script: {instanceID: 14286}
+      Script: {instanceID: 14004}
     - Class: 114
-      Script: {instanceID: 14290}
+      Script: {instanceID: 14288}
     - Class: 114
-      Script: {instanceID: 14368}
+      Script: {instanceID: 14292}
     - Class: 114
-      Script: {instanceID: 14404}
+      Script: {instanceID: 14370}
+    - Class: 114
+      Script: {instanceID: 14406}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -785,4 +783,5 @@ ScriptsOnlyBuild:
   platform: 5
   scenePathNames:
   - Assets/Scenes/SampleScene.unity
-  playerPath: C:/Users/domu0/Documents/Unity_Project/Unity_Build/Normal Stranger.exe
+  playerPath: C:/Users/domu0/Documents/Unity_Project/Unity_Build/Normal Stranger/Normal
+    Stranger.exe

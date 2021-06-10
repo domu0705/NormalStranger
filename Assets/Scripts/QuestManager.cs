@@ -233,7 +233,7 @@ public class QuestManager : MonoBehaviour
                 animTriggerLine.SetActive(true);
                 /*2층의 그린을 없애기*/
                 green2.SetActive(false);
-                
+                green.SetActive(true);
                 /*quest를 위해 처음 문 근처로 왔을때 자동으로 HUMAN Door로 player을 옮겨줌 */
 
                 if (player.scanObject && player.scanObject.gameObject.tag == "Anim Trigger Line")

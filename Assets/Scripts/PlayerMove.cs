@@ -325,6 +325,7 @@ public class PlayerMove : MonoBehaviour
         {
             manager.deadBGM.Play();
             manager.mainBGM.Stop();
+
             gameObject.layer = 14; //layer을 바꿔서 죽었을 때 enemy가 player을 밀지 않도록 함
             rigid.velocity = new Vector2(0,0);
             anim.SetTrigger("doDie");
