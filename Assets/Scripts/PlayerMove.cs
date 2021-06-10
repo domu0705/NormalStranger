@@ -127,6 +127,9 @@ public class PlayerMove : MonoBehaviour
 
     void useItem()
     {
+        if (energyBooster.boosterNum <= 0)
+            return;
+
         if (press1 && (heart < 5) )
         {
             heart++;

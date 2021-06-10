@@ -23,6 +23,7 @@ public class QuestManager : MonoBehaviour
     public PlayerMove player;
     public ElevatorManager elevatorManager;
     public autoMove autoMoving;
+    public TypeEffect typeEffect;
 
     public GameObject playerObject;
     public GameObject jhonny;
@@ -422,6 +423,7 @@ public class QuestManager : MonoBehaviour
             case 70:
                 /*소리 끄기*/
                 manager.mainBGM.Stop();
+                typeEffect.canHearSound = false;
 
                 /*1층의 Talk Trigger Line을 지나면 "신디씨한테 문자 와있던데... 먼저 들러보자"라는 talkbubble 띄우기*/
                 if (player.scanObject && player.scanObject.gameObject.tag == "Talk Trigger Line")
@@ -492,6 +494,7 @@ public class QuestManager : MonoBehaviour
                         {
                             /*소리 켬*/
                             manager.mainBGM.Play();
+                            typeEffect.canHearSound = true;
 
                             PoliceAisetActive(true);
                             Debug.Log("AI Chasing 말 시작");

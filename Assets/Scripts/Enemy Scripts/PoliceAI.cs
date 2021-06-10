@@ -10,7 +10,7 @@ public class PoliceAI : MonoBehaviour
 
     public Transform playerTrans;
     public float speed;
-    public int maxSpeed;
+    public float maxSpeed;
     public bool sideWalking;
     public bool startChasing; // Police AI가 나타나도 말이 끝나고 추격을 시작해야함. 이걸 관리하는 변수.
     public float detectDist; //특정 거리를 나타내는 변수. 플레이어와 일정거리 이하가 되면 쫒아가기위함.

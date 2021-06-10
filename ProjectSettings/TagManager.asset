@@ -15,6 +15,7 @@ TagManager:
   - Teleport To Exit Line
   - Exit Talk Trigger Line
   - Teleport To Outside
+  - Floor Direction
   layers:
   - Default
   - TransparentFX

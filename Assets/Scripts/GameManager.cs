@@ -20,6 +20,9 @@ using UnityEngine.SceneManagement;//scene관련 함수를 사용하기 위해 �
  * state1 = false
  * checkControlState = false;
  * startQuest - false;
+ * 
+ * 
+ * typeEffect.canhearsound = true;
  */
 
 public class GameManager : MonoBehaviour
@@ -41,6 +44,7 @@ public class GameManager : MonoBehaviour
     public GameObject gameOverPanel;
     public GameObject gameClearPanel;
     public GameObject talkPanel;
+    public GameObject FloorDirectionPanel;
     public GameObject rule1Panel; // 게임 조작법 설명 panel
     public GameObject rule2Panel;
     public GameObject screenLightPanel; // Day가 바뀔때 켜지는 panel
@@ -91,7 +95,7 @@ public class GameManager : MonoBehaviour
         heartChanged();
         startFirstTalk = true;
         Screen.SetResolution(Screen.width, Screen.width * 16 / 9,  true); // 16:9 로 개발시
-        Screen.SetResolution(1980, 1080, true);
+        Screen.SetResolution(1980, 1080, true); //480, 270
         //cameraManager.UseFirstCamera();
 
         /*게임 시작 화면에서 플레이어가 이동하지 못하도록 함*/
@@ -141,6 +145,12 @@ public class GameManager : MonoBehaviour
         canPressSpace = true;
     }
 
+    public void floorPanelOff()
+    {
+        gameUIPanel.SetActive(true);
+        FloorDirectionPanel.SetActive(false);
+    }
+
     void callScreenBrighten()
     {
         StartCoroutine("ScreenBrighten");
@@ -187,10 +197,11 @@ public class GameManager : MonoBehaviour
             elevatorBGM.Play();
             Invoke("elevator",1.5f);
         }
-        /*else if((scanObj.tag == "Anim Trigger Line") || (scanObj.tag == "Talk Trigger Line")|| (scanObj.tag == "AI Chasing Line"))//말걸면 안되는 선
+        else if(scanObj.tag == "Floor Direction")
         {
-            return;
-        }*/
+            gameUIPanel.SetActive(false);
+            FloorDirectionPanel.SetActive(true);
+        }
         else
         {
             

@@ -32,8 +32,10 @@ ScriptsOnlyBuild:
     UnityEditor.Graphs.dll:
     - UnityEditor.Graphs.AnimationBlendTree.Graph
     - UnityEditor.Graphs.AnimationBlendTree.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.AnyStateNode
     - UnityEditor.Graphs.AnimationStateMachine.Graph
     - UnityEditor.Graphs.AnimationStateMachine.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.StateNode
     - UnityEditor.Graphs.AnimatorControllerTool
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
@@ -88,53 +90,53 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 596}
     - Class: 114
-      Script: {instanceID: 11272}
+      Script: {instanceID: 11270}
     - Class: 114
-      Script: {instanceID: 11420}
+      Script: {instanceID: 11418}
     - Class: 114
-      Script: {instanceID: 11564}
+      Script: {instanceID: 11562}
     - Class: 114
-      Script: {instanceID: 11618}
+      Script: {instanceID: 11616}
     - Class: 114
-      Script: {instanceID: 11980}
+      Script: {instanceID: 11978}
     - Class: 114
-      Script: {instanceID: 11998}
+      Script: {instanceID: 11996}
     - Class: 114
-      Script: {instanceID: 12054}
+      Script: {instanceID: 12052}
     - Class: 114
-      Script: {instanceID: 12290}
+      Script: {instanceID: 12288}
     - Class: 114
-      Script: {instanceID: 12538}
+      Script: {instanceID: 12536}
     - Class: 114
-      Script: {instanceID: 12542}
+      Script: {instanceID: 12540}
     - Class: 114
-      Script: {instanceID: 12688}
+      Script: {instanceID: 12686}
     - Class: 114
-      Script: {instanceID: 12890}
+      Script: {instanceID: 12888}
     - Class: 114
-      Script: {instanceID: 13008}
+      Script: {instanceID: 13006}
+    - Class: 114
+      Script: {instanceID: 13016}
     - Class: 114
       Script: {instanceID: 13018}
     - Class: 114
-      Script: {instanceID: 13020}
+      Script: {instanceID: 13130}
     - Class: 114
-      Script: {instanceID: 13132}
+      Script: {instanceID: 13352}
     - Class: 114
-      Script: {instanceID: 13354}
+      Script: {instanceID: 13780}
     - Class: 114
-      Script: {instanceID: 13782}
+      Script: {instanceID: 13842}
     - Class: 114
-      Script: {instanceID: 13844}
+      Script: {instanceID: 14002}
     - Class: 114
-      Script: {instanceID: 14004}
+      Script: {instanceID: 14286}
     - Class: 114
-      Script: {instanceID: 14288}
+      Script: {instanceID: 14290}
     - Class: 114
-      Script: {instanceID: 14292}
+      Script: {instanceID: 14368}
     - Class: 114
-      Script: {instanceID: 14370}
-    - Class: 114
-      Script: {instanceID: 14406}
+      Script: {instanceID: 14404}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -494,7 +496,7 @@ ScriptsOnlyBuild:
     className: RemoteTestResultSender
   - hash:
       serializedVersion: 2
-      Hash: 3f88a9a7a0bf3561a42d1fe7c8512553
+      Hash: de4ac2ececc95e0da7f5949f8b5e1e1e
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: GameManager
@@ -512,7 +514,7 @@ ScriptsOnlyBuild:
     className: Button
   - hash:
       serializedVersion: 2
-      Hash: b29eff42709e2206f415d67333879510
+      Hash: 0914d22fedb8047613d011195d2f913b
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: TypeEffect
@@ -536,7 +538,7 @@ ScriptsOnlyBuild:
     className: CameraManager
   - hash:
       serializedVersion: 2
-      Hash: 4630132bcdb66888809e56ea42f21f13
+      Hash: 20b1edbe0c14fcd461a7968317b47a39
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: QuestManager
@@ -566,7 +568,7 @@ ScriptsOnlyBuild:
     className: SignalReceiver
   - hash:
       serializedVersion: 2
-      Hash: 7c922ad1871a24b66768df0ad96d2e37
+      Hash: 612b94afde9afac868178b7a6ec1d154
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PoliceAI
