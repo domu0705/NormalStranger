@@ -1,9 +1,11 @@
-﻿using System.Collections;
+﻿// -------------------------------------------------------------------------------------------------
+// gameObject를 원하는 위치로 이동시켜줌
+// -------------------------------------------------------------------------------------------------
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 
-/* gameObject를 원ㅇ하는 위치로 이동시켜주는 함수*/
 public class autoMove : MonoBehaviour
 {
     GameObject movingObj;
@@ -12,7 +14,6 @@ public class autoMove : MonoBehaviour
     public bool arrivedToDest;
     public float autoSpeed;
 
-    // Update is called once per frame
     void Update()
     {
         if (isAutoMoving)
@@ -26,16 +27,12 @@ public class autoMove : MonoBehaviour
                 arrivedToDest = true;                                       //  먼저 movingObj가 있는지부터 검사해주는 것임 
                 ObjectData objectScript = movingObj.GetComponent<ObjectData>();
                 objectScript.isArrived = true;
-
             }
-
         }
     }
 
-
     public void startAutoMove(GameObject movingObject, Vector3 targetPosition,float speed)
     {
-        //arrivedToDest = false;
         autoSpeed = speed;
         movingObj = movingObject;
         targetPos = targetPosition;

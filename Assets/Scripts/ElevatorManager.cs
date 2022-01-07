@@ -1,7 +1,11 @@
-﻿using System.Collections;
+﻿// -------------------------------------------------------------------------------------------------
+// 엘리베이터 관리. 층 이동 시킴.
+// -------------------------------------------------------------------------------------------------
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
 public class ElevatorManager : MonoBehaviour
 {
     public GameManager manager;
@@ -9,8 +13,6 @@ public class ElevatorManager : MonoBehaviour
     public GameObject[] floors;
     public GameObject elevatorObj;
     public QuestManager questManager;
-
-   
 
     public int currentFloor;
 
@@ -54,8 +56,6 @@ public class ElevatorManager : MonoBehaviour
         elevatorAnim.SetTrigger("elevatorOn");
 
         Invoke("secondFloorSetting", 1.5f);
-
-        
     }
 
 
@@ -81,8 +81,6 @@ public class ElevatorManager : MonoBehaviour
         elevatorAnim.SetTrigger("elevatorOn");
 
         Invoke("thirdFloorSetting", 1.5f);
-
-        
     }
 
 
@@ -96,7 +94,6 @@ public class ElevatorManager : MonoBehaviour
         floors[2].SetActive(true);
 
         manager.player.transform.position = new Vector3(42, 15.22f, manager.player.transform.position.z);
-
 
         /*quest에 따라 바뀌는 object 위치, 세팅을 설정하기*/
         if (questManager.questId == 90)

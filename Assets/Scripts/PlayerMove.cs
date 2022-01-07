@@ -1,9 +1,9 @@
-﻿using System.Collections;
+﻿// -------------------------------------------------------------------------------------------------
+// player 움직임. 입력값 관리.
+// -------------------------------------------------------------------------------------------------
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-
-
 
 /*
  *  OnCollisionEnter2D : 부딪히는 놈 2개다 isTrigger가 꺼져 있으면 호출=>물리적 접촉시,

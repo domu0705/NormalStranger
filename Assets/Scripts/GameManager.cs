@@ -1,9 +1,11 @@
-﻿using System.Collections;
+﻿// -------------------------------------------------------------------------------------------------
+// 전체 game manager
+// -------------------------------------------------------------------------------------------------
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;//scene관련 함수를 사용하기 위해 필요함
-
 
 
 /*
@@ -27,8 +29,6 @@ using UnityEngine.SceneManagement;//scene관련 함수를 사용하기 위해 �
 
 public class GameManager : MonoBehaviour
 {
-   // public AudioSource endingTheme;
-
     public TalkManager talkManager;
     public QuestManager questManager;
     public ElevatorManager elevatorManager;
@@ -104,7 +104,6 @@ public class GameManager : MonoBehaviour
 
         /*BGM 켜기*/
         mainBGM.Play();
-        
     }
 
     
@@ -114,18 +113,15 @@ public class GameManager : MonoBehaviour
             Application.Quit();
     }
 
+
     public void GameStart()
     {
-        
-        Debug.Log("Gamestart 함수 시작함");
-        
         gameStartPanel.SetActive(false);
         gameUIPanel.SetActive(true);
 
         //화면 어두웠다가 밝아지기
         screenLightPanel.SetActive(true);
         screenLightImg.color = new Color(screenLightImg.color.r, screenLightImg.color.g, screenLightImg.color.b, 1);
-        
         
         //플레이어가 왼쪽을 보게 함.
         player.dirRayVec = Vector3.left;
@@ -137,13 +133,14 @@ public class GameManager : MonoBehaviour
         Invoke("firstTalkstart", 2);
 
         Invoke("unblockSpace", 2);
-   
     }
+
 
     void unblockSpace()
     {
         canPressSpace = true;
     }
+
 
     public void floorPanelOff()
     {
@@ -151,24 +148,24 @@ public class GameManager : MonoBehaviour
         FloorDirectionPanel.SetActive(false);
     }
 
+
     void callScreenBrighten()
     {
         StartCoroutine("ScreenBrighten");
     }
+
+
     void firstTalkstart()
     {
         questManager.ControlObject();//첫대화 시작용
-
-        //shopSound.Play();
-        //stageSound.Stop();
     }
+
 
     /*space bar 누를때 실행되는 함수
       함수의 실행을 위해서는 object의 layer을 ispectObject로 바꿔주는 것 잊지 말기. 
     */
     public void Action(GameObject scanObj) 
     {
-        Debug.Log("action함수 시작. scanObj는" + scanObj);
         scanObject = scanObj;
         objData = scanObj.GetComponent<ObjectData>();
 
@@ -191,7 +188,6 @@ public class GameManager : MonoBehaviour
         }
         else if (scanObj.tag == "Elevator")
         {
-            
             Animator elevatorAnim = scanObj.GetComponent<Animator>();
             elevatorAnim.SetTrigger("elevatorOn");
             elevatorBGM.Play();
@@ -204,11 +200,9 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            
             /*말풍선이 있다면 띄워주기*/
             talk(objData.id, objData.isNpc);
             talkPanel.SetActive(isAction);
-            Debug.Log("Action함수 끝");
         }
     }
 
@@ -220,22 +214,20 @@ public class GameManager : MonoBehaviour
         if ((objData.id == 6000) || (objData.id == 6500) || (objData.id == 7000) || (objData.id == 7500) || (objData.id == 9500))
         {
             objData.gameObject.SetActive(false);
-            Debug.Log("지워버려");
         }
         /*정전 수리 부품들을 지우기*/
         if((objData.id == 4000) && (questManager.questId == 60))
         {
             objData.gameObject.SetActive(false);
-        }
-            
+        } 
     }
 
 
     void talk(int id,bool isNpc)//playerMove에서 isAction이 false면 안움직임. 그래서 계속 이야기 할 수 있는 것임.
     {
-
         int questTalkIndex = 0;
         string talkData = "";
+
         if (typeEffect.isAnim)
         {
             typeEffect.SetMsg("");
@@ -244,13 +236,11 @@ public class GameManager : MonoBehaviour
         else
         {
             questTalkIndex = questManager.GetQuestTalkIndex(id);
-            Debug.Log("id는 " + id + "questTalkIndex은 : " + questTalkIndex + "talkIndex 는 : " + talkIndex);
             talkData = talkManager.GetTalk(id + questTalkIndex, talkIndex); //조니 id : 20000, +10 
         }
 
         if(talkData == null)//얘기가 더이상 없을 때 (대화가 끝났을 때, 물건 조사가 끝났을 때)
         {
-            Debug.Log("id" + id+"과의 대화가 끝났어");
             isAction = false;
             talkIndex = 0;
             Debug.Log(questManager.CheckQuest(id));
@@ -268,7 +258,6 @@ public class GameManager : MonoBehaviour
             /* 말하는 대상이 Fitra 일때만 오른쪽 portrait 활성화
              * 혼잣말을 할 때는 아무 캐릭터도 보이지 않게 하기 위해서 투명도를 올림.
              */
-
             if (portraitNum >= 1 && portraitNum <= 4 ) // 피트라가 말할 때라면 
             {
                 portraitRightImg.sprite = talkManager.GetPortrait(id, portraitNum);
@@ -279,7 +268,7 @@ public class GameManager : MonoBehaviour
                 if (prevPortrait != portraitRightImg.sprite)
                 {
                     if (talkIndex > 0)
-                            portraitRightAnimator.SetTrigger("doEffect");
+                        portraitRightAnimator.SetTrigger("doEffect");
                     prevPortrait = portraitRightImg.sprite;
                 }
             }
@@ -310,7 +299,6 @@ public class GameManager : MonoBehaviour
             }
             else if(portraitNum == 23)
             {
-
                 portraitBigImg.sprite = talkManager.GetPortrait(id, portraitNum); // 폐기 문서
                 portraitLeftImg.color = new Color(1, 1, 1, 0);
                 portraitRightImg.color = new Color(1, 1, 1, 0);
@@ -328,14 +316,11 @@ public class GameManager : MonoBehaviour
                     if (talkIndex > 0)
                         portraitLeftAnimator.SetTrigger("doEffect");
                     prevPortrait = portraitLeftImg.sprite;
-                }
-                    
+                }     
             }
-    
         }
         else // 물건을 조사할 때
         {
-            Debug.Log("물건을 조사한다");
             if (portraitNum == 200) // energybooster 을 발견했을 때. (energy booster의 대화 끝에는 200번 써줌)
             {
                 if (objData.isChecked)//이미 확인했던 Locker 라면 아이템이 계속 나오면 안됨
@@ -351,14 +336,13 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                Debug.Log("setMeg 함 " + talkData.Split(':')[0]);
                 typeEffect.SetMsg(talkData.Split(':')[0]);
             }
+
             portraitLeftImg.color = new Color(1, 1, 1, 0);
             portraitRightImg.color = new Color(1, 1, 1, 0);
             portraitBigImg.color = new Color(1, 1, 1, 0);
         }
-        
         
         isAction = true;
         talkIndex++;
@@ -369,7 +353,6 @@ public class GameManager : MonoBehaviour
     /*문으로 공간 이동하기*/
     IEnumerator door(GameObject scanObj)
     {
-        Debug.Log("door함수에 들어감");
         isPlayerPause = true; //player가 다른곳으로 움직일 수 없게 함
         
         DoorData door = scanObj.GetComponent<DoorData>();
@@ -377,9 +360,7 @@ public class GameManager : MonoBehaviour
 
         scanObj.layer = 15; // 잠깐 player가 문과 안부딪치게 layer을 바꿔줌
         
-
         Debug.Log("자동 움직임 시작");
-
         /*아래서 위로 올라가면서 들어가는 문일 때*/
         if((door.type == DoorData.DoorType.DoorAOut) || (door.type == DoorData.DoorType.DoorBIn)|| 
             (door.type == DoorData.DoorType.DoorCIn)|| (door.type == DoorData.DoorType.DoorDIn)|| (door.type == DoorData.DoorType.DoorRepairIn))
@@ -399,6 +380,7 @@ public class GameManager : MonoBehaviour
         doorAnim.SetTrigger("DoorOpen");
         yield return new WaitForSeconds(2);
         autoMovement.isAutoMoving = false;
+
         switch (door.type)
         {
             case DoorData.DoorType.DoorAIn:
@@ -424,6 +406,7 @@ public class GameManager : MonoBehaviour
                 places[1].SetActive(true);
                 player.transform.position = new Vector3(18.5f, 6.2f, 0);
                 break;
+
             case DoorData.DoorType.DoorCIn:
                 places[4].SetActive(false);
                 places[5].SetActive(true);
@@ -435,6 +418,7 @@ public class GameManager : MonoBehaviour
                 places[4].SetActive(true);
                 player.transform.position = new Vector3(31.5f, 15, 0);
                 break;
+
             case DoorData.DoorType.DoorDIn:
                 places[4].SetActive(false);
                 places[6].SetActive(true);
@@ -446,8 +430,8 @@ public class GameManager : MonoBehaviour
                 places[4].SetActive(true);
                 player.transform.position = new Vector3(18.5f, 15, 0);
                 break;
-            case DoorData.DoorType.DoorRepairIn:
-                
+
+            case DoorData.DoorType.DoorRepairIn:   
                 places[4].SetActive(false);
                 places[7].SetActive(true);
                 player.transform.position = new Vector3(15, 5.6f, 0);
@@ -458,22 +442,17 @@ public class GameManager : MonoBehaviour
                 places[4].SetActive(true);
                 player.transform.position = new Vector3(28.8f, 5.1f, 0);
                 break;
-
         }
         
         ObjectData playerObjData = player.GetComponent<ObjectData>();
         door.gameObject.layer = 10;
         isPlayerPause = false;
-        
-
     }
-
 
 
     /*3층에서 택배 보관실 통로로 이동시키기*/
     public IEnumerator teleportToExit()
     {
-        Debug.Log("플레이어 멈춰");
         isPlayerPause = true;
         places[4].SetActive(false);
         places[8].SetActive(true);
@@ -485,8 +464,6 @@ public class GameManager : MonoBehaviour
         autoMovement.startAutoMove(player.gameObject, targetPos, 1f);
         yield return new WaitForSeconds(2);
 
-
-
         /*게임 설명 창 띄움*/
         rule2Panel.SetActive(true);
 
@@ -495,7 +472,6 @@ public class GameManager : MonoBehaviour
         exitBGM.Play();
         
     }
-
 
 
     /*택배 보관실에서 건물 밖 거리로 이동시키기*/
@@ -529,9 +505,9 @@ public class GameManager : MonoBehaviour
         StartCoroutine(ScreenDarken(dayText));  
     }
 
+
     IEnumerator ScreenDarken(string dayText)
     {
-        Debug.Log("ScreenDarken 함수 시작됨.");
         bool isDarkning = true;
         float a = screenLightImg.color.a;
         while (isDarkning)
@@ -547,14 +523,13 @@ public class GameManager : MonoBehaviour
 
                 if (dayText == "Thanks for Playing!")
                 {
-                    Debug.Log("Thanks for Playing이 들어옴");
                     gameClearPanel.SetActive(true);
                 }
                 else
                 {
                     if (dayText == "Day 3")
                     {
-                        Debug.Log("문앞으로 순간이동 뿅");
+                        /*문앞으로 순간이동*/
                         places[0].SetActive(true);
                         places[7].SetActive(false);
                         player.transform.position = new Vector3(21.15f, 15.08f, 0);
@@ -568,7 +543,6 @@ public class GameManager : MonoBehaviour
                     }
                     else if (dayText != "")
                     {
-                        Debug.Log("dayText가 뭔가 있긴 해");
                         /*가장 어두워졌을 때 피트라가 앞을 보도록 돌려놓기*/
                         player.anim.SetTrigger("seeFront");
                         player.dirRayVec = Vector3.down;
@@ -577,29 +551,31 @@ public class GameManager : MonoBehaviour
                     else // daytext 가 "" 일때.
                     {
                         ScreenLightBrighten();
-                    }
-                    
+                    } 
                 }
             }
         }
     }
+
 
     public void ScreenLightBrighten()
     {
         StartCoroutine("ScreenBrighten");
     }
 
+
     IEnumerator ScreenBrighten()
     {
-        Debug.Log("ScreenBrighten함수 시작");
         bool isBrightning = true;
         float a = screenLightImg.color.a;
+
         while (isBrightning)
         {
             a -= Time.deltaTime * 0.7f;
             screenLightImg.color = new Color(screenLightImg.color.r, screenLightImg.color.g, screenLightImg.color.b, a);
             screenLightDayText.color = new Color(screenLightDayText.color.r, screenLightDayText.color.g, screenLightDayText.color.b, a);
             yield return new WaitForSeconds(0.005f);
+
             if (a <= 0)
             {
                 isBrightning = false;
@@ -609,14 +585,12 @@ public class GameManager : MonoBehaviour
                 }
                 if (!startFirstTalk)//게임 시작화면이 아니라면
                 {
-                    Debug.Log("스크린 밝아지는거 안됨");
                     isPlayerPause = false;
                     canPressSpace = true;
                 }
                 else
                 {//게임 시작하며 조니와 말할때라면
                     startFirstTalk = false;
-                    Debug.Log("스크린 밝아지는거 잘됨");
                 }
 
                 screenLightPanel.SetActive(false);
@@ -638,7 +612,7 @@ public class GameManager : MonoBehaviour
         float a = blackoutImg.color.a;
         while (isBlackOut)
         {
-            /*전전의 깜박거리는 효과 만들기*/
+            /*정전의 깜박거리는 효과 만들기*/
             if (switching)
             {
                 switching = false;
@@ -655,6 +629,7 @@ public class GameManager : MonoBehaviour
         
         }
     }
+
 
     public void stopBlackout()
     {
@@ -677,10 +652,12 @@ public class GameManager : MonoBehaviour
 
     }
 
+
     public void Restart()
     {
         SceneManager.LoadScene(0);
     }
+
 
     /*game manager에서 상위 object를 꺼놓으면 여기서 아무리 하위 object를 켜도 안켜지는 점 주의하기
      *  예를들어 여기서 2nd floor을 꺼버리면 그안의 Room A를 켜도 안보임. 
@@ -696,7 +673,6 @@ public class GameManager : MonoBehaviour
 
         //추격하던 PoliceAI가 있다면 끄기.
         questManager.PoliceAisetActive(false);
-
 
         /*엘리베이터 내부 이미지 및 UI켜기*/
         elevatorManager.elevatorOn();
@@ -719,8 +695,6 @@ public class GameManager : MonoBehaviour
         /*창을 끄고 시작 화면 창 띄움*/
         rule1Panel.SetActive(false);
         gameStartPanel.SetActive(true);
-
-        
     }
 
 
@@ -741,9 +715,5 @@ public class GameManager : MonoBehaviour
         questManager.state1 = false;
         player.isFitraMonologing = true;// 피트라가 혼자말하게 함. 무조건 scanobj가 fitra로 바뀜.
         Action(player.gameObject); // 도망쳐!
-
-        //questManager.ControlObject();
     }
-
-
 }

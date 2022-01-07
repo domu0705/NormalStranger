@@ -1,5 +1,9 @@
-﻿using System.Collections;
+﻿// -------------------------------------------------------------------------------------------------
+// quest 하나의 정보를 관리 ( 퀘스트 이름, 퀘스트 충족 조건)
+// -------------------------------------------------------------------------------------------------
+using System.Collections;
 using System.Collections.Generic;
+
 public class QuestData
 {
     public string questName;

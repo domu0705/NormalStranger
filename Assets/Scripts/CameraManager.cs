@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿// -------------------------------------------------------------------------------------------------
+// 카메라 전환시킴
+// -------------------------------------------------------------------------------------------------
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +9,6 @@ public class CameraManager : MonoBehaviour
 {
     public Camera FirstCamera; //player중심의 카메라
     public Camera SecondCamera; // story용 카메라
-
 
     public void UseFirstCamera()
     {
