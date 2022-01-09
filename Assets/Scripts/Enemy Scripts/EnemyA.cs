@@ -1,17 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿// -------------------------------------------------------------------------------------------------
+// 적 - 사람 직원 (랜덤한 움직임) 
+// -------------------------------------------------------------------------------------------------
 using UnityEngine;
 
 public class EnemyA : MonoBehaviour
 {
-
     Rigidbody2D rigid;
     Animator anim;
     SpriteRenderer spriteRenderer;
     Vector2 rayVec;
 
     public int nextMove;
-
+    public int moveTimeRate;
 
     void Awake()
     {
@@ -19,9 +19,12 @@ public class EnemyA : MonoBehaviour
         anim = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
 
+        moveTimeRate = 2;
+
         Think();
     }
-    // Update is called once per frame
+    
+
     void Update()
     {
         //move
@@ -30,6 +33,7 @@ public class EnemyA : MonoBehaviour
         //벽 충돌시 방향 바꾸기
         avoidCollision();
     }
+
 
     void Think()
     {
@@ -43,7 +47,7 @@ public class EnemyA : MonoBehaviour
         if (nextMove != 0)
             FlipAnimation();
 
-        Invoke("Think", 2);
+        Invoke("Think", moveTimeRate);
     }
 
 
@@ -56,11 +60,13 @@ public class EnemyA : MonoBehaviour
         else
             rayVec = Vector2.left;
 
+        /*Boundary, InspectObject와  ray의 충돌 검사*/
         Debug.DrawRay(frontVec, rayVec, new Color(0, 1, 0));//에디터 상에서만 ray를 그려주는 함수
         RaycastHit2D rayHit1 = Physics2D.Raycast(frontVec, rayVec, 0.5f, LayerMask.GetMask("Boundary"));//실제로 ray를 쏘는 함수
         RaycastHit2D rayHit2 = Physics2D.Raycast(frontVec, rayVec, 0.5f, LayerMask.GetMask("InspectObject"));
-        if ((rayHit1.collider != null) || (rayHit2.collider != null))
-        {//enemy가 벽에 부딪혔다면
+
+        if ((rayHit1.collider != null) || (rayHit2.collider != null))//enemy가 벽에 부딪혔다면
+        {
             nextMove *= -1;
             FlipAnimation();
         }
@@ -72,29 +78,12 @@ public class EnemyA : MonoBehaviour
         spriteRenderer.flipX = (nextMove == -1);
     }
 
+
     void ControlAnim()
     {
         if (nextMove != 0)
-        {
             anim.SetBool("isWalking", true);
-        }
         else
             anim.SetBool("isWalking", false);
     }
-
-
-
 }
-
-/*
- * ENEMY
- *  man A,B : 2초 단위로 랜덤하게 좌우 이동.
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- */

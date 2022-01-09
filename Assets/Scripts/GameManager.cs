@@ -260,7 +260,7 @@ public class GameManager : MonoBehaviour
              */
             if (portraitNum >= 1 && portraitNum <= 4 ) // 피트라가 말할 때라면 
             {
-                portraitRightImg.sprite = talkManager.GetPortrait(id, portraitNum);
+                portraitRightImg.sprite = talkManager.GetPortrait(portraitNum);
                 portraitLeftImg.color = new Color(1, 1, 1, 0);
                 portraitRightImg.color = new Color(1, 1, 1, 1);
                 portraitBigImg.color = new Color(1, 1, 1, 0);
@@ -282,7 +282,7 @@ public class GameManager : MonoBehaviour
 
             else if (portraitNum == 200)//대화도중 npc에게 booster을 받았다면 (jhonny만 booster을 주기때문에 portrait는 조니로 고정해둠)
             {
-                portraitLeftImg.sprite = talkManager.GetPortrait(id, 5); // jhonny의 웃는얼굴임.
+                portraitLeftImg.sprite = talkManager.GetPortrait(5); // jhonny의 웃는얼굴임.
                 portraitLeftImg.color = new Color(1, 1, 1, 1);
                 portraitRightImg.color = new Color(1, 1, 1, 0);
                 portraitBigImg.color = new Color(1, 1, 1, 0);
@@ -290,7 +290,7 @@ public class GameManager : MonoBehaviour
             }
             else if(portraitNum == 4000)//정전 수리 component를 발견했다면
             {
-                portraitRightImg.sprite = talkManager.GetPortrait(id, 1); // jhonny의 웃는얼굴임.
+                portraitRightImg.sprite = talkManager.GetPortrait(1); // jhonny의 웃는얼굴임.
                 portraitLeftImg.color = new Color(1, 1, 1, 0);
                 portraitRightImg.color = new Color(1, 1, 1, 1);
                 portraitBigImg.color = new Color(1, 1, 1, 0);
@@ -299,14 +299,14 @@ public class GameManager : MonoBehaviour
             }
             else if(portraitNum == 23)
             {
-                portraitBigImg.sprite = talkManager.GetPortrait(id, portraitNum); // 폐기 문서
+                portraitBigImg.sprite = talkManager.GetPortrait(portraitNum); // 폐기 문서
                 portraitLeftImg.color = new Color(1, 1, 1, 0);
                 portraitRightImg.color = new Color(1, 1, 1, 0);
                 portraitBigImg.color = new Color(1, 1, 1, 1);
             }
             else
             {
-                portraitLeftImg.sprite = talkManager.GetPortrait(id, portraitNum);
+                portraitLeftImg.sprite = talkManager.GetPortrait(portraitNum);
                 portraitLeftImg.color = new Color(1, 1, 1, 1);
                 portraitRightImg.color = new Color(1, 1, 1, 0);
                 portraitBigImg.color = new Color(1, 1, 1, 0);

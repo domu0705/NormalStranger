@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿// -------------------------------------------------------------------------------------------------
+// 대화 시스템 (대사 및 대화 시 캐릭터 초상화)
+// -------------------------------------------------------------------------------------------------
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,56 +10,20 @@ public class TalkManager : MonoBehaviour
     Dictionary<int, Sprite> portraitData;
     public Sprite[] portraitArr;
 
-    int errorCount;
+
     void Awake()
     {
-        talkData = new Dictionary<int, string[]>(); //이게 원래 선언방법이니까. Dictionary<Key 타입, Value 타입> 변수명 = new Dictionary<Key 타입, Value 타입>() 
+        talkData = new Dictionary<int, string[]>(); 
         portraitData = new Dictionary<int, Sprite>();
+
         GenerateTalkData();
         GeneratePortraitData();
     }
 
 
-
-    /*
-        1000 : johnny's big locker
-        2000 : 에너지 부스터가 들어있는 locker // 이건 portrait numdmf 200으로 함
-        3000 : fitra desk
-        4000 : 전기 수리 부품들
-        5000 : Door E // 3층의 인공지능 관리부서 문
-        6000 : quest50 출근하자에 쓰이는 talk trigger Line
-        6500 : quest 90 AI가 피트라를 쫓는 trigger Line
-        7000 : quest 40 에 쓰이는 Anim Trigger Line(1st floor)
-        7500 : quest 70 에 쓰이는 Anim Trigger Line(2st floor 조니 상사의 자리)
-        8000 : Human Door (1st floor)
-        9000 : AI Door (1st floor)
-        9500 : quest 100 에 쓰이는 exit talk Trigger Line
-        9999: 아무것도 없는 물건.
-        
-    
-        portrait data 생성
-         * Fitra : 10000
-         * Johnny : 20000
-         * Sindy : 30000
-         * Green : 40000
-         * marin : 50000
-         * benny : 60000 -수리공
-         * 이후의 사람들은 기타 사람들
-         * Doming : 61000
-         * Dani : 62000
-         * Harry : 63000
-         * NPC G : 64000,67000 ,68000 ,71000 ,72000 ,73000
-         * NPC M : 65000,66000,69000
-         * empty box : 70000
-         * repairshop AI bad : 80000
-         * repairshop AI good : 90000
-         * 닫힌 문 : 100000
-         * 
-         
-    */
+    /* portrait data 생성 */
     void GeneratePortraitData()
     {
-        /* portrait data 생성 */
         portraitData.Add(0, portraitArr[0]);
         portraitData.Add(1, portraitArr[1]);
         portraitData.Add(2, portraitArr[2]);
@@ -86,7 +52,7 @@ public class TalkManager : MonoBehaviour
         portraitData.Add(25, portraitArr[25]);
     }
 
-    /*layer 무조건 nispect object로 설정해두기*/
+    /*대사 생성*/
     void GenerateTalkData()
     {
         /*locker talk data 생성*/
@@ -208,12 +174,12 @@ public class TalkManager : MonoBehaviour
         talkData.Add(30 + 3000, new string[] { "\n" + "\n" + "( 책상 위에 문서가 놓여있다. ):0",
                                            "[피트라]" + "\n" + "\n" + "보안 A대상 문서... 이게 뭐지?:3",
                                            "\n" + "\n" + "A동 조정 관련. 담당 부서 E 동.:0",
-                                           "\n" + "\n" + "대상 - 피트....:0",
+                                           "\n" + "\n" + "대상 - 피트...:0",
                                            "[마린]" + "\n" + "\n" + "뭐야 이게 왜 여기있어?:17",
-                                           "[마린]" + "\n" + "\n" + "( 마린이 신경질적으로 문서를 빼았았다. ) .:16",
+                                           "[마린]" + "\n" + "\n" + "( 마린이 신경질적으로 문서를 빼앗았다. ) .:16",
                                            "[피트라]" + "\n" + "\n" + "아.. 마린씨 문서입니까?:3",
                                            "[마린]" + "\n" + "\n" + "네. 설마 맘대로 열어본 건 아니죠?:15",
-                                           "[피트라]" + "\n" + "\n" + "제 책상에 있길래 확인을..:3",
+                                           "[피트라]" + "\n" + "\n" + "제 책상에 있길래 확인을...:3",
                                            "[피트라]" + "\n" + "\n" + "그런데 저희 회사는 D동이 끝 아닙니까?:3",
                                            "[마린]" + "\n" + "\n" + "...:15",
                                            "[마린]" + "\n" + "\n" + "쓸데없는 소리 마요. 나 지금도 충분히 바쁘니까.:16",
@@ -457,45 +423,24 @@ public class TalkManager : MonoBehaviour
                                                 });
     }
 
-    public string GetTalk (int id, int talkIndex) // .GetTalk(id + questTalkIndex, talkIndex) 이렇게 Game Manager에서쓰임
-    {
-        if (!talkData.ContainsKey(id))// 특정퀘스트의 대사를 만들어놓지 않은 npc에게 말을 건다면?
-        {
-            //해당 퀘스트 진행 순서 중 대사가 없을 때
-            if (!talkData.ContainsKey(id - id % 10))
-            {   //퀘스트의 맨 처음 대사마져 없을 때는
-                //기본 대사를 가지고 온다.
-                errorCount++;
-                if (errorCount > 10000)
-                {
-                    return "GetTalk() error! ";
-                }
-                return GetTalk(id - id % 100, talkIndex);
 
-                /*
-                if (talkIndex == talkData[id - id % 100].Length) // 얘기가 모두 끝났을 때
-                    return null;
-                else
-                    return talkData[id - id % 100][talkIndex];
-                */
+    /*현재 퀘스트에 맞는 캐릭터 대사 가져오기*/
+    public string GetTalk (int id, int talkIndex)
+    {
+        if (!talkData.ContainsKey(id)) // 특정 퀘스트의 대사를 만들어놓지 않은 npc에게 말을 건다면
+        {
+            if (!talkData.ContainsKey(id - id % 10)) // 퀘스트의 맨 처음 대사가 있는지 확인
+            {   
+                return GetTalk(id - id % 100, talkIndex); // 캐릭터의 기본 대사를 가지고 옴
             }
             else
             {
-                //해당 퀘스트 진행 순서 중 대사가 없을 때
-                //퀘스트의 맨 처음 대사를 가지고 온다.
-                return GetTalk(id - id % 10, talkIndex);
-
-                /*
-                if (talkIndex == talkData[id - id % 10].Length) // 얘기가 모두 끝났을 때
-                    return null;
-                else
-                    return talkData[id - id % 10][talkIndex];
-                */
+                return GetTalk(id - id % 10, talkIndex); // 퀘스트의 맨 처음 대사를 가지고 옴
             }
         }
 
-        if (talkIndex >= talkData[id].Length)
-        {// 한 사람과 얘기가 모두 끝났을 때
+        if (talkIndex >= talkData[id].Length) // 한 사람과 얘기가 모두 끝났는지 확인
+        {
             return null;
         }
         else
@@ -504,9 +449,46 @@ public class TalkManager : MonoBehaviour
         }
     }
 
-    public Sprite GetPortrait(int id, int portraitIndex)
+
+    /*해당 번호의 캐릭터 초상화 가져오기*/
+    public Sprite GetPortrait(int portraitIndex)
     {
         return portraitData[portraitIndex];
     }
-
 }
+
+/*
+       1000 : johnny's big locker
+       2000 : 에너지 부스터가 들어있는 locker // 이건 portrait numdmf 200으로 함
+       3000 : fitra desk
+       4000 : 전기 수리 부품들
+       5000 : Door E // 3층의 인공지능 관리부서 문
+       6000 : quest50 출근하자에 쓰이는 talk trigger Line
+       6500 : quest 90 AI가 피트라를 쫓는 trigger Line
+       7000 : quest 40 에 쓰이는 Anim Trigger Line(1st floor)
+       7500 : quest 70 에 쓰이는 Anim Trigger Line(2st floor 조니 상사의 자리)
+       8000 : Human Door (1st floor)
+       9000 : AI Door (1st floor)
+       9500 : quest 100 에 쓰이는 exit talk Trigger Line
+       9999: 아무것도 없는 물건.
+
+
+       portrait data 생성
+        * Fitra : 10000
+        * Johnny : 20000
+        * Sindy : 30000
+        * Green : 40000
+        * marin : 50000
+        * benny : 60000 -수리공
+        * 이후의 사람들은 기타 사람들
+        * Doming : 61000
+        * Dani : 62000
+        * Harry : 63000
+        * NPC G : 64000,67000 ,68000 ,71000 ,72000 ,73000
+        * NPC M : 65000,66000,69000
+        * empty box : 70000
+        * repairshop AI bad : 80000
+        * repairshop AI good : 90000
+        * 닫힌 문 : 100000
+        * 
+   */

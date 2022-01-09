@@ -1,5 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿// -------------------------------------------------------------------------------------------------
+// 적 - 경찰 로봇(플레이어 따라감) 
+// -------------------------------------------------------------------------------------------------
 using UnityEngine;
 
 public class PoliceAI : MonoBehaviour
@@ -15,13 +16,11 @@ public class PoliceAI : MonoBehaviour
     public bool startChasing; // Police AI가 나타나도 말이 끝나고 추격을 시작해야함. 이걸 관리하는 변수.
     public float detectDist; //특정 거리를 나타내는 변수. 플레이어와 일정거리 이하가 되면 쫒아가기위함.
     public bool powerOff;
-    //float blockingCheck;
-    float clock;
+
     Vector2 moveVec;
-
-
-   
     Transform prevPosition;
+   
+
     void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
@@ -30,6 +29,8 @@ public class PoliceAI : MonoBehaviour
         prevPosition = this.transform;
 
     }
+
+
     void Update()
     {
         if (!startChasing || powerOff)//전원켜지기 전이나 전원꺼버렸을떄는 아예 멈추기
@@ -44,18 +45,17 @@ public class PoliceAI : MonoBehaviour
             this.gameObject.layer = 16;
         }  
         float distance = (playerTrans.position - this.transform.position).sqrMagnitude;
+
+        
         if (detectDist >= distance) // 거리가 가까우면 따라가기
         {
             changeDir();
-        }
-            
+        }  
         else // 거리가 멀면 멈추기 
         {
             StopCoroutine("changeDir");
             rigid.velocity = new Vector2(0, 0);
-
         }
-            
     }
 
 
@@ -70,10 +70,9 @@ public class PoliceAI : MonoBehaviour
                 sideWalking = true;
                 anim.SetBool("isFrontWalking", false);
 
-                /*anim 왼.오른쪽에 맞춰 뒤집기*/
+                // anim 왼.오른쪽에 맞춰 뒤집기
                 spriteRenderer.flipX = (moveVec.x < 0);
             }
-
         }
         else
         {
