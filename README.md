@@ -1,5 +1,4 @@
 # Normal Stranger
-2D Adventure Game
 
 ### Normal Stranger
 -----
