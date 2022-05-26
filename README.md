@@ -1,6 +1,12 @@
 # Normal Stranger
 2D Adventure Game
 
+### Normal Stranger
+-----
++ 1인 개발 게임
++ PC 플랫폼 기반의 2D 어드벤처 게임
+--------
+### 플레이 이미지
 ![image](https://user-images.githubusercontent.com/65003464/124151058-1deaa580-dacd-11eb-9b4e-d2e4bf2a8d2e.png)
 
 ![스크린샷(3)](https://user-images.githubusercontent.com/65003464/124151848-f21bef80-dacd-11eb-9506-98e6d5b6416c.png)
